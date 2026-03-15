@@ -35,31 +35,50 @@ const Header = ({
 
             <p className="text-[11px] text-slate-500 mt-4 leading-relaxed">{mapDefinition.description}</p>
 
-            <div className="mt-4">
-                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 block mb-2">
-                    Harita Seçici
-                </label>
-                <select
-                    value={activeMapId}
-                    onChange={(event) => onMapChange(event.target.value)}
-                    className="w-full px-4 py-3 bg-slate-100 rounded-xl text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
-                >
-                    {mapRegistry.map((map) => (
-                        <option key={map.id} value={map.id}>
-                            {map.category} • {map.title}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <div className="mt-4 rounded-2xl border border-slate-200 bg-white shadow-sm p-3 space-y-3">
+                <div>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 block mb-2">
+                        Harita Seçici
+                    </label>
+                    <div className="relative">
+                        <select
+                            value={activeMapId}
+                            onChange={(event) => onMapChange(event.target.value)}
+                            className="w-full appearance-none px-4 py-3 pr-10 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all"
+                        >
+                            {mapRegistry.map((map) => (
+                                <option key={map.id} value={map.id}>
+                                    {map.category} • {map.title}
+                                </option>
+                            ))}
+                        </select>
+                        <svg
+                            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </div>
+                </div>
 
-            <div className="mt-4">
-                <input
-                    type="text"
-                    placeholder={mapDefinition.searchPlaceholder}
-                    className="w-full px-4 py-3 bg-slate-100 rounded-xl text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
-                    value={searchTerm}
-                    onChange={(event) => onSearchChange(event.target.value)}
-                />
+                <div>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 block mb-2">
+                        Arama
+                    </label>
+                    <input
+                        type="text"
+                        placeholder={mapDefinition.searchPlaceholder}
+                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all"
+                        value={searchTerm}
+                        onChange={(event) => onSearchChange(event.target.value)}
+                    />
+                </div>
             </div>
         </div>
     );
@@ -114,7 +133,7 @@ const PointsList = ({mapDefinition, points, selectedPoint, onSelectPoint, loadin
     }
 
     return (
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50/30">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50/30 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {points.map((point) => (
                 <PointCard
                     key={point.id}
