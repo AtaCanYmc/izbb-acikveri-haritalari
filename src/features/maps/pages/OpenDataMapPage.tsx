@@ -44,7 +44,7 @@ const LoadingOverlay = ({isVisible}: { isVisible: boolean }) => {
     );
 };
 
-export const OpenDataMapPage = () => {
+export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }: { isDarkMode?: boolean; onToggleTheme?: () => void }) => {
     const {activeMap, activeMapId, setMapId} = useMapQueryParam();
     const mapDefinition = activeMap;
     const {
@@ -91,6 +91,8 @@ export const OpenDataMapPage = () => {
                 onSelectPoint={setSelectedPoint}
                 loading={loading}
                 isSidebarOpen={isSidebarOpen}
+                isDarkMode={isDarkMode}
+                onToggleTheme={onToggleTheme}
             />
 
             <div
