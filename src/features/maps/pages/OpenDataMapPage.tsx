@@ -45,7 +45,8 @@ const LoadingOverlay = ({isVisible}: { isVisible: boolean }) => {
 };
 
 export const OpenDataMapPage = () => {
-    const mapDefinition = useMapQueryParam();
+    const {activeMap, activeMapId, setMapId} = useMapQueryParam();
+    const mapDefinition = activeMap;
     const {
         points,
         searchTerm,
@@ -81,9 +82,11 @@ export const OpenDataMapPage = () => {
 
             <OpenDataSidebar
                 mapDefinition={mapDefinition}
+                activeMapId={activeMapId}
                 points={points}
                 selectedPoint={selectedPoint}
                 searchTerm={searchTerm}
+                onMapChange={setMapId}
                 onSearchChange={setSearchTerm}
                 onSelectPoint={setSelectedPoint}
                 loading={loading}
@@ -118,4 +121,3 @@ export const OpenDataMapPage = () => {
         </div>
     );
 };
-

@@ -98,6 +98,18 @@ const mapOnemliYer = (prefix: string, point: DefaultOnemliYer): MapPoint | null 
     });
 };
 
+const mapOnemliYerCollection = (prefix: string, points: DefaultOnemliYer[]) => {
+    return compactPoints(points.map((point) => mapOnemliYer(prefix, point)));
+};
+
+const loadWrappedPoints = async (
+    prefix: string,
+    loader: () => Promise<{ onemliyer: DefaultOnemliYer[] }>,
+) => {
+    const response = await loader();
+    return mapOnemliYerCollection(prefix, response.onemliyer);
+};
+
 const compactPoints = (points: Array<MapPoint | null>) => {
     return points.filter((point): point is MapPoint => point !== null);
 };
@@ -117,6 +129,41 @@ export const loadParkingPoints = async () => {
 };
 
 export const loadWifiPoints = async () => {
-    const response = await izmirOpenDataClient.wizmirnet.getList();
-    return compactPoints(response.onemliyer.map((point) => mapOnemliYer('wizmirnet', point)));
+    return loadWrappedPoints('wizmirnet', () => izmirOpenDataClient.wizmirnet.getList());
+};
+
+export const loadEmergencyAssemblyPoints = async () => {
+    return loadWrappedPoints('afet-toplanma', () => izmirOpenDataClient.afetler.getAcilDurumToplanmaAlanlari());
+};
+
+export const loadMarketPlaces = async () => {
+    return loadWrappedPoints('pazar', () => izmirOpenDataClient.pazarlar.getList());
+};
+
+export const loadMunicipalServicePoints = async () => {
+    return loadWrappedPoints('hizmet', () => izmirOpenDataClient.hizmet.getHizmetNoktaList());
+};
+
+export const loadHospitals = async () => {
+    return loadWrappedPoints('hastane', () => izmirOpenDataClient.saglik.getHastanelerList());
+};
+
+export const loadFamilyHealthCenters = async () => {
+    return loadWrappedPoints('asm', () => izmirOpenDataClient.saglik.getAileSagligiMerkezleriList());
+};
+
+export const loadVeterinaryClinics = async () => {
+    return loadWrappedPoints('veteriner', () => izmirOpenDataClient.saglik.getVeterinerliklerList());
+};
+
+export const loadUniversities = async () => {
+    return loadWrappedPoints('universite', () => izmirOpenDataClient.egitim.getUniversitelerList());
+};
+
+export const loadHighSchools = async () => {
+    return loadWrappedPoints('lise', () => izmirOpenDataClient.egitim.getLiselerList());
+};
+
+export const loadKindergartens = async () => {
+    return loadWrappedPoints('anaokulu', () => izmirOpenDataClient.egitim.getAnaokullarList());
 };

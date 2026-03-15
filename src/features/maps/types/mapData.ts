@@ -20,6 +20,7 @@ export interface MapPointAction {
 export interface MapDefinition {
     id: string;
     title: string;
+    category: string;
     description: string;
     searchPlaceholder: string;
     emptyStateTitle: string;
@@ -28,4 +29,3 @@ export interface MapDefinition {
     sourceUrl: string;
     loadPoints: () => Promise<MapPoint[]>;
 }
-

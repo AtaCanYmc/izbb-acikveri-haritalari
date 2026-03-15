@@ -37,7 +37,7 @@ export const useOpenDataMapPage = (mapDefinition: MapDefinition) => {
             setLoading(true);
             const nextPoints = await mapDefinition.loadPoints();
             setPoints(nextPoints);
-            setSelectedPoint((current) => current ?? nextPoints[0] ?? null);
+            setSelectedPoint(null);
             toast.success(`${mapDefinition.title} verileri güncellendi`);
         } catch (error) {
             console.error(`${mapDefinition.id} verileri yüklenemedi`, error);
@@ -50,6 +50,11 @@ export const useOpenDataMapPage = (mapDefinition: MapDefinition) => {
     useEffect(() => {
         void loadPoints();
     }, [loadPoints]);
+
+    useEffect(() => {
+        setSearchTerm('');
+        setSelectedPoint(null);
+    }, [mapDefinition.id]);
 
     const filteredPoints = useMemo(() => {
         return points.filter((point) => matchesSearch(point, searchTerm));
@@ -79,4 +84,3 @@ export const useOpenDataMapPage = (mapDefinition: MapDefinition) => {
         ...locationPermission,
     };
 };
-

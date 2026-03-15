@@ -1,19 +1,28 @@
 import logo from '../../../assets/eczane_logo.jpg';
+import {mapRegistry} from '../config/mapRegistry.ts';
 import type {MapDefinition, MapPoint} from '../types/mapData.ts';
 import Footer from '../../../components/footer/footer.tsx';
 
 interface OpenDataSidebarProps {
     mapDefinition: MapDefinition;
+    activeMapId: string;
     points: MapPoint[];
     selectedPoint: MapPoint | null;
     searchTerm: string;
+    onMapChange: (mapId: string) => void;
     onSearchChange: (value: string) => void;
     onSelectPoint: (point: MapPoint) => void;
     loading: boolean;
     isSidebarOpen: boolean;
 }
 
-const Header = ({mapDefinition, searchTerm, onSearchChange}: Pick<OpenDataSidebarProps, 'mapDefinition' | 'searchTerm' | 'onSearchChange'>) => {
+const Header = ({
+    mapDefinition,
+    activeMapId,
+    searchTerm,
+    onMapChange,
+    onSearchChange,
+}: Pick<OpenDataSidebarProps, 'mapDefinition' | 'activeMapId' | 'searchTerm' | 'onMapChange' | 'onSearchChange'>) => {
     return (
         <div className="p-6 border-b border-slate-50 bg-white">
             <div className="flex flex-row items-center justify-between gap-4">
@@ -26,7 +35,24 @@ const Header = ({mapDefinition, searchTerm, onSearchChange}: Pick<OpenDataSideba
 
             <p className="text-[11px] text-slate-500 mt-4 leading-relaxed">{mapDefinition.description}</p>
 
-            <div className="mt-6">
+            <div className="mt-4">
+                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 block mb-2">
+                    Harita Seçici
+                </label>
+                <select
+                    value={activeMapId}
+                    onChange={(event) => onMapChange(event.target.value)}
+                    className="w-full px-4 py-3 bg-slate-100 rounded-xl text-sm focus:ring-2 focus:ring-red-500 outline-none transition-all"
+                >
+                    {mapRegistry.map((map) => (
+                        <option key={map.id} value={map.id}>
+                            {map.category} • {map.title}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="mt-4">
                 <input
                     type="text"
                     placeholder={mapDefinition.searchPlaceholder}
@@ -102,7 +128,7 @@ const PointsList = ({mapDefinition, points, selectedPoint, onSelectPoint, loadin
 };
 
 export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
-    const {mapDefinition, points, selectedPoint, searchTerm, onSearchChange, onSelectPoint, loading, isSidebarOpen} = props;
+    const {mapDefinition, activeMapId, points, selectedPoint, searchTerm, onMapChange, onSearchChange, onSelectPoint, loading, isSidebarOpen} = props;
 
     return (
         <aside
@@ -113,7 +139,13 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
             `}
         >
             <div className="sidebar-content h-full flex flex-col">
-                <Header mapDefinition={mapDefinition} searchTerm={searchTerm} onSearchChange={onSearchChange}/>
+                <Header
+                    mapDefinition={mapDefinition}
+                    activeMapId={activeMapId}
+                    searchTerm={searchTerm}
+                    onMapChange={onMapChange}
+                    onSearchChange={onSearchChange}
+                />
                 <PointsList
                     mapDefinition={mapDefinition}
                     points={points}
@@ -126,4 +158,3 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
         </aside>
     );
 };
-
