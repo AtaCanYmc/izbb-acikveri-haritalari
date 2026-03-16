@@ -64,16 +64,16 @@ const Footer = () => {
                     <div className="flex items-center justify-between pt-2">
                         <div className="flex items-center gap-3">
                             <a href="https://github.com/AtaCanYmc/izbb-acikveri-haritalari" target="_blank"
-                               className="text-slate-400 hover:text-slate-900 transition-colors">
+                               className="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
                                 <Github size={16}/>
                             </a>
                             <a href="https://www.linkedin.com/in/ata-can-yaymacı/"
-                               className="text-slate-400 hover:text-slate-900 transition-colors" target="_blank">
+                               className="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" target="_blank">
                                 <Linkedin size={16}/>
                             </a>
                         </div>
 
-                        <div className="flex items-center gap-1 text-[10px] text-slate-400 font-medium">
+                        <div className="flex items-center gap-1 text-[10px] text-slate-400 dark:text-slate-500 font-medium">
                             <span>{currentYear}</span>
                             <span>•</span>
                             <span>İzmir</span>

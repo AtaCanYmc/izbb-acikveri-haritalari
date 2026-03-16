@@ -1,3 +1,5 @@
+import {useEffect} from 'react';
+import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import type {MapDefinition, MapPoint} from '../types/mapData.ts';
 import Footer from '../../../components/footer/footer.tsx';
@@ -17,6 +19,10 @@ interface OpenDataSidebarProps {
     onToggleTheme: () => void;
 }
 
+// CSS classes for PointCard - ensures Tailwind generates dark mode variants
+const POINT_CARD_SELECTED = 'border-red-500 bg-white dark:bg-slate-800 shadow-md ring-1 ring-red-500/20';
+const POINT_CARD_UNSELECTED = 'border-transparent bg-white dark:bg-slate-800 hover:border-slate-200 dark:hover:border-slate-700 shadow-sm';
+
 const Header = ({
     mapDefinition,
     activeMapId,
@@ -27,7 +33,7 @@ const Header = ({
     onToggleTheme,
 }: Pick<OpenDataSidebarProps, 'mapDefinition' | 'activeMapId' | 'searchTerm' | 'onMapChange' | 'onSearchChange'> & { isDarkMode: boolean; onToggleTheme: () => void }) => {
     return (
-        <div className="p-6 border-b border-slate-50 bg-white dark:bg-slate-900 dark:border-slate-800">
+        <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
             <div className="flex flex-row items-center justify-between gap-4">
                 <div className="text-left ml-1">
                     <h1 className="text-2xl font-black text-red-600 tracking-tighter dark:text-red-500">{mapDefinition.title}</h1>
@@ -93,7 +99,7 @@ const Header = ({
                     <input
                         type="text"
                         placeholder={mapDefinition.searchPlaceholder}
-                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200 dark:placeholder:text-slate-500"
+                        className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all"
                         value={searchTerm}
                         onChange={(event) => onSearchChange(event.target.value)}
                     />
@@ -105,7 +111,7 @@ const Header = ({
 
 const LoadingState = () => {
     return (
-        <div className="flex flex-col items-center justify-center h-40 text-slate-400 animate-pulse italic dark:text-slate-500">
+        <div className="flex-1 flex items-center justify-center h-40 text-slate-400 dark:text-slate-500 animate-pulse italic bg-slate-50/30 dark:bg-slate-800/50">
             Yukleniyor...
         </div>
     );
@@ -113,9 +119,11 @@ const LoadingState = () => {
 
 const EmptyState = ({mapDefinition}: Pick<OpenDataSidebarProps, 'mapDefinition'>) => {
     return (
-        <div className="p-6 text-center text-slate-500 dark:text-slate-400">
-            <h3 className="font-bold text-slate-800 dark:text-slate-200">{mapDefinition.emptyStateTitle}</h3>
-            <p className="text-xs mt-2">{mapDefinition.emptyStateDescription}</p>
+        <div className="flex-1 p-6 text-center text-slate-500 dark:text-slate-400 bg-slate-50/30 dark:bg-slate-800/50 flex items-center justify-center">
+            <div>
+                <h3 className="font-bold text-slate-800 dark:text-slate-200">{mapDefinition.emptyStateTitle}</h3>
+                <p className="text-xs mt-2">{mapDefinition.emptyStateDescription}</p>
+            </div>
         </div>
     );
 };
@@ -124,19 +132,18 @@ const PointCard = ({point, isSelected, onSelectPoint}: { point: MapPoint; isSele
     return (
         <div
             onClick={() => onSelectPoint(point)}
-            className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer ${
-                isSelected
-                    ? 'border-red-500 bg-white shadow-md ring-1 ring-red-500/20 dark:bg-slate-800'
-                    : 'border-transparent bg-white hover:border-slate-200 shadow-sm dark:bg-slate-800 dark:hover:border-slate-700'
-            }`}
+            className={clsx(
+                'p-4 rounded-2xl border transition-all duration-200 cursor-pointer',
+                isSelected ? POINT_CARD_SELECTED : POINT_CARD_UNSELECTED
+            )}
         >
             <h3 className="font-bold text-slate-800 tracking-tight dark:text-slate-200">{point.title}</h3>
             {point.subtitle && <p className="text-[11px] text-slate-500 mt-1 line-clamp-2 dark:text-slate-400">{point.subtitle}</p>}
             <div className="flex items-center justify-between mt-3 gap-3">
                 {point.badge && (
-                    <span className="text-[9px] bg-slate-100 px-2 py-1 rounded text-slate-600 font-bold uppercase dark:bg-slate-700 dark:text-slate-300">{point.badge}</span>
+                    <span className="text-[9px] bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded text-slate-600 dark:text-slate-300 font-bold uppercase">{point.badge}</span>
                 )}
-                {point.actions?.[0] && <span className="text-xs text-red-600 font-bold dark:text-red-400">{point.actions[0].label}</span>}
+                {point.actions?.[0] && <span className="text-xs text-red-600 dark:text-red-400 font-bold">{point.actions[0].label}</span>}
             </div>
         </div>
     );
@@ -167,6 +174,11 @@ const PointsList = ({mapDefinition, points, selectedPoint, onSelectPoint, loadin
 
 export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
     const {mapDefinition, activeMapId, points, selectedPoint, searchTerm, onMapChange, onSearchChange, onSelectPoint, loading, isSidebarOpen, isDarkMode, onToggleTheme} = props;
+
+    // Force reflow when dark mode changes to ensure Tailwind classes are applied
+    useEffect(() => {
+        void document.documentElement.offsetHeight;
+    }, [isDarkMode]);
 
     return (
         <aside

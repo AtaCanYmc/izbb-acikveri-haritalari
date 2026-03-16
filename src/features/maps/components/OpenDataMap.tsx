@@ -66,7 +66,7 @@ const LocationButton = ({userLocation}: { userLocation: [number, number] | null 
             <div className="leaflet-control">
                 <button
                     onClick={handleClick}
-                    className="bg-white p-3 rounded-xl shadow-2xl border-2 border-slate-200 hover:bg-slate-50 transition-all active:scale-90"
+                    className="bg-white dark:bg-slate-800 p-3 rounded-xl shadow-2xl border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all active:scale-90"
                     title="Konumuma Dön"
                 >
                     <svg
@@ -90,10 +90,10 @@ const LocationButton = ({userLocation}: { userLocation: [number, number] | null 
 
 const MapPointPopup = ({point}: { point: MapPoint }) => {
     return (
-        <div className="p-1 min-w-[170px]">
-            <h3 className="font-bold text-gray-900 border-b pb-1 mb-1">{point.title}</h3>
-            {point.subtitle && <p className="text-[11px] text-gray-600 mb-2 leading-tight">{point.subtitle}</p>}
-            {point.description && <p className="text-[10px] text-gray-500 mb-2">{point.description}</p>}
+        <div className="p-1 min-w-[170px] text-inherit">
+            <h3 className="font-bold border-b pb-1 mb-1">{point.title}</h3>
+            {point.subtitle && <p className="text-[11px] mb-2 leading-tight opacity-85">{point.subtitle}</p>}
+            {point.description && <p className="text-[10px] mb-2 opacity-75">{point.description}</p>}
             <div className="flex flex-col gap-1.5">
                 {point.actions && point.actions.length > 0 && (
                     <div className="flex flex-col gap-2 sm:flex-col pb-2">
@@ -103,7 +103,7 @@ const MapPointPopup = ({point}: { point: MapPoint }) => {
                                 href={action.href}
                                 target={action.external ? '_blank' : undefined}
                                 rel={action.external ? 'noreferrer' : undefined}
-                                className="flex-1 bg-slate-900 text-white text-center py-2 rounded-xl font-bold text-xs"
+                                className="flex-1 bg-slate-900 text-white text-center py-2 rounded-xl font-bold text-xs hover:bg-slate-800 transition-colors"
                             >
                                 {action.label}
                             </a>
@@ -111,7 +111,7 @@ const MapPointPopup = ({point}: { point: MapPoint }) => {
                     </div>
                 )}
                 {point.detailLines.map((line) => (
-                    <div key={line} className="text-[10px] text-gray-500">{line}</div>
+                    <div key={line} className="text-[10px] opacity-75">{line}</div>
                 ))}
                 {point.badge && (
                     <div className="flex justify-end">

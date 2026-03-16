@@ -15,6 +15,9 @@ function App() {
 
     useEffect(() => {
         const root = document.documentElement;
+        // Trigger reflow to ensure CSS transitions work properly
+        void root.offsetHeight;
+
         if (isDarkMode) {
             root.classList.add('dark');
         } else {

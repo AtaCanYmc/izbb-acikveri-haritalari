@@ -38,7 +38,7 @@ const LoadingOverlay = ({isVisible}: { isVisible: boolean }) => {
     }
 
     return (
-        <div className="absolute inset-0 z-[1001] bg-white/60 backdrop-blur-sm flex items-center justify-center">
+        <div className="absolute inset-0 z-[1001] bg-white/60 dark:bg-slate-950/60 backdrop-blur-sm flex items-center justify-center">
             <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
     );
@@ -81,6 +81,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             />
 
             <OpenDataSidebar
+                key={`sidebar-${isDarkMode}`}
                 mapDefinition={mapDefinition}
                 activeMapId={activeMapId}
                 points={points}
@@ -103,12 +104,12 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 onClick={() => setIsSidebarOpen(false)}
             />
 
-            <main className="flex-1 relative bg-slate-100 h-full overflow-hidden">
+            <main className="flex-1 relative bg-slate-100 dark:bg-slate-900 h-full overflow-hidden">
                 <LoadingOverlay isVisible={loading}/>
                 <div className="absolute inset-0 h-full w-full">
                     <OpenDataMap points={points} selectedPoint={selectedPoint} onMarkerClick={setSelectedPoint}/>
                 </div>
-                <SelectedPointCard point={selectedPoint} onClose={() => setSelectedPoint(null)}/>
+                <SelectedPointCard isDarkMode={isDarkMode} point={selectedPoint} onClose={() => setSelectedPoint(null)}/>
                 <SidebarToggleButton
                     isSidebarOpen={isSidebarOpen}
                     onToggle={() => setIsSidebarOpen((current) => !current)}

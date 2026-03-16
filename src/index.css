@@ -5,8 +5,22 @@
 }
 
 :root {
-    background-color: white !important;
+    background-color: white;
     color: black;
+}
+
+html {
+    transition: background-color 300ms ease-in-out;
+}
+
+html.dark {
+    background-color: #0f172a !important;
+    color: #e2e8f0;
+}
+
+/* Smooth dark mode transitions for specific elements */
+html.dark * {
+    @apply transition-colors duration-300 ease-in-out;
 }
 
 .sidebar-content {
@@ -27,3 +41,19 @@ html, body, #root {
     padding: 0;
     overflow: hidden;
 }
+
+/* Dark mode for Leaflet popups */
+html.dark .leaflet-popup-content-wrapper {
+    background-color: #1e293b !important;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .leaflet-popup-content {
+    color: #e2e8f0 !important;
+}
+
+html.dark .leaflet-popup-tip {
+    background-color: #1e293b !important;
+}
+
+
