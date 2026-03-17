@@ -19,6 +19,7 @@
     "izmir-open-data-js": "^1.0.0",
     "leaflet": "^1.9.4",
     "leaflet-easyprint": "^2.1.9",
+    "leaflet.markercluster": "^1.5.3",
     "lucide-react": "^0.563.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

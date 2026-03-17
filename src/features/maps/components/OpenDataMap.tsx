@@ -1,8 +1,10 @@
 import {useEffect, useState} from 'react';
 import {MapContainer, Marker, Popup, TileLayer, useMap, ZoomControl} from 'react-leaflet';
-import type {LeafletEventHandlerFnMap} from 'leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import 'leaflet.markercluster';
 import {DefaultIcon, SelectedIcon, userIcon} from '../../../components/map/mapIcons.tsx';
 import type {MapPoint} from '../types/mapData.ts';
 
@@ -88,40 +90,6 @@ const LocationButton = ({userLocation}: { userLocation: [number, number] | null 
     );
 };
 
-const MapPointPopup = ({point}: { point: MapPoint }) => {
-    return (
-        <div className="p-1 min-w-[170px] text-inherit">
-            <h3 className="font-bold border-b pb-1 mb-1">{point.title}</h3>
-            {point.subtitle && <p className="text-[11px] mb-2 leading-tight opacity-85">{point.subtitle}</p>}
-            {point.description && <p className="text-[10px] mb-2 opacity-75">{point.description}</p>}
-            <div className="flex flex-col gap-1.5">
-                {point.actions && point.actions.length > 0 && (
-                    <div className="flex flex-col gap-2 sm:flex-col pb-2">
-                        {point.actions.map((action) => (
-                            <a
-                                key={action.id}
-                                href={action.href}
-                                target={action.external ? '_blank' : undefined}
-                                rel={action.external ? 'noreferrer' : undefined}
-                                className="flex-1 bg-slate-900 text-white text-center py-2 rounded-xl font-bold text-xs hover:bg-slate-800 transition-colors"
-                            >
-                                {action.label}
-                            </a>
-                        ))}
-                    </div>
-                )}
-                {point.detailLines.map((line) => (
-                    <div key={line} className="text-[10px] opacity-75">{line}</div>
-                ))}
-                {point.badge && (
-                    <div className="flex justify-end">
-                        <span className="font-bold text-[9px] uppercase text-red-700">{point.badge}</span>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
-};
 
 const UserLocationMarker = ({userLocation}: { userLocation: [number, number] | null }) => {
     if (!userLocation) {
@@ -151,29 +119,73 @@ const useUserLocation = () => {
     return userLocation;
 };
 
-const renderMarker = (
-    point: MapPoint,
-    selectedPoint: MapPoint | null,
-    onMarkerClick: (point: MapPoint) => void,
-) => {
-    const isSelected = selectedPoint?.id === point.id;
+const ClusteredMarkers = ({
+    points,
+    selectedPoint,
+    onMarkerClick,
+}: {
+    points: MapPoint[];
+    selectedPoint: MapPoint | null;
+    onMarkerClick: (point: MapPoint) => void;
+}) => {
+    const map = useMap();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [clusterGroup] = useState(() => ((L as any).markerClusterGroup || L.featureGroup)({
+        maxClusterRadius: 80,
+        disableClusteringAtZoom: 15,
+    }));
 
-    const handlers: LeafletEventHandlerFnMap = {
-        click: () => onMarkerClick(point),
-    };
+    useEffect(() => {
+        // Cluster group'u haritaya ekle
+        map.addLayer(clusterGroup);
 
-    return (
-        <Marker
-            key={point.id}
-            position={[point.latitude, point.longitude]}
-            icon={isSelected ? SelectedIcon : DefaultIcon}
-            eventHandlers={handlers}
-        >
-            <Popup className="custom-popup">
-                <MapPointPopup point={point}/>
-            </Popup>
-        </Marker>
-    );
+        return () => {
+            map.removeLayer(clusterGroup);
+        };
+    }, [map, clusterGroup]);
+
+    useEffect(() => {
+        // Cluster group'u temizle ve yeni marker'ları ekle
+        clusterGroup.clearLayers();
+
+        points.forEach((point) => {
+            const isSelected = selectedPoint?.id === point.id;
+            const icon = isSelected ? SelectedIcon : DefaultIcon;
+
+            const marker = L.marker([point.latitude, point.longitude], {icon});
+
+            marker.bindPopup(
+                L.popup().setContent(`
+                    <div class="p-1 min-w-[170px] text-inherit">
+                        <h3 class="font-bold border-b pb-1 mb-1">${point.title}</h3>
+                        ${point.subtitle ? `<p class="text-[11px] mb-2 leading-tight opacity-85">${point.subtitle}</p>` : ''}
+                        ${point.description ? `<p class="text-[10px] mb-2 opacity-75">${point.description}</p>` : ''}
+                        <div class="flex flex-col gap-1.5">
+                            ${point.actions && point.actions.length > 0 ? `
+                                <div class="flex flex-col gap-2 pb-2">
+                                    ${point.actions.map((action) => `
+                                        <a href="${action.href}" target="${action.external ? '_blank' : ''}" class="flex-1 bg-slate-900 text-white text-center py-2 rounded-xl font-bold text-xs hover:bg-slate-800 transition-colors">
+                                            ${action.label}
+                                        </a>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                            ${point.detailLines.map((line) => `<div class="text-[10px] opacity-75">${line}</div>`).join('')}
+                            ${point.badge ? `<div class="flex justify-end"><span class="font-bold text-[9px] uppercase text-red-700">${point.badge}</span></div>` : ''}
+                        </div>
+                    </div>
+                `)
+            );
+
+            marker.on('click', () => {
+                onMarkerClick(point);
+            });
+
+            clusterGroup.addLayer(marker);
+        });
+    }, [points, selectedPoint, clusterGroup, onMarkerClick]);
+
+    return null;
 };
 
 export const OpenDataMap = ({points, selectedPoint, onMarkerClick}: OpenDataMapProps) => {
@@ -190,7 +202,7 @@ export const OpenDataMap = ({points, selectedPoint, onMarkerClick}: OpenDataMapP
                 {userLocation && <ChangeView center={userLocation}/>}
                 <ZoomControl position="bottomright"/>
                 <LocationButton userLocation={userLocation}/>
-                {points.map((point) => renderMarker(point, selectedPoint, onMarkerClick))}
+                <ClusteredMarkers points={points} selectedPoint={selectedPoint} onMarkerClick={onMarkerClick}/>
                 <UserLocationMarker userLocation={userLocation}/>
             </MapContainer>
         </div>
