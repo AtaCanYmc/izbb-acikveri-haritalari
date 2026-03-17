@@ -39,8 +39,8 @@ const Header = ({
         <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
             <div className="flex flex-row items-center justify-between gap-4">
                 <div className="text-left ml-1">
-                    <h1 className="text-2xl font-black text-red-600 tracking-tighter dark:text-red-500">{mapDefinition.title}</h1>
-                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] mt-1 dark:text-slate-500">Acik veri harita gorunumu</p>
+                    <h1 className="text-2xl font-black text-red-600 tracking-tighter dark:text-red-500">İzmir Açık Harita</h1>
+                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] mt-1 dark:text-slate-500">{mapDefinition.title}</p>
                 </div>
                 <button
                     type="button"
