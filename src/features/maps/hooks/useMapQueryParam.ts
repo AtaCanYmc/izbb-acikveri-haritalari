@@ -1,22 +1,25 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
-import {defaultMapId, getMapDefinitionById} from "../config/mapRegistry.ts";
+import {getMapDefinitionById} from "../config/mapRegistry.ts";
 
 const MAP_QUERY_PARAM = 'map';
 
 const readMapIdFromUrl = () => {
     const searchParams = new URLSearchParams(window.location.search);
-    return searchParams.get(MAP_QUERY_PARAM) ?? defaultMapId;
+    return searchParams.get(MAP_QUERY_PARAM);
 };
 
-const writeMapIdToUrl = (mapId: string) => {
+const writeMapIdToUrl = (mapId: string | null) => {
     const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set(MAP_QUERY_PARAM, mapId);
-    const nextUrl = `${window.location.pathname}?${searchParams.toString()}${window.location.hash}`;
-    window.history.pushState({}, '', nextUrl);
+    if (mapId) {
+        searchParams.set(MAP_QUERY_PARAM, mapId);
+    } else {
+        searchParams.delete(MAP_QUERY_PARAM);
+    }
+    window.location.href = `${window.location.pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}${window.location.hash}`;
 };
 
 export const useMapQueryParam = () => {
-    const [activeMapId, setActiveMapId] = useState(readMapIdFromUrl);
+    const [activeMapId, setActiveMapId] = useState<string | null>(readMapIdFromUrl);
 
     useEffect(() => {
         const syncWithBrowserNavigation = () => {
@@ -28,17 +31,18 @@ export const useMapQueryParam = () => {
     }, []);
 
     const activeMap = useMemo(() => {
+        if (!activeMapId) return null;
         return getMapDefinitionById(activeMapId);
     }, [activeMapId]);
 
-    const setMapId = useCallback((mapId: string) => {
+    const setMapId = useCallback((mapId: string | null) => {
         writeMapIdToUrl(mapId);
         setActiveMapId(mapId);
     }, []);
 
     return {
         activeMap,
-        activeMapId: activeMap.id,
+        activeMapId: activeMap?.id ?? null,
         setMapId,
     };
 };

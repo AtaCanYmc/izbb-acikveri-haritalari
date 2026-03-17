@@ -24,7 +24,7 @@ const matchesSearch = (point: MapPoint, searchTerm: string) => {
     return haystack.includes(normalizedSearch);
 };
 
-export const useOpenDataMapPage = (mapDefinition: MapDefinition) => {
+export const useOpenDataMapPage = (mapDefinition: MapDefinition | null) => {
     const [points, setPoints] = useState<MapPoint[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null);
@@ -33,6 +33,11 @@ export const useOpenDataMapPage = (mapDefinition: MapDefinition) => {
     const locationPermission = useLocationPermission();
 
     const loadPoints = useCallback(async () => {
+        if (!mapDefinition) {
+            setLoading(false);
+            return;
+        }
+
         try {
             setLoading(true);
             const nextPoints = await mapDefinition.loadPoints();
@@ -54,7 +59,7 @@ export const useOpenDataMapPage = (mapDefinition: MapDefinition) => {
     useEffect(() => {
         setSearchTerm('');
         setSelectedPoint(null);
-    }, [mapDefinition.id]);
+    }, [mapDefinition?.id]);
 
     const filteredPoints = useMemo(() => {
         return points.filter((point) => matchesSearch(point, searchTerm));

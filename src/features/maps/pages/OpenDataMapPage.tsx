@@ -2,6 +2,7 @@ import {ChevronLeft, Menu} from 'lucide-react';
 import {toast, Toaster} from 'react-hot-toast';
 import {useRef, useState} from 'react';
 import html2canvas from 'html2canvas';
+import {HomePage} from '../components/HomePage.tsx';
 import {DownloadModal} from '../components/DownloadModal.tsx';
 import {OpenDataMap} from '../components/OpenDataMap.tsx';
 import {LocationPermissionWarning} from '../components/LocationPermissionWarning.tsx';
@@ -112,7 +113,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
 
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');
-            link.download = `${mapDefinition.title.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.png`;
+            link.download = `${mapDef.title.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.png`;
             link.click();
 
             toast.dismiss(loadingToast);
@@ -124,10 +125,26 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         }
     };
 
+    // Anasayfa göster eğer harita seçilmemişse
+    if (!mapDefinition) {
+        return (
+            <>
+                <Toaster />
+                <HomePage
+                    onSelectMap={(mapId) => setMapId(mapId)}
+                    isDarkMode={isDarkMode}
+                    onToggleTheme={onToggleTheme}
+                />
+            </>
+        );
+    }
+
+    const mapDef = mapDefinition; // Non-null assertion for TypeScript
+
     useDocumentMetadata({
-        title: `${mapDefinition.title} | İzmir Açık Veri Haritası`,
-        description: mapDefinition.description,
-        keywords: `izmir açık veri, ${mapDefinition.title.toLocaleLowerCase('tr-TR')}, harita, api`,
+        title: `${mapDef.title} | İzmir Açık Veri Haritası`,
+        description: mapDef.description,
+        keywords: `izmir açık veri, ${mapDef.title.toLocaleLowerCase('tr-TR')}, harita, api`,
     });
 
     const isLocationWarningVisible = locationStatus === 'denied' && showLocationWarning;
@@ -143,8 +160,8 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             />
 
             <OpenDataSidebar
-                mapDefinition={mapDefinition}
-                activeMapId={activeMapId}
+                mapDefinition={mapDef}
+                activeMapId={activeMapId || mapDef.id}
                 points={points}
                 selectedPoint={selectedPoint}
                 searchTerm={searchTerm}
@@ -187,7 +204,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             <DownloadModal
                 isOpen={isDownloadModalOpen}
                 onClose={() => setIsDownloadModalOpen(false)}
-                mapTitle={mapDefinition.title}
+                mapTitle={mapDef.title}
                 mapPoints={points}
                 onDownloadPNG={handleDownloadPNG}
             />
