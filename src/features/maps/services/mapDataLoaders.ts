@@ -60,7 +60,7 @@ const mapOtopark = (otopark: OtoparkBilgisi): MapPoint | null => {
     const totalCapacity = otopark.occupancy.total.free + otopark.occupancy.total.occupied;
 
     return createMapPoint({
-        id: buildMapPointId('otopark', otopark.ufid),
+        id: buildMapPointId('otopark', otopark.ufid, otopark.lng, otopark.lat),
         title: otopark.name,
         subtitle: `${otopark.provider} • ${otopark.type}`,
         description: otopark.nonstop ? '24 saat açık' : 'Çalışma saati bilgisi mevcut',
@@ -83,7 +83,7 @@ const mapOnemliYer = (prefix: string, point: DefaultOnemliYer): MapPoint | null 
     }
 
     return createMapPoint({
-        id: buildMapPointId(prefix, point.ADI, point.ILCE, point.MAHALLE),
+        id: buildMapPointId(prefix, point.ADI, point.ENLEM, point.BOYLAM),
         title: point.ADI,
         subtitle: `${point.ILCE} / ${point.MAHALLE}`,
         description: point.ACIKLAMA,
