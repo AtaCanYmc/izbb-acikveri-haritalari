@@ -1,7 +1,8 @@
 import {ChevronLeft, Menu} from 'lucide-react';
 import {toast, Toaster} from 'react-hot-toast';
-import {useRef} from 'react';
+import {useRef, useState} from 'react';
 import html2canvas from 'html2canvas';
+import {DownloadModal} from '../components/DownloadModal.tsx';
 import {OpenDataMap} from '../components/OpenDataMap.tsx';
 import {LocationPermissionWarning} from '../components/LocationPermissionWarning.tsx';
 import {OpenDataSidebar} from '../components/OpenDataSidebar.tsx';
@@ -48,6 +49,7 @@ const LoadingOverlay = ({isVisible}: { isVisible: boolean }) => {
 
 export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }: { isDarkMode?: boolean; onToggleTheme?: () => void }) => {
     const mapContainerRef = useRef<HTMLDivElement>(null);
+    const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const {activeMap, activeMapId, setMapId} = useMapQueryParam();
     const mapDefinition = activeMap;
     const {
@@ -65,13 +67,17 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         handleRetryLocationPermission,
     } = useOpenDataMapPage(mapDefinition);
 
-    const handleDownloadMap = async () => {
+    const handleOpenDownloadModal = () => {
+        setIsDownloadModalOpen(true);
+    };
+
+    const handleDownloadPNG = async () => {
         if (!mapContainerRef.current) {
             toast.error('Harita yüklenemedi');
             return;
         }
 
-        const loadingToast = toast.loading('Harita indiriliyor...');
+        const loadingToast = toast.loading('Harita PNG olarak indiriliyor...');
 
         try {
             // Leaflet container'ını bul
@@ -91,13 +97,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 logging: false,
                 removeContainer: false,
                 foreignObjectRendering: false,
-                ignoreElements: (element) => {
-                    // SVG ve iframe'leri skip et
-                    if (element.tagName === 'svg' || element.tagName === 'iframe') {
-                        return true;
-                    }
-                    return false;
-                },
+                ignoreElements: (element) => element.tagName === 'svg' || element.tagName === 'iframe',
                 onclone: (clonedDocument) => {
                     // Cloned document'teki tüm style tag'larından oklch() temizle
                     const styles = clonedDocument.querySelectorAll('style');
@@ -116,11 +116,11 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             link.click();
 
             toast.dismiss(loadingToast);
-            toast.success('Harita başarıyla indirildi!');
+            toast.success('Harita PNG olarak başarıyla indirildi!');
         } catch (error) {
-            console.error('Harita indirme hatası:', error);
+            console.error('Harita PNG indirme hatası:', error);
             toast.dismiss(loadingToast);
-            toast.error('Harita indirme hatası. Lütfen tekrar deneyiniz.');
+            toast.error('Harita PNG indirme hatası. Lütfen tekrar deneyiniz.');
         }
     };
 
@@ -155,7 +155,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 isSidebarOpen={isSidebarOpen}
                 isDarkMode={isDarkMode}
                 onToggleTheme={onToggleTheme}
-                onDownload={handleDownloadMap}
+                onDownload={handleOpenDownloadModal}
             />
 
             <div
@@ -183,6 +183,14 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                     onRetry={handleRetryLocationPermission}
                 />
             </main>
+
+            <DownloadModal
+                isOpen={isDownloadModalOpen}
+                onClose={() => setIsDownloadModalOpen(false)}
+                mapTitle={mapDefinition.title}
+                mapPoints={points}
+                onDownloadPNG={handleDownloadPNG}
+            />
         </div>
     );
 };
