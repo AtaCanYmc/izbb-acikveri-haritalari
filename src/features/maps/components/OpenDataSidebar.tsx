@@ -1,4 +1,5 @@
 import {useEffect} from 'react';
+import {Download} from 'lucide-react';
 import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import type {MapDefinition, MapPoint} from '../types/mapData.ts';
@@ -17,6 +18,7 @@ interface OpenDataSidebarProps {
     isSidebarOpen: boolean;
     isDarkMode: boolean;
     onToggleTheme: () => void;
+    onDownload: () => void;
 }
 
 // CSS classes for PointCard - ensures Tailwind generates dark mode variants
@@ -31,7 +33,8 @@ const Header = ({
     onSearchChange,
     isDarkMode,
     onToggleTheme,
-}: Pick<OpenDataSidebarProps, 'mapDefinition' | 'activeMapId' | 'searchTerm' | 'onMapChange' | 'onSearchChange'> & { isDarkMode: boolean; onToggleTheme: () => void }) => {
+    onDownload,
+}: Pick<OpenDataSidebarProps, 'mapDefinition' | 'activeMapId' | 'searchTerm' | 'onMapChange' | 'onSearchChange'> & { isDarkMode: boolean; onToggleTheme: () => void; onDownload: () => void }) => {
     return (
         <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
             <div className="flex flex-row items-center justify-between gap-4">
@@ -55,6 +58,15 @@ const Header = ({
                             <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
                         </svg>
                     )}
+                </button>
+                <button
+                    type="button"
+                    onClick={onDownload}
+                    aria-label="Haritayı indir"
+                    className="h-11 w-11 shrink-0 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors inline-flex items-center justify-center"
+                    title="Haritayı PNG olarak indir"
+                >
+                    <Download size={20} />
                 </button>
             </div>
 
@@ -173,7 +185,7 @@ const PointsList = ({mapDefinition, points, selectedPoint, onSelectPoint, loadin
 };
 
 export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
-    const {mapDefinition, activeMapId, points, selectedPoint, searchTerm, onMapChange, onSearchChange, onSelectPoint, loading, isSidebarOpen, isDarkMode, onToggleTheme} = props;
+    const {mapDefinition, activeMapId, points, selectedPoint, searchTerm, onMapChange, onSearchChange, onSelectPoint, loading, isSidebarOpen, isDarkMode, onToggleTheme, onDownload} = props;
 
     // Force reflow when dark mode changes to ensure Tailwind classes are applied
     useEffect(() => {
@@ -198,6 +210,7 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
                     onSearchChange={onSearchChange}
                     isDarkMode={isDarkMode}
                     onToggleTheme={onToggleTheme}
+                    onDownload={onDownload}
                 />
                 <PointsList
                     mapDefinition={mapDefinition}

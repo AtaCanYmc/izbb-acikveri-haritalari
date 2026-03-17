@@ -1,5 +1,7 @@
 import {ChevronLeft, Menu} from 'lucide-react';
-import {Toaster} from 'react-hot-toast';
+import {toast, Toaster} from 'react-hot-toast';
+import {useRef} from 'react';
+import html2canvas from 'html2canvas';
 import {OpenDataMap} from '../components/OpenDataMap.tsx';
 import {LocationPermissionWarning} from '../components/LocationPermissionWarning.tsx';
 import {OpenDataSidebar} from '../components/OpenDataSidebar.tsx';
@@ -45,6 +47,7 @@ const LoadingOverlay = ({isVisible}: { isVisible: boolean }) => {
 };
 
 export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }: { isDarkMode?: boolean; onToggleTheme?: () => void }) => {
+    const mapContainerRef = useRef<HTMLDivElement>(null);
     const {activeMap, activeMapId, setMapId} = useMapQueryParam();
     const mapDefinition = activeMap;
     const {
@@ -61,6 +64,65 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         setShowLocationWarning,
         handleRetryLocationPermission,
     } = useOpenDataMapPage(mapDefinition);
+
+    const handleDownloadMap = async () => {
+        if (!mapContainerRef.current) {
+            toast.error('Harita yüklenemedi');
+            return;
+        }
+
+        const loadingToast = toast.loading('Harita indiriliyor...');
+
+        try {
+            // Leaflet container'ını bul
+            const leafletContainer = mapContainerRef.current.querySelector('.leaflet-container') as HTMLElement;
+            if (!leafletContainer) {
+                throw new Error('Harita container\'ı bulunamadı');
+            }
+
+            // html2canvas'ın tüm elementleri işlemesi için kısa bir bekleme
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const canvas = await html2canvas(leafletContainer, {
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: isDarkMode ? '#0f172a' : '#ffffff',
+                scale: 1,
+                logging: false,
+                removeContainer: false,
+                foreignObjectRendering: false,
+                ignoreElements: (element) => {
+                    // SVG ve iframe'leri skip et
+                    if (element.tagName === 'svg' || element.tagName === 'iframe') {
+                        return true;
+                    }
+                    return false;
+                },
+                onclone: (clonedDocument) => {
+                    // Cloned document'teki tüm style tag'larından oklch() temizle
+                    const styles = clonedDocument.querySelectorAll('style');
+                    styles.forEach(style => {
+                        if (style.textContent) {
+                            // oklch() fonksiyonlarını white renk ile değiştir
+                            style.textContent = style.textContent.replace(/oklch\([^)]*\)/g, '#ffffff');
+                        }
+                    });
+                },
+            });
+
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = `${mapDefinition.title.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.png`;
+            link.click();
+
+            toast.dismiss(loadingToast);
+            toast.success('Harita başarıyla indirildi!');
+        } catch (error) {
+            console.error('Harita indirme hatası:', error);
+            toast.dismiss(loadingToast);
+            toast.error('Harita indirme hatası. Lütfen tekrar deneyiniz.');
+        }
+    };
 
     useDocumentMetadata({
         title: `${mapDefinition.title} | İzmir Açık Veri Haritası`,
@@ -81,7 +143,6 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             />
 
             <OpenDataSidebar
-                key={`sidebar-${isDarkMode}`}
                 mapDefinition={mapDefinition}
                 activeMapId={activeMapId}
                 points={points}
@@ -94,6 +155,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 isSidebarOpen={isSidebarOpen}
                 isDarkMode={isDarkMode}
                 onToggleTheme={onToggleTheme}
+                onDownload={handleDownloadMap}
             />
 
             <div
@@ -106,7 +168,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
 
             <main className="flex-1 relative bg-slate-100 dark:bg-slate-900 h-full overflow-hidden">
                 <LoadingOverlay isVisible={loading}/>
-                <div className="absolute inset-0 h-full w-full">
+                <div ref={mapContainerRef} className="absolute inset-0 h-full w-full">
                     <OpenDataMap points={points} selectedPoint={selectedPoint} onMarkerClick={setSelectedPoint}/>
                 </div>
                 <SelectedPointCard isDarkMode={isDarkMode} point={selectedPoint} onClose={() => setSelectedPoint(null)}/>

@@ -6,6 +6,9 @@ export default {
         "./index.html",
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
+    corePlugins: {
+        colorOpacity: false,
+    },
     theme: {
         extend: {
             fontFamily: {

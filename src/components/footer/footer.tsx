@@ -36,12 +36,12 @@ const Footer = () => {
 
                     {/* Veri Kaynağı */}
                     <div>
-                        <h3 className="text-[13px] text-red-600 font-medium tracking-wide mb-1">Veri Kaynağı</h3>
-                        <p className="text-[11px] font-medium tracking-wide mb-1">Seçtiğiniz veri kümesine göre içerik dinamik olarak yüklenir.</p>
+                        <h3 className="text-[13px] text-red-600 dark:text-red-500 font-medium tracking-wide mb-1">Veri Kaynağı</h3>
+                        <p className="text-[11px] font-medium tracking-wide dark:text-slate-300 mb-1">Seçtiğiniz veri kümesine göre içerik dinamik olarak yüklenir.</p>
                         <a
                             href="https://acikveri.bizizmir.com"
                             target="_blank"
-                            className="text-[8px] text-blue-400 hover:underline flex items-center gap-1"
+                            className="text-[8px] text-blue-400 dark:text-blue-300 hover:underline flex items-center gap-1"
                         >
                             İzmir Büyükşehir Belediyesi Açık Veri Portalı
                         </a>
