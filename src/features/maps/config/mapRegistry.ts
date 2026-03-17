@@ -1,6 +1,7 @@
 import type {MapDefinition} from "../types/mapData.ts";
 import {
     loadDutyPharmacies,
+    loadAllPharmacies,
     loadEmergencyAssemblyPoints,
     loadFamilyHealthCenters,
     loadHighSchools,
@@ -26,6 +27,18 @@ export const mapRegistry: MapDefinition[] = [
         sourceLabel: 'İzmir Açık Veri Portalı • Nöbetçi Eczaneler',
         sourceUrl: 'https://acikveri.bizizmir.com/dataset/nobetci-eczaneler-ve-eczane-listesi',
         loadPoints: loadDutyPharmacies,
+    },
+    {
+        id: 'eczaneler',
+        title: 'Tüm Eczaneler',
+        category: 'Sağlık',
+        description: 'İzmir genelindeki tüm eczaneleri harita üzerinde görüntüleyin ve iletişim bilgilerini alın.',
+        searchPlaceholder: 'Eczane adı veya bölge ara...',
+        emptyStateTitle: 'Eczane bulunamadı',
+        emptyStateDescription: 'Arama terimini değiştirip tekrar deneyin.',
+        sourceLabel: 'İzmir Açık Veri Portalı • Tüm Eczaneler',
+        sourceUrl: 'https://acikveri.bizizmir.com/dataset/eczaneler-listesi',
+        loadPoints: loadAllPharmacies,
     },
     {
         id: 'otoparklar',

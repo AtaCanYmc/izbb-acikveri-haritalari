@@ -123,6 +123,11 @@ export const loadDutyPharmacies = async () => {
     return compactPoints(pharmacies.map(mapEczane));
 };
 
+export const loadAllPharmacies = async () => {
+    const pharmacies = await izmirOpenDataClient.eczaneler.getList();
+    return compactPoints(pharmacies.map(mapEczane));
+};
+
 export const loadParkingPoints = async () => {
     const parkingList = await izmirOpenDataClient.otopark.getList();
     return compactPoints(parkingList.map(mapOtopark));
@@ -167,3 +172,4 @@ export const loadHighSchools = async () => {
 export const loadKindergartens = async () => {
     return loadWrappedPoints('anaokulu', () => izmirOpenDataClient.egitim.getAnaokullarList());
 };
+
