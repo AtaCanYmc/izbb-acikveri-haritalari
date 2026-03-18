@@ -205,7 +205,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             )}>
                 <LoadingOverlay isVisible={loading} isDarkMode={isDarkMode}/>
                 <div ref={mapContainerRef} className="absolute inset-0 h-full w-full">
-                    <OpenDataMap points={points} selectedPoint={selectedPoint} onMarkerClick={setSelectedPoint}/>
+                    <OpenDataMap points={points} selectedPoint={selectedPoint} onMarkerClick={setSelectedPoint} isDarkMode={isDarkMode}/>
                 </div>
                 <SelectedPointCard isDarkMode={isDarkMode} point={selectedPoint} onClose={() => setSelectedPoint(null)}/>
                 <SidebarToggleButton

@@ -16,6 +16,7 @@ interface OpenDataMapProps {
     points: MapPoint[];
     selectedPoint: MapPoint | null;
     onMarkerClick: (point: MapPoint) => void;
+    isDarkMode?: boolean;
 }
 
 const ChangeView = ({center}: { center: [number, number] }) => {
@@ -189,14 +190,19 @@ const ClusteredMarkers = ({
     return null;
 };
 
-export const OpenDataMap = ({points, selectedPoint, onMarkerClick}: OpenDataMapProps) => {
+export const OpenDataMap = ({points, selectedPoint, onMarkerClick, isDarkMode = false}: OpenDataMapProps) => {
     const userLocation = useUserLocation();
+
+    // Tile layer URL'sini dark mode'a göre seç
+    const tileLayerUrl = isDarkMode
+        ? "https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}{r}.png" // CartoDB Dark NoLabels (koyu ama açık)
+        : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"; // Voyager light (default)
 
     return (
         <div className="h-full w-full relative z-0 min-h-[100vh]">
             <MapContainer center={IZMIR_CENTER} zoom={11} style={{height: '100%', width: '100%'}} zoomControl={false}>
                 <TileLayer
-                    url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                    url={tileLayerUrl}
                     attribution="&copy; OpenStreetMap"
                 />
                 <MapResizer selectedPoint={selectedPoint}/>
