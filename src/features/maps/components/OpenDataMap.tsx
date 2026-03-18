@@ -195,7 +195,7 @@ export const OpenDataMap = ({points, selectedPoint, onMarkerClick, isDarkMode = 
 
     // Tile layer URL'sini dark mode'a göre seç
     const tileLayerUrl = isDarkMode
-        ? "https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}{r}.png" // CartoDB Dark NoLabels (koyu ama açık)
+        ? "https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png" // CartoDB Voyager Dark
         : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"; // Voyager light (default)
 
     return (
