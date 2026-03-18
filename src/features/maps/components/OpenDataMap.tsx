@@ -178,6 +178,7 @@ const ClusteredMarkers = ({
             );
 
             marker.on('click', () => {
+                marker.openPopup();
                 onMarkerClick(point);
             });
 

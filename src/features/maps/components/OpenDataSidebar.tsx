@@ -326,7 +326,7 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
                     loading={loading}
                     isDarkMode={isDarkMode}
                 />
-                <Footer/>
+                <Footer isDarkMode={isDarkMode}/>
             </div>
         </aside>
     );
