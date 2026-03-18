@@ -206,6 +206,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 onClose={() => setIsDownloadModalOpen(false)}
                 mapTitle={mapDef.title}
                 mapPoints={points}
+                isDarkMode={isDarkMode}
                 onDownloadPNG={handleDownloadPNG}
             />
         </div>

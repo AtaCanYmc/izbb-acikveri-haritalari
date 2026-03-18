@@ -1,4 +1,5 @@
 import {MapPin, Database, Layers} from 'lucide-react';
+import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 
 interface HomePageProps {
@@ -21,22 +22,39 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
     );
 
     return (
-        <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors duration-300">
+        <div className={clsx(
+            'min-h-screen transition-colors duration-300',
+            isDarkMode ? 'bg-slate-950' : 'bg-white'
+        )}>
             {/* Header */}
-            <div className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+            <div className={clsx(
+                'border-b',
+                isDarkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white'
+            )}>
                 <div className="max-w-6xl mx-auto px-4 py-8">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">
+                            <h1 className={clsx(
+                                'text-4xl font-bold mb-2',
+                                isDarkMode ? 'text-white' : 'text-slate-900'
+                            )}>
                                 İzmir Açık Veri Haritaları
                             </h1>
-                            <p className="text-slate-600 dark:text-slate-400">
+                            <p className={clsx(
+                                'text-slate-600 dark:text-slate-400',
+                                isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                            )}>
                                 İzmir Büyükşehir Belediyesi'nin açık verilerini harita üzerinde keşfedin
                             </p>
                         </div>
                         <button
                             onClick={onToggleTheme}
-                            className="h-12 w-12 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors inline-flex items-center justify-center"
+                            className={clsx(
+                                'h-12 w-12 rounded-full border transition-colors inline-flex items-center justify-center',
+                                isDarkMode
+                                    ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+                                    : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
+                            )}
                             title={isDarkMode ? 'Açık moda geç' : 'Koyu moda geç'}
                         >
                             {isDarkMode ? (
@@ -58,41 +76,62 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
             <div className="max-w-6xl mx-auto px-4 py-16">
                 {/* Statistics */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-                    <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <div className={clsx(
+                        'p-6 rounded-2xl border',
+                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+                    )}>
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="p-3 bg-blue-100 dark:bg-blue-950 rounded-lg">
-                                <MapPin size={24} className="text-blue-600 dark:text-blue-400" />
+                            <div className={clsx(
+                                'p-3 rounded-lg',
+                                isDarkMode ? 'bg-blue-950' : 'bg-blue-100'
+                            )}>
+                                <MapPin size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />
                             </div>
-                            <h3 className="font-bold text-slate-900 dark:text-white">{mapRegistry.length}</h3>
+                            <h3 className={clsx('font-bold', isDarkMode ? 'text-white' : 'text-slate-900')}>{mapRegistry.length}</h3>
                         </div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">Kullanılabilir Harita</p>
+                        <p className={clsx('text-sm', isDarkMode ? 'text-slate-400' : 'text-slate-600')}>Kullanılabilir Harita</p>
                     </div>
 
-                    <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <div className={clsx(
+                        'p-6 rounded-2xl border',
+                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+                    )}>
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="p-3 bg-purple-100 dark:bg-purple-950 rounded-lg">
-                                <Database size={24} className="text-purple-600 dark:text-purple-400" />
+                            <div className={clsx(
+                                'p-3 rounded-lg',
+                                isDarkMode ? 'bg-purple-950' : 'bg-purple-100'
+                            )}>
+                                <Database size={24} className={isDarkMode ? 'text-purple-400' : 'text-purple-600'} />
                             </div>
-                            <h3 className="font-bold text-slate-900 dark:text-white">4</h3>
+                            <h3 className={clsx('font-bold', isDarkMode ? 'text-white' : 'text-slate-900')}>4</h3>
                         </div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">Veri Kategorisi</p>
+                        <p className={clsx('text-sm', isDarkMode ? 'text-slate-400' : 'text-slate-600')}>Veri Kategorisi</p>
                     </div>
 
-                    <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <div className={clsx(
+                        'p-6 rounded-2xl border',
+                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+                    )}>
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="p-3 bg-green-100 dark:bg-green-950 rounded-lg">
-                                <Layers size={24} className="text-green-600 dark:text-green-400" />
+                            <div className={clsx(
+                                'p-3 rounded-lg',
+                                isDarkMode ? 'bg-green-950' : 'bg-green-100'
+                            )}>
+                                <Layers size={24} className={isDarkMode ? 'text-green-400' : 'text-green-600'} />
                             </div>
-                            <h3 className="font-bold text-slate-900 dark:text-white">∞</h3>
+                            <h3 className={clsx('font-bold', isDarkMode ? 'text-white' : 'text-slate-900')}>∞</h3>
                         </div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">Veri Noktası</p>
+                        <p className={clsx('text-sm', isDarkMode ? 'text-slate-400' : 'text-slate-600')}>Veri Noktası</p>
                     </div>
                 </div>
 
                 {/* Maps by Category */}
                 {Object.entries(groupedMaps).map(([category, maps]) => (
                     <div key={category} className="mb-12">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+                        <h2 className={clsx(
+                            'text-2xl font-bold mb-6',
+                            isDarkMode ? 'text-white' : 'text-slate-900'
+                        )}>
                             {category}
                         </h2>
 
@@ -101,27 +140,49 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                                 <button
                                     key={map.id}
                                     onClick={() => onSelectMap(map.id)}
-                                    className="p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:border-red-500 dark:hover:border-red-500 transition-all duration-200 text-left group"
+                                    className={clsx(
+                                        'p-6 rounded-2xl border transition-all duration-200 text-left group',
+                                        isDarkMode
+                                            ? 'bg-slate-800 border-slate-700 hover:border-red-500'
+                                            : 'bg-white border-slate-200 hover:border-red-500 hover:shadow-lg'
+                                    )}
                                 >
                                     <div className="mb-4">
-                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                                        <h3 className={clsx(
+                                            'text-lg font-bold transition-colors',
+                                            isDarkMode
+                                                ? 'text-white group-hover:text-red-400'
+                                                : 'text-slate-900 group-hover:text-red-600'
+                                        )}>
                                             {map.title}
                                         </h3>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                        <p className={clsx(
+                                            'text-sm mt-1',
+                                            isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                                        )}>
                                             {map.category}
                                         </p>
                                     </div>
 
-                                    <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">
+                                    <p className={clsx(
+                                        'text-sm mb-4 line-clamp-2',
+                                        isDarkMode ? 'text-slate-300' : 'text-slate-600'
+                                    )}>
                                         {map.description}
                                     </p>
 
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                                        <span className={clsx(
+                                            'text-xs font-semibold uppercase tracking-wide',
+                                            isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                                        )}>
                                             Haritayı Aç
                                         </span>
                                         <svg
-                                            className="w-5 h-5 text-red-600 dark:text-red-400 group-hover:translate-x-1 transition-transform"
+                                            className={clsx(
+                                                'w-5 h-5 text-red-600 group-hover:translate-x-1 transition-transform',
+                                                isDarkMode ? 'text-red-400' : 'text-red-600'
+                                            )}
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -136,11 +197,20 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                 ))}
 
                 {/* Footer Info */}
-                <div className="mt-16 p-8 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-3">
+                <div className={clsx(
+                    'mt-16 p-8 rounded-2xl border',
+                    isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+                )}>
+                    <h3 className={clsx(
+                        'font-bold mb-3',
+                        isDarkMode ? 'text-white' : 'text-slate-900'
+                    )}>
                         Hakkında
                     </h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <p className={clsx(
+                        'text-sm leading-relaxed',
+                        isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                    )}>
                         Bu uygulama, İzmir Büyükşehir Belediyesi'nin açık veri portalında sunulan harita odaklı API uçlarını tek bir
                         arayüzde keşfetmeniz için geliştirilmiş, açık kaynak bir projedir. Veriler doğrudan açık veri servislerinden
                         alınmakta ve gerçek zamanlı olarak güncellenmektedir.

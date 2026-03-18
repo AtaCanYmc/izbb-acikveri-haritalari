@@ -1,5 +1,6 @@
 import {X, Image, FileJson, FileText, MapPin} from 'lucide-react';
 import {toast} from 'react-hot-toast';
+import clsx from 'clsx';
 import type {MapPoint} from '../types/mapData.ts';
 
 interface DownloadModalProps {
@@ -7,6 +8,7 @@ interface DownloadModalProps {
     onClose: () => void;
     mapTitle: string;
     mapPoints: MapPoint[];
+    isDarkMode: boolean;
     onDownloadPNG: () => Promise<void>;
 }
 
@@ -15,6 +17,7 @@ export const DownloadModal = ({
     onClose,
     mapTitle,
     mapPoints,
+    isDarkMode,
     onDownloadPNG,
 }: DownloadModalProps) => {
     if (!isOpen) return null;
@@ -208,22 +211,28 @@ export const DownloadModal = ({
                                 <button
                                     key={option.id}
                                     onClick={option.onClick}
-                                    className={`
-                                        w-full p-4 rounded-xl border-2 border-transparent transition-all
-                                        hover:border-slate-300 dark:hover:border-slate-600
-                                        ${option.bgColor}
-                                        group
-                                    `}
+                                    className={clsx(
+                                        'w-full p-4 rounded-xl border-2 border-transparent transition-all group',
+                                        isDarkMode
+                                            ? 'hover:border-slate-600'
+                                            : 'hover:border-slate-300'
+                                    )}
                                 >
                                     <div className="flex items-start gap-3">
-                                        <div className={`p-2 rounded-lg ${option.bgColor} group-hover:scale-110 transition-transform`}>
+                                        <div className={clsx(
+                                            'p-2 rounded-lg group-hover:scale-110 transition-transform',
+                                            isDarkMode ? option.bgColor.replace('50', '950') : option.bgColor
+                                        )}>
                                             <Icon size={24} className={option.color} />
                                         </div>
                                         <div className="text-left flex-1">
-                                            <h3 className={`font-semibold ${option.color}`}>
+                                            <h3 className={clsx('font-semibold', option.color)}>
                                                 {option.label}
                                             </h3>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                            <p className={clsx(
+                                                'text-xs mt-1',
+                                                isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                                            )}>
                                                 {option.description}
                                             </p>
                                         </div>
@@ -234,10 +243,18 @@ export const DownloadModal = ({
                     </div>
 
                     {/* Footer */}
-                    <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+                    <div className={clsx(
+                        'mt-6 pt-6 border-t',
+                        isDarkMode ? 'border-slate-700' : 'border-slate-200'
+                    )}>
                         <button
                             onClick={onClose}
-                            className="w-full py-2 px-4 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+                            className={clsx(
+                                'w-full py-2 px-4 rounded-lg font-medium transition-colors',
+                                isDarkMode
+                                    ? 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                            )}
                         >
                             İptal Et
                         </button>
