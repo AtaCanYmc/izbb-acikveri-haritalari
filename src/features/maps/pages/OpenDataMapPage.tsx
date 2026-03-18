@@ -1,6 +1,7 @@
 import {ChevronLeft, Menu} from 'lucide-react';
 import {toast, Toaster} from 'react-hot-toast';
 import {useRef, useState} from 'react';
+import clsx from 'clsx';
 import html2canvas from 'html2canvas';
 import {HomePage} from '../components/HomePage.tsx';
 import {DownloadModal} from '../components/DownloadModal.tsx';
@@ -12,12 +13,17 @@ import {useDocumentMetadata} from '../hooks/useDocumentMetadata.ts';
 import {useMapQueryParam} from '../hooks/useMapQueryParam.ts';
 import {useOpenDataMapPage} from '../hooks/useOpenDataMapPage.ts';
 
-const SidebarToggleButton = ({isSidebarOpen, onToggle, isMobile}: { isSidebarOpen: boolean; onToggle: () => void; isMobile: boolean }) => {
+const SidebarToggleButton = ({isSidebarOpen, onToggle, isMobile, isDarkMode}: { isSidebarOpen: boolean; onToggle: () => void; isMobile: boolean; isDarkMode: boolean }) => {
     if (isMobile) {
         return (
             <button
                 onClick={onToggle}
-                className="md:hidden absolute top-4 right-4 z-[9999] bg-white p-3 rounded-2xl shadow-xl border border-slate-100 text-red-600"
+                className={clsx(
+                    'md:hidden absolute top-4 right-4 z-[9999] p-3 rounded-2xl shadow-xl border text-red-600 transition-colors',
+                    isDarkMode
+                        ? 'bg-slate-800 border-slate-700 hover:bg-slate-700'
+                        : 'bg-white border-slate-100 hover:bg-slate-50'
+                )}
             >
                 <Menu size={24}/>
             </button>
@@ -27,22 +33,29 @@ const SidebarToggleButton = ({isSidebarOpen, onToggle, isMobile}: { isSidebarOpe
     return (
         <button
             onClick={onToggle}
-            className={`absolute top-4 z-[1002] bg-white p-3 rounded-2xl shadow-xl border border-slate-100 text-red-600 transition-all duration-300 ${
+            className={clsx(
+                'absolute top-4 z-[1002] p-3 rounded-2xl shadow-xl border text-red-600 transition-all duration-300 md:flex hidden',
+                isDarkMode
+                    ? 'bg-slate-800 border-slate-700 hover:bg-slate-700'
+                    : 'bg-white border-slate-100 hover:bg-slate-50',
                 isSidebarOpen ? 'left-[390px]' : 'left-4'
-            } md:flex hidden`}
+            )}
         >
             {isSidebarOpen ? <ChevronLeft size={24}/> : <Menu size={24}/>}
         </button>
     );
 };
 
-const LoadingOverlay = ({isVisible}: { isVisible: boolean }) => {
+const LoadingOverlay = ({isVisible, isDarkMode}: { isVisible: boolean; isDarkMode: boolean }) => {
     if (!isVisible) {
         return null;
     }
 
     return (
-        <div className="absolute inset-0 z-[1001] bg-white/60 dark:bg-slate-950/60 backdrop-blur-sm flex items-center justify-center">
+        <div className={clsx(
+            'absolute inset-0 z-[1001] backdrop-blur-sm flex items-center justify-center',
+            isDarkMode ? 'bg-slate-950/60' : 'bg-white/60'
+        )}>
             <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
     );
@@ -67,6 +80,12 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         setShowLocationWarning,
         handleRetryLocationPermission,
     } = useOpenDataMapPage(mapDefinition);
+
+    useDocumentMetadata({
+        title: mapDefinition ? `${mapDefinition.title} | İzmir Açık Veri Haritası` : 'İzmir Açık Veri Haritaları',
+        description: mapDefinition?.description || 'İzmir Büyükşehir Belediyesi\'nin açık verilerini harita üzerinde keşfedin',
+        keywords: mapDefinition ? `izmir açık veri, ${mapDefinition.title.toLocaleLowerCase('tr-TR')}, harita, api` : 'izmir açık veri, harita',
+    });
 
     const handleOpenDownloadModal = () => {
         setIsDownloadModalOpen(true);
@@ -139,13 +158,8 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         );
     }
 
-    const mapDef = mapDefinition; // Non-null assertion for TypeScript
-
-    useDocumentMetadata({
-        title: `${mapDef.title} | İzmir Açık Veri Haritası`,
-        description: mapDef.description,
-        keywords: `izmir açık veri, ${mapDef.title.toLocaleLowerCase('tr-TR')}, harita, api`,
-    });
+    // mapDef guaranteed non-null after the check above
+    const mapDef = mapDefinition;
 
     const isLocationWarningVisible = locationStatus === 'denied' && showLocationWarning;
 
@@ -157,6 +171,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 isSidebarOpen={isSidebarOpen}
                 onToggle={() => setIsSidebarOpen((current) => !current)}
                 isMobile={false}
+                isDarkMode={isDarkMode}
             />
 
             <OpenDataSidebar
@@ -177,14 +192,18 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
 
             <div
                 className={`
-                    md:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-[1005] transition-opacity duration-300
+                    md:hidden fixed inset-0 backdrop-blur-sm z-[1005] transition-opacity duration-300
                     ${isSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+                    ${isDarkMode ? 'bg-black/40' : 'bg-black/40'}
                 `}
                 onClick={() => setIsSidebarOpen(false)}
             />
 
-            <main className="flex-1 relative bg-slate-100 dark:bg-slate-900 h-full overflow-hidden">
-                <LoadingOverlay isVisible={loading}/>
+            <main className={clsx(
+                'flex-1 relative h-full overflow-hidden',
+                isDarkMode ? 'bg-slate-900' : 'bg-slate-100'
+            )}>
+                <LoadingOverlay isVisible={loading} isDarkMode={isDarkMode}/>
                 <div ref={mapContainerRef} className="absolute inset-0 h-full w-full">
                     <OpenDataMap points={points} selectedPoint={selectedPoint} onMarkerClick={setSelectedPoint}/>
                 </div>
@@ -193,6 +212,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                     isSidebarOpen={isSidebarOpen}
                     onToggle={() => setIsSidebarOpen((current) => !current)}
                     isMobile={true}
+                    isDarkMode={isDarkMode}
                 />
                 <LocationPermissionWarning
                     isVisible={isLocationWarningVisible}
