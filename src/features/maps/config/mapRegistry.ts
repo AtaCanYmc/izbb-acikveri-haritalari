@@ -14,6 +14,9 @@ import {
     loadVeterinaryClinics,
     loadWifiPoints,
     loadTaxiStands,
+    loadTrainStations,
+    loadFerryPorts,
+    loadMuhtarliklar,
 } from "../services/mapDataLoaders.ts";
 
 export const mapRegistry: MapDefinition[] = [
@@ -176,7 +179,7 @@ export const mapRegistry: MapDefinition[] = [
     {
         id: 'taksi-duraklar',
         title: 'Taksi Duraklari',
-        category: 'Ulasim',
+        category: 'Ulaşım',
         description: 'Izmir genelindeki taksi durakların konumlarını harita üzerinde görüntüleyin.',
         searchPlaceholder: 'Taksi duragi, ilçe veya mahalle ara...',
         emptyStateTitle: 'Taksi duragi bulunamadi',
@@ -184,6 +187,42 @@ export const mapRegistry: MapDefinition[] = [
         sourceLabel: 'Izmir Acik Veri Portali • Taksi Duraklar',
         sourceUrl: 'https://openapi.izmir.bel.tr/api/ibb/cbs/taksi-duraklar',
         loadPoints: loadTaxiStands,
+    },
+    {
+        id: 'tren-garlari',
+        title: 'Tren Garlari',
+        category: 'Ulaşım',
+        description: 'Izmir genelindeki tren garlarını harita üzerinde görüntüleyin.',
+        searchPlaceholder: 'Tren gari, ilçe veya mahalle ara...',
+        emptyStateTitle: 'Tren gari bulunamadi',
+        emptyStateDescription: 'Arama terimini temizleyip tekrar deneyin.',
+        sourceLabel: 'Izmir Acik Veri Portali • Tren Garlari',
+        sourceUrl: 'https://openapi.izmir.bel.tr/api/ibb/cbs/tren-garlari',
+        loadPoints: loadTrainStations,
+    },
+    {
+        id: 'vapur-iskeleleri',
+        title: 'Vapur Iskeleleri',
+        category: 'Ulaşım',
+        description: 'Izmir genelindeki vapur iskeleleri konumlarını harita üzerinde görüntüleyin.',
+        searchPlaceholder: 'Iskele, ilçe veya mahalle ara...',
+        emptyStateTitle: 'Iskele bulunamadi',
+        emptyStateDescription: 'Arama terimini temizleyip tekrar deneyin.',
+        sourceLabel: 'Izmir Acik Veri Portali • Vapur Iskeleleri',
+        sourceUrl: 'https://openapi.izmir.bel.tr/api/ibb/cbs/vapur-iskeleleri',
+        loadPoints: loadFerryPorts,
+    },
+    {
+        id: 'muhtarliklar',
+        title: 'Muhtarlıklar',
+        category: 'Yönetim',
+        description: 'İzmir genelindeki muhtarlık konumlarını harita üzerinde görüntüleyin.',
+        searchPlaceholder: 'Muhtarlik, ilçe veya mahalle ara...',
+        emptyStateTitle: 'Muhtarlik bulunamadi',
+        emptyStateDescription: 'Arama terimini temizleyip tekrar deneyin.',
+        sourceLabel: 'Izmir Acik Veri Portali • Muhtarliklar',
+        sourceUrl: 'https://openapi.izmir.bel.tr/api/ibb/cbs/muhtarliklar',
+        loadPoints: loadMuhtarliklar,
     },
 ];
 

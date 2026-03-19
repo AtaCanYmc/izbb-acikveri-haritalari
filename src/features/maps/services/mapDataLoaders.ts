@@ -177,3 +177,38 @@ export const loadTaxiStands = async () => {
     return loadWrappedPoints('taksi', () => izmirOpenDataClient.taksi.getDurakList());
 };
 
+export const loadTrainStations = async () => {
+    return loadWrappedPoints('tren', () => izmirOpenDataClient.tren.getTrenGarlariList());
+};
+
+export const loadFerryPorts = async () => {
+    try {
+        const iskeles = await izmirOpenDataClient.vapur.getIskeleList();
+
+        // Vapur API'si doğrudan iskele listesi döndürüyor
+        // Bunu DefaultOnemliYer formatına çevirmeliyiz
+        const onemliYerList = iskeles.map((iskele: any) => ({
+            ADI: iskele.ADI || iskele.name || 'Bilinmiyor',
+            ILCE: iskele.ILCE || iskele.ilce || 'Bilinmiyor',
+            MAHALLE: iskele.MAHALLE || iskele.mahalle || 'Bilinmiyor',
+            ILCEID: iskele.ILCEID || 0,
+            MAHALLEID: iskele.MAHALLEID || 0,
+            ACIKLAMA: iskele.ACIKLAMA || iskele.aciklama || '',
+            ENLEM: Number.parseFloat(iskele.ENLEM || iskele.latitude || 0),
+            BOYLAM: Number.parseFloat(iskele.BOYLAM || iskele.longitude || 0),
+            YOL: iskele.YOL || iskele.yol || 'Bilinmiyor',
+            KAPINO: iskele.KAPINO || iskele.kapino || 'Bilinmiyor',
+        })) as DefaultOnemliYer[];
+
+        return mapOnemliYerCollection('vapur', onemliYerList);
+    } catch (error) {
+        console.error('Vapur iskeleleri yükleme hatası:', error);
+        return [];
+    }
+};
+
+export const loadMuhtarliklar = async () => {
+    return loadWrappedPoints('muhtarlik', () => izmirOpenDataClient.muhtarliklar.getList());
+};
+
+
