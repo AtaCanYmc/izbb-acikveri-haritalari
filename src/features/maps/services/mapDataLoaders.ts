@@ -211,4 +211,18 @@ export const loadMuhtarliklar = async () => {
     return loadWrappedPoints('muhtarlik', () => izmirOpenDataClient.muhtarliklar.getList());
 };
 
+export const loadBeaches = async () => {
+    return loadWrappedPoints('plaj', () => izmirOpenDataClient.plaj.getPlajlarList());
+};
 
+export const loadBaths = async () => {
+    return loadWrappedPoints('hamam', () => izmirOpenDataClient.plaj.getHamamlarList());
+};
+
+export const loadSpringResorts = async () => {
+    return loadWrappedPoints('kaplicalar', () => izmirOpenDataClient.plaj.getKaplicalarList());
+};
+
+export const loadFairs = async () => {
+    return loadWrappedPoints('fuar', () => izmirOpenDataClient.plaj.getFuarList());
+};
