@@ -226,3 +226,35 @@ export const loadSpringResorts = async () => {
 export const loadFairs = async () => {
     return loadWrappedPoints('fuar', () => izmirOpenDataClient.plaj.getFuarList());
 };
+
+export const loadLibraries = async () => {
+    return loadWrappedPoints('kutuphane', () => izmirOpenDataClient.kutuphane.getKutuphanelerList());
+};
+
+export const loadCulturalCenters = async () => {
+    return loadWrappedPoints('kultur', () => izmirOpenDataClient.kutuphane.getKulturMerkezleriList());
+};
+
+export const loadOperaAndBallet = async () => {
+    return loadWrappedPoints('opera', () => izmirOpenDataClient.kutuphane.getOperaVeBaleList());
+};
+
+export const loadGalleriesAndHalls = async () => {
+    return loadWrappedPoints('galeri', () => izmirOpenDataClient.kutuphane.getGaleriVeSalonlarList());
+};
+
+export const loadPhilharmonic = async () => {
+    return loadWrappedPoints('senfoni', () => izmirOpenDataClient.kutuphane.getSenfoniOrkestrasiList());
+};
+
+export const loadCinemas = async () => {
+    return loadWrappedPoints('sinema', () => izmirOpenDataClient.kutuphane.getSinemalarList());
+};
+
+export const loadTheaters = async () => {
+    return loadWrappedPoints('tiyatro', () => izmirOpenDataClient.kutuphane.getTiyatrolarList());
+};
+
+export const loadMuseums = async () => {
+    return loadWrappedPoints('muzeler', () => izmirOpenDataClient.kutuphane.getMuzelerList());
+};
