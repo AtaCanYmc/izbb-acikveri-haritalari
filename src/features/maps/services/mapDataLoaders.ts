@@ -258,3 +258,31 @@ export const loadTheaters = async () => {
 export const loadMuseums = async () => {
     return loadWrappedPoints('muzeler', () => izmirOpenDataClient.kutuphane.getMuzelerList());
 };
+
+export const loadAncientCities = async () => {
+    return loadWrappedPoints('antik-kent', () => izmirOpenDataClient.tarihi.getAntikKentlerList());
+};
+
+export const loadAncientCityStructures = async () => {
+    return loadWrappedPoints('antik-yapı', () => izmirOpenDataClient.tarihi.getAntikKentYapilariList());
+};
+
+export const loadMansionsAndManors = async () => {
+    return loadWrappedPoints('kosk-konak', () => izmirOpenDataClient.tarihi.getKoskVeKonaklarList());
+};
+
+export const loadTowersMonumentsStatues = async () => {
+    return loadWrappedPoints('kule-anıt', () => izmirOpenDataClient.tarihi.getKuleAnitHeykellerList());
+};
+
+export const loadHistoricMarketAndCaravansaries = async () => {
+    return loadWrappedPoints('carsi-han', () => izmirOpenDataClient.tarihi.getTarihiCarsiHanlarList());
+};
+
+export const loadHistoricWaterStructures = async () => {
+    return loadWrappedPoints('su-yapı', () => izmirOpenDataClient.tarihi.getTarihiSuYapilariList());
+};
+
+export const loadHistoricStructures = async () => {
+    return loadWrappedPoints('tarihi-yapı', () => izmirOpenDataClient.tarihi.getTarihiYapilarList());
+};
