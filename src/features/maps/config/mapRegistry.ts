@@ -13,6 +13,7 @@ import {
     loadUniversities,
     loadVeterinaryClinics,
     loadWifiPoints,
+    loadTaxiStands,
 } from "../services/mapDataLoaders.ts";
 
 export const mapRegistry: MapDefinition[] = [
@@ -171,6 +172,18 @@ export const mapRegistry: MapDefinition[] = [
         sourceLabel: 'İzmir Açık Veri Portalı • Anaokulları',
         sourceUrl: 'https://openapi.izmir.bel.tr/api/ibb/cbs/anaokullari',
         loadPoints: loadKindergartens,
+    },
+    {
+        id: 'taksi-duraklar',
+        title: 'Taksi Duraklari',
+        category: 'Ulasim',
+        description: 'Izmir genelindeki taksi durakların konumlarını harita üzerinde görüntüleyin.',
+        searchPlaceholder: 'Taksi duragi, ilçe veya mahalle ara...',
+        emptyStateTitle: 'Taksi duragi bulunamadi',
+        emptyStateDescription: 'Arama terimini temizleyip tekrar deneyin.',
+        sourceLabel: 'Izmir Acik Veri Portali • Taksi Duraklar',
+        sourceUrl: 'https://openapi.izmir.bel.tr/api/ibb/cbs/taksi-duraklar',
+        loadPoints: loadTaxiStands,
     },
 ];
 

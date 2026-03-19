@@ -173,3 +173,7 @@ export const loadKindergartens = async () => {
     return loadWrappedPoints('anaokulu', () => izmirOpenDataClient.egitim.getAnaokullarList());
 };
 
+export const loadTaxiStands = async () => {
+    return loadWrappedPoints('taksi', () => izmirOpenDataClient.taksi.getDurakList());
+};
+
