@@ -12,7 +12,7 @@ export default defineConfig({
             manifest: {
                 name: 'İzmir Açık Veri Haritaları',
                 short_name: 'İzmir Haritaları',
-                description: 'İzmir Büyükşehir Belediyesi\'nin 37 farklı açık veri haritasını interaktif olarak keşfedin.',
+                description: 'İzmir Büyükşehir Belediyesi\'nin 36 farklı açık veri haritasını interaktif olarak keşfedin.',
                 theme_color: '#ffffff',
                 background_color: '#ffffff',
                 display: 'standalone',

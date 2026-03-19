@@ -103,9 +103,9 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                             )}>
                                 <Database size={24} className={isDarkMode ? 'text-purple-400' : 'text-purple-600'} />
                             </div>
-                            <h3 className={clsx('font-bold', isDarkMode ? 'text-white' : 'text-slate-900')}>4</h3>
+                            <h3 className={clsx('font-bold', isDarkMode ? 'text-white' : 'text-slate-900')}>10+</h3>
                         </div>
-                        <p className={clsx('text-sm', isDarkMode ? 'text-slate-400' : 'text-slate-600')}>Veri Kategorisi</p>
+                        <p className={clsx('text-sm', isDarkMode ? 'text-slate-400' : 'text-slate-600')}>Harita Kategorisi</p>
                     </div>
 
                     <div className={clsx(
@@ -119,7 +119,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                             )}>
                                 <Layers size={24} className={isDarkMode ? 'text-green-400' : 'text-green-600'} />
                             </div>
-                            <h3 className={clsx('font-bold', isDarkMode ? 'text-white' : 'text-slate-900')}>∞</h3>
+                            <h3 className={clsx('font-bold', isDarkMode ? 'text-white' : 'text-slate-900')}>5000+</h3>
                         </div>
                         <p className={clsx('text-sm', isDarkMode ? 'text-slate-400' : 'text-slate-600')}>Veri Noktası</p>
                     </div>

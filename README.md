@@ -5,14 +5,14 @@
 ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![PWA Ready](https://img.shields.io/badge/PWA-Ready-orange.svg)
 ![License](https://img.shields.io/github/license/AtaCanYmc/izmir-nobetci-eczane-haritasi)
-![Maps Count](https://img.shields.io/badge/Haritalar-37-blue)
+![Maps Count](https://img.shields.io/badge/Haritalar-36-blue)
 ![Tests](https://img.shields.io/badge/Tests-43%2B-green)
 
 ## 🎯 Genel Bakış
 
 İzmir Açık Veri Haritaları, İzmir Büyükşehir Belediyesi'nin açık veri API'lerini kullanarak, şehrin çeşitli kategorilerindeki önemli yerlerini etkileşimli haritalar üzerinde sunmaktadır.
 
-Başlangıçta sadece nöbetçi eczane haritası olan bu proje, artık **37 farklı harita** ile genişletilmiştir.
+Başlangıçta sadece nöbetçi eczane haritası olan bu proje, artık **36 farklı harita** ile genişletilmiştir.
 
 ## 🗺️ Harita Kategorileri
 
@@ -40,7 +40,7 @@ Antik Kentler, Antik Yapılar, Köşk ve Konaklar, Kule/Anıt/Heykeller, Tarihi 
 ## ✨ Öne Çıkan Özellikler
 
 ### 🗺️ Harita Özellikleri
-- **37 Etkileşimli Harita** - Kategorilere göre organize edilmiş
+- **36 Etkileşimli Harita** - Kategorilere göre organize edilmiş
 - **Marker Clustering** - Yoğun konumlarda otomatik gruplama
 - **Canlı Konum Takibi** - Mevcut konumunuzu harita üzerinde görün
 - **Hızlı Filtreleme** - Mekan adı, ilçe veya mahalle bazlı arama
@@ -193,7 +193,7 @@ npm test -- --coverage
 
 ## 📊 Proje İstatistikleri
 
-- **📝 37 Harita** - Farklı kategorilerde
+- **📝 36 Harita** - Farklı kategorilerde
 - **🧪 43+ Test** - Unit testler
 - **🎨 10+ Kategori** - Harita kategorileri
 - **🌐 1000+ Veri Noktası** - Toplam harita konumu
