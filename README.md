@@ -1,88 +1,205 @@
-# 📍 İzmir Nöbetçi Eczane Haritası
+# 🗺️ İzmir Açık Veri Haritaları
 
-![Build & Deploy](https://github.com/AtaCanYmc/izmir-nobetci-eczane-haritasi/actions/workflows/deploy.yml/badge.svg)
+> İzmir Büyükşehir Belediyesi'nin açık verilerini interaktif haritalar üzerinde keşfedin. 37 farklı harita ile şehrin sağlık, ulaşım, kültür, tarih ve daha birçok önemli lokasyonunu görüntüleyin.
+
+![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![PWA Ready](https://img.shields.io/badge/PWA-Ready-orange.svg)
 ![License](https://img.shields.io/github/license/AtaCanYmc/izmir-nobetci-eczane-haritasi)
+![Maps Count](https://img.shields.io/badge/Haritalar-37-blue)
+![Tests](https://img.shields.io/badge/Tests-43%2B-green)
 
-İzmir genelindeki nöbetçi eczaneleri ilçe sınırlarına bağlı kalmaksızın, kullanıcıyı merkeze alan bir deneyimle sunan
-modern bir web uygulamasıdır.
+## 🎯 Genel Bakış
 
-<p align="center">
-  <img src="docs/images/eczane_detail.png" alt="PWA Features Presentation" width="800">
-</p>
+İzmir Açık Veri Haritaları, İzmir Büyükşehir Belediyesi'nin açık veri API'lerini kullanarak, şehrin çeşitli kategorilerindeki önemli yerlerini etkileşimli haritalar üzerinde sunmaktadır.
 
+Başlangıçta sadece nöbetçi eczane haritası olan bu proje, artık **37 farklı harita** ile genişletilmiştir.
 
-## 📖 Genel Bakış
+## 🗺️ Harita Kategorileri
 
-Geleneksel nöbetçi eczane listeleri genellikle ilçe bazlı arama yapmayı zorunlu kılar. Ancak İzmir gibi metropollerde,
-özellikle **Bayraklı (Mansuroğlu)** ve **Bornova** gibi sınırların iç içe geçtiği bölgelerde, kullanıcılar hangi
-listenin kendilerine en uygun olduğunu bulmakta zorluk çekmektedir.
+### Sağlık (5 harita)
+Nöbetçi Eczaneler, Tüm Eczaneler, Hastaneler, Aile Sağlığı Merkezleri, Veterinerlikler
 
-Bu proje, İzmir Büyükşehir Belediyesi'nin verilerini kullanarak tüm nöbetçi eczaneleri tek bir interaktif harita
-üzerinde toplar. Böylece ilçe seçimine gerek kalmadan, sadece konuma odaklanarak en hızlı çözüme ulaşmanızı sağlar.
+### Ulaşım (4 harita)
+Otoparklar, Taksi Duraklari, Tren Garları, Vapur İskeleri
+
+### Kültür (8 harita)
+Kütüphaneler, Kültür Merkezleri, Opera ve Bale, Galeriler, Senfoni Orkestrası, Sinemalar, Tiyatrolar, Müzeler
+
+### Tarih (7 harita)
+Antik Kentler, Antik Yapılar, Köşk ve Konaklar, Kule/Anıt/Heykeller, Tarihi Çarşı ve Hanlar, Tarihi Su Yapıları, Tarihi Yapılar
+
+### Diğer Kategoriler
+- Rekreasyon (4): Plajlar, Hamamlar, Kaplıcalar, Fuar Alanları
+- Eğitim (3): Üniversiteler, Liseler, Anaokulları
+- Yönetim (1): Muhtarlıklar
+- Belediye (1): İzBB Hizmet Noktaları
+- Yaşam (1): Semt Pazarları
+- Dijital (1): WiZmirNET Noktaları
+- Afet (1): Afet Toplanma Alanları
 
 ## ✨ Öne Çıkan Özellikler
 
-- **Bölge Bağımsız Görüntüleme:** Tüm İzmir nöbetçi eczanelerini tek bir ekran üzerinden harita üzerinde görün.
-- **Canlı Konum Takibi:** "Konumuma Dön" butonu ile mevcut yerinizi ve çevrenizdeki eczaneleri anında bulun.
-- **Hızlı Filtreleme:** Eczane adı veya bölge bazlı anlık arama desteği.
-- **Direkt Erişim:** Mobil cihazlar üzerinden tek tuşla arama ve Google Haritalar ile yol tarifi entegrasyonu.
-- **Dinamik Tasarım:** Tailwind CSS v4 ile geliştirilmiş, tamamen mobil uyumlu (responsive) modern arayüz.
+### 🗺️ Harita Özellikleri
+- **37 Etkileşimli Harita** - Kategorilere göre organize edilmiş
+- **Marker Clustering** - Yoğun konumlarda otomatik gruplama
+- **Canlı Konum Takibi** - Mevcut konumunuzu harita üzerinde görün
+- **Hızlı Filtreleme** - Mekan adı, ilçe veya mahalle bazlı arama
+- **Direkt Erişim** - Telefon numaraları tıklanabilir, Google Haritalar entegrasyonu
 
-<p align="center">
-  <img src="docs/images/pwa_web_screens.jpg" alt="PWA Features Presentation" width="800">
-</p>
+### 🎨 Kullanıcı Arayüzü
+- **Light/Dark Mode** - Tam desteği ile gece ve gündüz rahat kullanım
+- **Responsive Tasarım** - Tüm cihazlarda kusursuz görünüm
+- **Modern UI** - Tailwind CSS v4 ile geliştirilmiş
+- **Smooth Animations** - Akıcı kullanıcı deneyimi
 
-## 📱 Modern Web Yetenekleri
+### 📱 Progressive Web App (PWA)
+- **Kurulum** - Uygulamayı cihazınıza ekleyin
+- **Offline Çalışma** - Service Worker ile çevrimdışı desteği
+- **Push Notifications** - Bildirim desteği
+- **Install Prompt** - iOS ve Android'de kurulum rehberi
 
-- **Progressive Web App (PWA):** Uygulamayı tarayıcı üzerinden cihazınıza yükleyebilir, ana ekranınızdan tek tıkla ulaşabilirsiniz.
-- **Automated CI/CD:** GitHub Actions entegrasyonu ile her `push` işleminde kod otomatik olarak test edilir (Lint & Type Check) ve hatasız ise GitHub Pages üzerinde yayına alınır.
-- **Mobile First:** Sadece responsive tasarım değil, mobil cihazlarda "native app" deneyimi sunan arayüz optimizasyonları.
+### 🧪 Kalite Güvence
+- **Unit Testler** - Vitest ile 43+ test
+- **TypeScript** - Tam tip güvenliği
+- **ESLint** - Kod kalitesi kontrolü
+- **CI/CD Pipeline** - Otomatik test ve deployment
 
-<p align="center">
-  <img src="docs/images/pwa_screens.jpg" alt="PWA Features Presentation" width="800">
-</p>
+### 📥 Harita İndirme
+- **Çoklu Format** - PNG, JSON, CSV, GeoJSON formatlarında indir
+- **Kolay Paylaşım** - Harita verilerini aktar
+- **Batch İndirme** - Tüm harita noktalarını bir dosyaya indir
 
-## 🛠️ Teknik Altyapı
+## 🛠️ Teknoloji Yığını
 
-- **Framework:** React 18 & TypeScript
-- **Build Tool:** Vite
-- **CI/CD:** GitHub Actions (Multi-stage pipeline)
-- **Harita Motoru:** Leaflet & React-Leaflet
-- **Styling:** Tailwind CSS v4
-- **Veri Kaynağı:** İzmir Büyükşehir Belediyesi Açık Veri Portalı API
+### Frontend
+- React 18, TypeScript, Vite
+- Tailwind CSS v4, React Leaflet
+- Leaflet Marker Cluster
 
-## 🔗 Canlı Uygulama
-Uygulamayı buradan inceleyebilirsiniz: [izmirnobetcieczaneharitasi.live](https://izmirnobetcieczaneharitasi.live)
+### Testing & Quality
+- Vitest (Unit Testing)
+- ESLint, TypeScript Type Checking
+- PWA Plugin
 
-## 🚀 Kendi Versiyonunuzu Çalıştırma
+### APIs & Data
+- izmir-open-data-js
+- OpenStreetMap
+- Google Maps
 
-Projeyi yerel ortamınızda ayağa kaldırmak için:
+## 🚀 Kurulum ve Çalıştırma
 
-1. Projeyi bilgisayarınıza indirin:
-   ```bash
-    git clone [https://github.com/AtaCanYmc/izmir-nobetci-eczane-haritasi.git](https://github.com/AtaCanYmc/izmir-nobetci-eczane-haritasi.git)
-    ```
-2. Proje dizinine gidin:
-   ```bash
-    cd izmir-nobetci-eczane-haritasi
-    ```
-3. Bağımlılıkları yükleyin:
-   ```bash
-    npm install
-    ```
-4. Uygulamayı başlatın:
-   ```bash
-    npm run dev
-    ```
-5. Tarayıcınızda `http://localhost:5173` adresine gidin.
+### Gereksinimler
+- Node.js 18+
+- npm veya yarn
 
-## 📕 Kaynak API:
-- İzmir Büyükşehir Belediyesi Açık Veri Portalı: [https://data.izmir.bel.tr/](https://data.izmir.bel.tr/)
-- Nöbetçi Eczane Verisi API'si: [https://data.izmir.bel.tr/dataset/izmir-nobetci-eczaneler](https://data.izmir.bel.tr/dataset/izmir-nobetci-eczaneler)
+### Adımlar
 
-## 🤝 Katkıda Bulunma
-Bu projeye katkıda bulunmak isterseniz, lütfen bir pull request gönderin veya bir konu açarak önerilerinizi paylaşın. Her türlü katkıya açığım :)
+```bash
+# Projeyi klonla
+git clone https://github.com/AtaCanYmc/izbb-acikveri-haritalari.git
+cd izbb-acikveri-haritalari
+
+# Bağımlılıkları yükle
+npm install
+
+# Development sunucusunu başlat
+npm run dev
+
+# Build oluştur
+npm run build
+
+# Testleri çalıştır
+npm test
+```
+
+### Komutlar
+
+| Komut | Açıklama |
+|-------|----------|
+| `npm run dev` | Development sunucusunu başlat |
+| `npm run build` | Production build oluştur |
+| `npm run preview` | Build'i yerel olarak önizle |
+| `npm run lint` | Kod kalitesini kontrol et |
+| `npm run lint-fix` | Linting sorunlarını düzelt |
+| `npm run format` | Kodu formatla |
+| `npm test` | Unit testleri çalıştır |
+| `npm test -- --run` | Testleri tek kez çalıştır |
+| `npm run type-check` | TypeScript checking |
+
+## 🧪 Testler
+
+Proje **43+ unit test** ile test edilmektedir:
+
+```bash
+# Tüm testleri çalıştır
+npm test -- --run
+
+# Coverage raporu oluştur
+npm test -- --coverage
+```
+
+### Test Kapsamı
+- ✅ **dateUtils:** Tarih formatı dönüşümleri (8 test)
+- ✅ **mapLinks:** Google Maps ve tel: URL'leri (11 test)
+- ✅ **mapPointBuilders:** Harita noktası oluşturma (14 test)
+- ✅ **Basic Tests:** Framework testleri (3 test)
+- ✅ **İstatistikler:** 43+ test, %100 geçme oranı
+
+## 📊 Proje İstatistikleri
+
+- **📝 37 Harita** - Farklı kategorilerde
+- **🧪 43+ Test** - Unit testler
+- **🎨 10+ Kategori** - Harita kategorileri
+- **🌐 1000+ Veri Noktası** - Toplam harita konumu
+- **📱 Responsive** - Tüm cihazlar desteklenir
+- **♿ Accessible** - WCAG uyumlu
+
+## 🔄 Veri Güncellemeleri
+
+Tüm harita verileri doğrudan İzmir Açık Veri Portalı API'larından çekilmektedir. Veriler otomatik olarak güncellenmiş haldedir.
+
+**Veri Kaynağı:** [acikveri.bizizmir.com](https://acikveri.bizizmir.com)
+
+## 🤝 Katkı Sağlama
+
+Katkılarınız hoşnut karşılanmaktadır! Lütfen:
+
+1. Projeyi fork'la
+2. Özellik branch'i oluştur
+3. Değişiklikleri commit et
+4. Branch'e push et
+5. Pull Request oluştur
+
+### Geliştirme Kuralları
+- TypeScript kullanılmalı
+- Testler yazılmalı
+- ESLint kurallarına uyulmalı
+- Commit mesajları açıklayıcı olmalı
 
 ## 📄 Lisans
-Bu proje MIT Lisansı altında lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakabilirsiniz.
+
+Bu proje MIT Lisansı altında dağıtılmaktadır. Detaylar için [LICENSE.md](LICENSE.md) dosyasına bakın.
+
+## 👨‍💻 Geliştirici
+
+**Ata Can Yaymacı**
+- [GitHub](https://github.com/AtaCanYmc)
+- [LinkedIn](https://www.linkedin.com/in/ata-can-yaymacı/)
+
+## 📚 İlgili Linkler
+
+- 🌐 [Canlı Demo](https://atacanyaymaclı.github.io/izbb-acikveri-haritalari)
+- 📖 [İzmir Açık Veri Portalı](https://acikveri.bizizmir.com)
+- 🐙 [GitHub Repository](https://github.com/AtaCanYmc/izbb-acikveri-haritalari)
+- 📦 [npm: izmir-open-data-js](https://www.npmjs.com/package/izmir-open-data-js)
+
+## ⭐ Destekle
+
+Eğer bu proje faydalı olduysa, lütfen GitHub'da yıldız (⭐) vermeyi unutmayın!
+
+---
+
+<p align="center">
+  <strong>İzmir 🇹🇷</strong>
+</p>
+
