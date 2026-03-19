@@ -119,11 +119,18 @@ const Header = ({
                                     : 'bg-white border-slate-200 text-slate-700'
                             )}
                         >
-                            {mapRegistry.map((map) => (
-                                <option key={map.id} value={map.id}>
-                                    {map.category} • {map.title}
-                                </option>
-                            ))}
+                            {Array.from(new Map(mapRegistry.map(map => [map.category, map])).entries()).map(([category]) => {
+                                const mapsInCategory = mapRegistry.filter(map => map.category === category);
+                                return (
+                                    <optgroup key={category} label={category}>
+                                        {mapsInCategory.map((map) => (
+                                            <option key={map.id} value={map.id}>
+                                                {map.title}
+                                            </option>
+                                        ))}
+                                    </optgroup>
+                                );
+                            })}
                         </select>
                         <svg
                             className={clsx(
