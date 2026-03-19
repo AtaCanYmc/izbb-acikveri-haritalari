@@ -126,6 +126,52 @@ npm test
 | `npm test -- --run` | Testleri tek kez çalıştır |
 | `npm run type-check` | TypeScript checking |
 
+## 🔄 CI/CD Pipeline
+
+Proje GitHub Actions ile otomatik olarak test edilip GitHub Pages'e deploy edilmektedir.
+
+### Pipeline Akışı
+
+#### 1. Code Quality Workflow (`quality.yml`)
+Her push ve pull request'te çalışır:
+- ✅ **ESLint** - Kod kalitesi kontrolü
+- ✅ **TypeScript** - Type checking
+- ✅ **Unit Tests** - 43+ test çalıştırılır
+- ✅ **Build Check** - Production build test edilir
+
+#### 2. Deploy Workflow (`deploy.yml`)
+Main/master branch'e push edildiğinde:
+- ✅ Bağımlılıkları yükle
+- ✅ Linting, type check, test çalıştır
+- ✅ Production build oluştur
+- ✅ GitHub Pages'e otomatik deploy
+
+### Workflow Dosyaları
+
+```
+.github/workflows/
+├── quality.yml    # Kod kalitesi kontrolleri
+└── deploy.yml     # Build ve deployment
+```
+
+### GitHub Pages Konfigürasyonu
+
+Repo settings'de yapılması gerekenler:
+
+1. **Pages Settings**
+   - Source: `GitHub Actions`
+   - Branch: Otomatik (deploy workflow kullanıyor)
+
+2. **Environments**
+   - `github-pages` environment'ı otomatik oluşturuluyor
+
+### Deployment Durumu
+
+GitHub repository'de Actions sekmesinden pipeline durumunu takip edebilirsiniz:
+- 🟢 **Success:** Kod başarıyla deploy edildi
+- 🔴 **Failed:** Bir adım başarısız oldu (kontrol et)
+- 🟡 **In Progress:** Şu anda çalışıyor
+
 ## 🧪 Testler
 
 Proje **43+ unit test** ile test edilmektedir:
