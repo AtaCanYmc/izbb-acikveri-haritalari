@@ -7,6 +7,7 @@ import {createGoogleMapsUrl, createPhoneUrl} from "../utils/mapLinks.ts";
 import {buildMapPointId, createMapPoint, isValidCoordinate} from "../utils/mapPointBuilders.ts";
 import {izmirOpenDataClient} from "./izmirOpenDataClient.ts";
 
+
 const createRouteAction = (latitude: number, longitude: number) => ({
     id: 'route',
     label: 'Yol Tarifi',
@@ -187,18 +188,22 @@ export const loadFerryPorts = async () => {
 
         // Vapur API'si doğrudan iskele listesi döndürüyor
         // Bunu DefaultOnemliYer formatına çevirmeliyiz
-        const onemliYerList = iskeles.map((iskele: any) => ({
-            ADI: iskele.ADI || iskele.name || 'Bilinmiyor',
-            ILCE: iskele.ILCE || iskele.ilce || 'Bilinmiyor',
-            MAHALLE: iskele.MAHALLE || iskele.mahalle || 'Bilinmiyor',
-            ILCEID: iskele.ILCEID || 0,
-            MAHALLEID: iskele.MAHALLEID || 0,
-            ACIKLAMA: iskele.ACIKLAMA || iskele.aciklama || '',
-            ENLEM: Number.parseFloat(iskele.ENLEM || iskele.latitude || 0),
-            BOYLAM: Number.parseFloat(iskele.BOYLAM || iskele.longitude || 0),
-            YOL: iskele.YOL || iskele.yol || 'Bilinmiyor',
-            KAPINO: iskele.KAPINO || iskele.kapino || 'Bilinmiyor',
-        })) as DefaultOnemliYer[];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const onemliYerList = iskeles.map((iskele: any) => {
+            const item: DefaultOnemliYer = {
+                ADI: (iskele.ADI as string) || (iskele.name as string) || 'Bilinmiyor',
+                ILCE: (iskele.ILCE as string) || (iskele.ilce as string) || 'Bilinmiyor',
+                MAHALLE: (iskele.MAHALLE as string) || (iskele.mahalle as string) || 'Bilinmiyor',
+                ILCEID: String(iskele.ILCEID || 0),
+                MAHALLEID: String(iskele.MAHALLEID || 0),
+                ACIKLAMA: (iskele.ACIKLAMA as string) || (iskele.aciklama as string) || '',
+                ENLEM: Number.parseFloat(String(iskele.ENLEM || iskele.latitude || 0)),
+                BOYLAM: Number.parseFloat(String(iskele.BOYLAM || iskele.longitude || 0)),
+                YOL: (iskele.YOL as string) || (iskele.yol as string) || 'Bilinmiyor',
+                KAPINO: (iskele.KAPINO as string) || (iskele.kapino as string) || 'Bilinmiyor',
+            };
+            return item;
+        });
 
         return mapOnemliYerCollection('vapur', onemliYerList);
     } catch (error) {
