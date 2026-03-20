@@ -1,4 +1,4 @@
-import {X, Image, FileJson, FileText, MapPin} from 'lucide-react';
+import {X, Image, FileJson, FileText, MapPin, FileCode} from 'lucide-react';
 import {toast} from 'react-hot-toast';
 import clsx from 'clsx';
 import type {MapPoint} from '../types/mapData.ts';
@@ -127,6 +127,105 @@ export const DownloadModal = ({
         }
     };
 
+    const handleDownloadHTML = () => {
+        try {
+            if (mapPoints.length === 0) {
+                toast.error('İndirilecek veri yok');
+                return;
+            }
+
+            // Leaflet harita HTML'i oluştur
+            const html = `<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${mapTitle} - İzmir Açık Veri Haritası</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif; }
+        #map { width: 100vw; height: 100vh; }
+        .info { padding: 6px 8px; background: white; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        .info h4 { margin: 0 0 5px 0; color: #dc2626; font-weight: 600; }
+        .info p { margin: 3px 0; font-size: 13px; color: #666; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+    <script>
+        // Harita oluştur
+        const map = L.map('map').setView([38.4237, 27.1428], 11);
+        
+        // Tile layer ekle
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Marker cluster grubu oluştur
+        const markerClusterGroup = L.markerClusterGroup();
+
+        // Veri noktaları
+        const points = ${JSON.stringify(mapPoints)};
+
+        // Marker'ları ekle
+        points.forEach(point => {
+            if (point.latitude && point.longitude) {
+                const marker = L.marker([point.latitude, point.longitude]);
+                
+                const popupContent = \`
+                    <div style="min-width: 200px;">
+                        <h4 style="margin: 0 0 8px 0; color: #dc2626; font-weight: 600;">\${point.title || 'İsim Yok'}</h4>
+                        <p style="margin: 4px 0; font-size: 12px; color: #666;"><strong>Açıklama:</strong> \${point.subtitle || '-'}</p>
+                        \${point.description ? \`<p style="margin: 4px 0; font-size: 12px; color: #666;"><strong>Detay:</strong> \${point.description}</strong></p>\` : ''}
+                        \${point.badge ? \`<p style="margin: 4px 0; font-size: 12px;"><span style="background: #fee2e2; color: #dc2626; padding: 2px 6px; border-radius: 4px;">\${point.badge}</span></p>\` : ''}
+                    </div>
+                \`;
+                
+                marker.bindPopup(popupContent);
+                markerClusterGroup.addLayer(marker);
+            }
+        });
+
+        map.addLayer(markerClusterGroup);
+
+        // Info paneli ekle
+        const info = L.control();
+        info.onAdd = () => {
+            const div = L.DomUtil.create('div', 'info');
+            div.innerHTML = \`
+                <h4>${mapTitle}</h4>
+                <p><strong>\${points.length}</strong> konum</p>
+                <p style="font-size: 11px; margin-top: 8px; color: #999;">İzmir Açık Veri Haritası</p>
+            \`;
+            return div;
+        };
+        info.addTo(map);
+    </script>
+</body>
+</html>`;
+
+            const blob = new Blob([html], {type: 'text/html;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${mapTitle.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.html`;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            toast.success('HTML harita başarıyla indirildi!');
+            onClose();
+        } catch (error) {
+            console.error('HTML indirme hatası:', error);
+            toast.error('HTML indirme hatası.');
+        }
+    };
+
     const handleDownloadPNG = async () => {
         await onDownloadPNG();
         onClose();
@@ -168,6 +267,15 @@ export const DownloadModal = ({
             color: 'text-purple-600 dark:text-purple-400',
             bgColor: 'bg-purple-50 dark:bg-purple-950',
             onClick: handleDownloadGeoJSON,
+        },
+        {
+            id: 'html',
+            label: 'İnteraktif Harita (HTML)',
+            description: 'Tarayıcıda açılabilen harita indir',
+            icon: FileCode,
+            color: 'text-orange-600 dark:text-orange-400',
+            bgColor: 'bg-orange-50 dark:bg-orange-950',
+            onClick: handleDownloadHTML,
         },
     ];
 
