@@ -41,7 +41,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                                 İzmir Açık Veri Haritaları
                             </h1>
                             <p className={clsx(
-                                'text-slate-600 dark:text-slate-400',
+                                'text-slate-600',
                                 isDarkMode ? 'text-slate-400' : 'text-slate-600'
                             )}>
                                 İzmir Büyükşehir Belediyesi'nin açık verilerini harita üzerinde keşfedin
@@ -78,7 +78,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
                     <div className={clsx(
                         'p-6 rounded-2xl border',
-                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
                     )}>
                         <div className="flex items-center gap-3 mb-3">
                             <div className={clsx(
@@ -94,7 +94,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
 
                     <div className={clsx(
                         'p-6 rounded-2xl border',
-                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
                     )}>
                         <div className="flex items-center gap-3 mb-3">
                             <div className={clsx(
@@ -110,7 +110,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
 
                     <div className={clsx(
                         'p-6 rounded-2xl border',
-                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+                        isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
                     )}>
                         <div className="flex items-center gap-3 mb-3">
                             <div className={clsx(
@@ -199,7 +199,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                 {/* Footer Info */}
                 <div className={clsx(
                     'mt-16 p-8 rounded-2xl border',
-                    isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'
+                    isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
                 )}>
                     <h3 className={clsx(
                         'font-bold mb-3',

@@ -218,6 +218,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                     isVisible={isLocationWarningVisible}
                     onClose={() => setShowLocationWarning(false)}
                     onRetry={handleRetryLocationPermission}
+                    isDarkMode={isDarkMode}
                 />
             </main>
 
