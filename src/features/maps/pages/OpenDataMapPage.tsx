@@ -97,7 +97,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             return;
         }
 
-        const loadingToast = toast.loading('Harita PNG olarak indiriliyor...');
+        const loadingToast = toast.loading('Harita indiriliyor...');
 
         try {
             // Leaflet container'ını bul
@@ -136,11 +136,11 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             link.click();
 
             toast.dismiss(loadingToast);
-            toast.success('Harita PNG olarak başarıyla indirildi!');
+            toast.success('Harita başarıyla indirildi!');
         } catch (error) {
-            console.error('Harita PNG indirme hatası:', error);
+            console.error('Harita indirme hatası:', error);
             toast.dismiss(loadingToast);
-            toast.error('Harita PNG indirme hatası. Lütfen tekrar deneyiniz.');
+            toast.error('Harita indirme hatası. Lütfen tekrar deneyiniz.');
         }
     };
 

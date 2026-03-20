@@ -85,7 +85,7 @@ const Header = ({
                                 ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
                                 : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
                         )}
-                        title="Haritayı PNG olarak indir"
+                        title="Haritayı indir"
                     >
                         <Download size={20}/>
                     </button>

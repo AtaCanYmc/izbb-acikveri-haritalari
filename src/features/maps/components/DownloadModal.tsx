@@ -283,31 +283,46 @@ export const DownloadModal = ({
         <>
             {/* Backdrop */}
             <div
-                className="fixed inset-0 z-[2000] bg-black/40 backdrop-blur-sm"
+                className={clsx(
+                    'fixed inset-0 z-[2000] backdrop-blur-sm',
+                    isDarkMode ? 'bg-black/50' : 'bg-black/40'
+                )}
                 onClick={onClose}
             />
 
             {/* Modal */}
             <div className="fixed inset-0 z-[2001] flex items-center justify-center p-4">
-                <div className={`
-                    bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 w-full max-w-md
-                    border border-slate-200 dark:border-slate-700
-                    animate-in fade-in zoom-in-95 duration-200
-                `}>
+                <div className={clsx(
+                    'rounded-2xl shadow-2xl p-8 w-full max-w-md animate-in fade-in zoom-in-95 duration-200 border',
+                    isDarkMode
+                        ? 'bg-slate-800 border-slate-700'
+                        : 'bg-white border-slate-200'
+                )}>
                     {/* Header */}
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                        <h2 className={clsx(
+                            'text-2xl font-bold',
+                            isDarkMode ? 'text-slate-100' : 'text-slate-900'
+                        )}>
                             İndirme Formatı Seç
                         </h2>
                         <button
                             onClick={onClose}
-                            className="h-10 w-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center justify-center transition-colors"
+                            className={clsx(
+                                'h-10 w-10 rounded-full flex items-center justify-center transition-colors',
+                                isDarkMode
+                                    ? 'hover:bg-slate-700 text-slate-500'
+                                    : 'hover:bg-slate-100 text-slate-400'
+                            )}
                         >
-                            <X size={24} className="text-slate-400 dark:text-slate-500" />
+                            <X size={24} className={isDarkMode ? 'dark:text-slate-500' : 'text-slate-400'} />
                         </button>
                     </div>
 
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+                    <p className={clsx(
+                        'text-sm mb-6',
+                        isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                    )}>
                         Harita ve verilerinizi istediğiniz formatta indirebilirsiniz.
                     </p>
 
@@ -329,7 +344,9 @@ export const DownloadModal = ({
                                     <div className="flex items-start gap-3">
                                         <div className={clsx(
                                             'p-2 rounded-lg group-hover:scale-110 transition-transform',
-                                            isDarkMode ? option.bgColor.replace('50', '950') : option.bgColor
+                                            isDarkMode
+                                                ? option.bgColor.replace('50', '950')
+                                                : option.bgColor
                                         )}>
                                             <Icon size={24} className={option.color} />
                                         </div>
