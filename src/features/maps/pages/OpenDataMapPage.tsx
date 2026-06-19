@@ -5,11 +5,12 @@ import clsx from 'clsx';
 import html2canvas from 'html2canvas';
 import {HomePage} from '../components/HomePage.tsx';
 import {DownloadModal} from '../components/DownloadModal.tsx';
+import {DeveloperDocsModal} from '../../../components/DeveloperDocsModal.tsx';
 import {OpenDataMap} from '../components/OpenDataMap.tsx';
 import {LocationPermissionWarning} from '../components/LocationPermissionWarning.tsx';
 import {OpenDataSidebar} from '../components/OpenDataSidebar.tsx';
 import {SelectedPointCard} from '../components/SelectedPointCard.tsx';
-import {useDocumentMetadata} from '../hooks/useDocumentMetadata.ts';
+import {SEOMetadata} from '../../../components/SEOMetadata.tsx';
 import {useMapQueryParam} from '../hooks/useMapQueryParam.ts';
 import {useOpenDataMapPage} from '../hooks/useOpenDataMapPage.ts';
 
@@ -64,6 +65,7 @@ const LoadingOverlay = ({isVisible, isDarkMode}: { isVisible: boolean; isDarkMod
 export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }: { isDarkMode?: boolean; onToggleTheme?: () => void }) => {
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+    const [isDeveloperDocsOpen, setIsDeveloperDocsOpen] = useState(false);
     const {activeMap, activeMapId, setMapId} = useMapQueryParam();
     const mapDefinition = activeMap;
     const {
@@ -80,12 +82,6 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         setShowLocationWarning,
         handleRetryLocationPermission,
     } = useOpenDataMapPage(mapDefinition);
-
-    useDocumentMetadata({
-        title: mapDefinition ? `${mapDefinition.title} | İzmir Açık Veri Haritası` : 'İzmir Açık Veri Haritaları',
-        description: mapDefinition?.description || 'İzmir Büyükşehir Belediyesi\'nin açık verilerini harita üzerinde keşfedin',
-        keywords: mapDefinition ? `izmir açık veri, ${mapDefinition.title.toLocaleLowerCase('tr-TR')}, harita, api` : 'izmir açık veri, harita',
-    });
 
     const handleOpenDownloadModal = () => {
         setIsDownloadModalOpen(true);
@@ -148,6 +144,11 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
     if (!mapDefinition) {
         return (
             <>
+                <SEOMetadata 
+                    title="İzmir Açık Veri Haritaları" 
+                    description="İzmir Büyükşehir Belediyesi'nin açık verilerini harita üzerinde keşfedin"
+                    keywords="izmir açık veri, harita"
+                />
                 <Toaster />
                 <HomePage
                     onSelectMap={(mapId) => setMapId(mapId)}
@@ -165,6 +166,11 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
 
     return (
         <div className="flex h-[100dvh] w-full overflow-hidden bg-white relative font-sans">
+            <SEOMetadata 
+                title={`${mapDef.title} | İzmir Açık Veri Haritası`}
+                description={mapDef.description || 'İzmir Büyükşehir Belediyesi\'nin açık verilerini harita üzerinde keşfedin'}
+                keywords={`izmir açık veri, ${mapDef.title.toLocaleLowerCase('tr-TR')}, harita, api`}
+            />
             <Toaster/>
 
             <SidebarToggleButton
@@ -188,6 +194,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 isDarkMode={isDarkMode}
                 onToggleTheme={onToggleTheme}
                 onDownload={handleOpenDownloadModal}
+                onOpenDeveloperDocs={() => setIsDeveloperDocsOpen(true)}
             />
 
             <div
@@ -229,6 +236,12 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 mapPoints={points}
                 isDarkMode={isDarkMode}
                 onDownloadPNG={handleDownloadPNG}
+            />
+
+            <DeveloperDocsModal
+                isOpen={isDeveloperDocsOpen}
+                onClose={() => setIsDeveloperDocsOpen(false)}
+                isDarkMode={isDarkMode}
             />
         </div>
     );

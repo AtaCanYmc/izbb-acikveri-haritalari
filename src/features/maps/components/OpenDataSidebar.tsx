@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {Download} from 'lucide-react';
+import {Download, Code} from 'lucide-react';
 import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import type {MapDefinition, MapPoint} from '../types/mapData.ts';
@@ -19,6 +19,7 @@ interface OpenDataSidebarProps {
     isDarkMode: boolean;
     onToggleTheme: () => void;
     onDownload: () => void;
+    onOpenDeveloperDocs: () => void;
 }
 
 const Header = ({
@@ -30,10 +31,12 @@ const Header = ({
                     isDarkMode,
                     onToggleTheme,
                     onDownload,
+                    onOpenDeveloperDocs,
                 }: Pick<OpenDataSidebarProps, 'mapDefinition' | 'activeMapId' | 'searchTerm' | 'onMapChange' | 'onSearchChange'> & {
     isDarkMode: boolean;
     onToggleTheme: () => void;
-    onDownload: () => void
+    onDownload: () => void;
+    onOpenDeveloperDocs: () => void;
 }) => {
     return (
         <div className={clsx(
@@ -74,6 +77,20 @@ const Header = ({
                                 <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
                             </svg>
                         )}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={onOpenDeveloperDocs}
+                        aria-label="Geliştiriciler İçin"
+                        className={clsx(
+                            'h-8 w-8 shrink-0 rounded-full border transition-colors inline-flex items-center justify-center',
+                            isDarkMode
+                                ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+                                : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
+                        )}
+                        title="Geliştiriciler İçin"
+                    >
+                        <Code size={20}/>
                     </button>
                     <button
                         type="button"
@@ -296,7 +313,8 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
         isSidebarOpen,
         isDarkMode,
         onToggleTheme,
-        onDownload
+        onDownload,
+        onOpenDeveloperDocs
     } = props;
 
     // Force reflow when dark mode changes to ensure Tailwind classes are applied
@@ -324,6 +342,7 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
                     isDarkMode={isDarkMode}
                     onToggleTheme={onToggleTheme}
                     onDownload={onDownload}
+                    onOpenDeveloperDocs={onOpenDeveloperDocs}
                 />
                 <PointsList
                     mapDefinition={mapDefinition}

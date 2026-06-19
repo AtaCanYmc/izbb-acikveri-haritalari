@@ -59,7 +59,11 @@ export const useOpenDataMapPage = (mapDefinition: MapDefinition | null) => {
     useEffect(() => {
         setSearchTerm('');
         setSelectedPoint(null);
-    }, [mapDefinition?.id]);
+        
+        if (mapDefinition?.id && typeof window !== 'undefined' && window.plausible) {
+            window.plausible('map_view', { props: { mapId: mapDefinition.id, mapTitle: mapDefinition.title } });
+        }
+    }, [mapDefinition?.id, mapDefinition?.title]);
 
     const filteredPoints = useMemo(() => {
         return points.filter((point) => matchesSearch(point, searchTerm));
