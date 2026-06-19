@@ -66,6 +66,7 @@ ICONS.metro = ICONS.tren;
 ICONS.tramvay = ICONS.tren;
 ICONS.bisim = ICONS.bisiklet;
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const getMapIcon = (type: string, isSelected: boolean) => {
     const iconSvg = ICONS[type.toLowerCase()];
     if (iconSvg) {
@@ -74,4 +75,5 @@ export const getMapIcon = (type: string, isSelected: boolean) => {
     return isSelected ? SelectedIcon : DefaultIcon;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export {userIcon, DefaultIcon, SelectedIcon};

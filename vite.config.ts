@@ -8,7 +8,7 @@ export default defineConfig({
         react(),
         VitePWA({
             registerType: 'autoUpdate',
-            includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+            includeAssets: ['favicon/favicon.ico', 'favicon/apple-touch-icon.png', 'favicon/mask-icon.svg'],
             manifest: {
                 name: 'İzmir Açık Veri Haritaları',
                 short_name: 'İzmir Haritaları',
@@ -20,13 +20,13 @@ export default defineConfig({
                 start_url: '/izbb-acikveri-haritalari/',
                 icons: [
                     {
-                        src: 'web-app-manifest-192x192.png',
+                        src: 'favicon/web-app-manifest-192x192.png',
                         sizes: '192x192',
                         type: 'image/png',
                         purpose: 'any'
                     },
                     {
-                        src: 'web-app-manifest-512x512.png',
+                        src: 'favicon/web-app-manifest-512x512.png',
                         sizes: '512x512',
                         type: 'image/png',
                         purpose: 'any'
@@ -35,7 +35,7 @@ export default defineConfig({
                 categories: ['maps', 'utilities', 'productivity'],
                 screenshots: [
                     {
-                        src: 'web-app-manifest-512x512.png',
+                        src: 'favicon/web-app-manifest-512x512.png',
                         sizes: '512x512',
                         type: 'image/png',
                         form_factor: 'wide'
