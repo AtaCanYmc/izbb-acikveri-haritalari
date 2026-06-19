@@ -1,5 +1,6 @@
 export interface MapPoint {
     id: string;
+    type: string;
     title: string;
     subtitle?: string;
     description?: string;

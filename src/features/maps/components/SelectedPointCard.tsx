@@ -50,7 +50,7 @@ export const SelectedPointCard = ({point, onClose, isDarkMode}: SelectedPointCar
                             rel={action.external ? 'noreferrer' : undefined}
                             className={clsx(
                                 'flex-1 text-white text-center py-3 rounded-xl font-bold text-xs',
-                                isDarkMode ? 'bg-red-600' : 'bg-slate-900'
+                                isDarkMode ? 'bg-izmir-600' : 'bg-slate-900'
                             )}
                         >
                             {action.label}

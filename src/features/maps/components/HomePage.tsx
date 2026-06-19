@@ -143,16 +143,16 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                                     className={clsx(
                                         'p-6 rounded-2xl border transition-all duration-200 text-left group',
                                         isDarkMode
-                                            ? 'bg-slate-800 border-slate-700 hover:border-red-500'
-                                            : 'bg-white border-slate-200 hover:border-red-500 hover:shadow-lg'
+                                            ? 'bg-slate-800 border-slate-700 hover:border-izmir-500'
+                                            : 'bg-white border-slate-200 hover:border-izmir-500 hover:shadow-lg'
                                     )}
                                 >
                                     <div className="mb-4">
                                         <h3 className={clsx(
                                             'text-lg font-bold transition-colors',
                                             isDarkMode
-                                                ? 'text-white group-hover:text-red-400'
-                                                : 'text-slate-900 group-hover:text-red-600'
+                                                ? 'text-white group-hover:text-izmir-400'
+                                                : 'text-slate-900 group-hover:text-izmir-600'
                                         )}>
                                             {map.title}
                                         </h3>
@@ -180,8 +180,8 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                                         </span>
                                         <svg
                                             className={clsx(
-                                                'w-5 h-5 text-red-600 group-hover:translate-x-1 transition-transform',
-                                                isDarkMode ? 'text-red-400' : 'text-red-600'
+                                                'w-5 h-5 text-izmir-600 group-hover:translate-x-1 transition-transform',
+                                                isDarkMode ? 'text-izmir-400' : 'text-izmir-600'
                                             )}
                                             fill="none"
                                             viewBox="0 0 24 24"

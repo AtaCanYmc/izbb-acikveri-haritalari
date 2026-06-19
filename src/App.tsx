@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {OpenDataMapPage} from "./features/maps/pages/OpenDataMapPage.tsx";
+import {PwaInstallPrompt} from "./components/PwaInstallPrompt.tsx";
 
 function App() {
     const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -30,7 +31,12 @@ function App() {
         setIsDarkMode((prev) => !prev);
     };
 
-    return <OpenDataMapPage isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />;
+    return (
+        <>
+            <OpenDataMapPage isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
+            <PwaInstallPrompt isDarkMode={isDarkMode} />
+        </>
+    );
 }
 
 export default App

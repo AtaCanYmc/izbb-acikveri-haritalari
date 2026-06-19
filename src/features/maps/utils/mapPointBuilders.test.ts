@@ -6,6 +6,7 @@ describe('mapPointBuilders', () => {
     it('should create a map point with required fields', () => {
       const input = {
         id: 'test-1',
+        type: 'test',
         title: 'Test Location',
         latitude: 38.4237,
         longitude: 27.1428,
@@ -22,6 +23,7 @@ describe('mapPointBuilders', () => {
     it('should include optional fields when provided', () => {
       const input = {
         id: 'test-2',
+        type: 'test',
         title: 'Test Location',
         latitude: 38.4237,
         longitude: 27.1428,
@@ -51,6 +53,7 @@ describe('mapPointBuilders', () => {
     it('should provide empty arrays for optional fields when not provided', () => {
       const input = {
         id: 'test-3',
+        type: 'test',
         title: 'Test Location',
         latitude: 38.4237,
         longitude: 27.1428,
@@ -65,6 +68,7 @@ describe('mapPointBuilders', () => {
     it('should preserve all coordinate precision', () => {
       const input = {
         id: 'test-5',
+        type: 'test',
         title: 'Test Location',
         latitude: 38.42370123456789,
         longitude: 27.14285678901234,

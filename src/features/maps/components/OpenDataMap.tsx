@@ -5,10 +5,11 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
-import {DefaultIcon, SelectedIcon, userIcon} from '../../../components/map/mapIcons.tsx';
+import {getMapIcon, userIcon} from '../../../components/map/mapIcons.tsx';
 import type {MapPoint} from '../types/mapData.ts';
 
-L.Marker.prototype.options.icon = DefaultIcon;
+// Default icon is no longer globally set to avoid overriding custom icons
+// L.Marker.prototype.options.icon = DefaultIcon;
 
 const IZMIR_CENTER: [number, number] = [38.4237, 27.1428];
 
@@ -151,7 +152,7 @@ const ClusteredMarkers = ({
 
         points.forEach((point) => {
             const isSelected = selectedPoint?.id === point.id;
-            const icon = isSelected ? SelectedIcon : DefaultIcon;
+            const icon = getMapIcon(point.type, isSelected);
 
             const marker = L.marker([point.latitude, point.longitude], {icon});
 
@@ -172,7 +173,7 @@ const ClusteredMarkers = ({
                                 </div>
                             ` : ''}
                             ${point.detailLines.map((line) => `<div class="text-[10px] opacity-75">${line}</div>`).join('')}
-                            ${point.badge ? `<div class="flex justify-end"><span class="font-bold text-[9px] uppercase text-red-700">${point.badge}</span></div>` : ''}
+                            ${point.badge ? `<div class="flex justify-end"><span class="font-bold text-[9px] uppercase text-izmir-700">${point.badge}</span></div>` : ''}
                         </div>
                     </div>
                 `)

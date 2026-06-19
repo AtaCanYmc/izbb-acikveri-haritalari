@@ -2,6 +2,7 @@ import type {MapPoint, MapPointAction} from "../types/mapData.ts";
 
 interface BaseMapPointInput {
     id: string;
+    type: string;
     title: string;
     latitude: number;
     longitude: number;
@@ -15,6 +16,7 @@ interface BaseMapPointInput {
 export const createMapPoint = (input: BaseMapPointInput): MapPoint => {
     return {
         id: input.id,
+        type: input.type,
         title: input.title,
         subtitle: input.subtitle,
         description: input.description,

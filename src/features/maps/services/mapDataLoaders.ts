@@ -48,6 +48,7 @@ const mapEczane = (eczane: Eczane): MapPoint | null => {
 
     return createMapPoint({
         id: buildMapPointId('eczane', eczane.Adi, latitude, longitude),
+        type: 'eczane',
         title: eczane.Adi,
         subtitle: eczane.Adres,
         description: eczane.BolgeAciklama,
@@ -71,6 +72,7 @@ const mapOtopark = (otopark: OtoparkBilgisi): MapPoint | null => {
 
     return createMapPoint({
         id: buildMapPointId('otopark', otopark.ufid, otopark.lng, otopark.lat),
+        type: 'otopark',
         title: otopark.name,
         subtitle: `${otopark.provider} • ${otopark.type}`,
         description: otopark.nonstop ? '24 saat açık' : 'Çalışma saati bilgisi mevcut',
@@ -94,6 +96,7 @@ const mapOnemliYer = (prefix: string, point: DefaultOnemliYer): MapPoint | null 
 
     return createMapPoint({
         id: buildMapPointId(prefix, point.ADI, point.ENLEM, point.BOYLAM),
+        type: prefix,
         title: point.ADI,
         subtitle: `${point.ILCE} / ${point.MAHALLE}`,
         description: point.ACIKLAMA,

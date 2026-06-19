@@ -20,7 +20,7 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
                 onClick={() => setIsExpanded(!isExpanded)}
                 className={clsx(
                     'w-full py-2 flex items-center justify-center transition-colors',
-                    isDarkMode ? 'text-slate-500 hover:text-red-400' : 'text-slate-400 hover:text-red-500'
+                    isDarkMode ? 'text-slate-500 hover:text-izmir-400' : 'text-slate-400 hover:text-izmir-500'
                 )}
             >
                 {isExpanded ? <ChevronDown size={20}/> : <ChevronUp size={20}/>}
@@ -40,7 +40,7 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
                 )}>
                     {/* Proje Bilgisi */}
                     <div>
-                        <h3 className="text-[13px] text-red-600 font-medium tracking-wide mb-1">İzmir Açık Veri Haritası</h3>
+                        <h3 className="text-[13px] text-izmir-600 font-medium tracking-wide mb-1">İzmir Açık Veri Haritası</h3>
                         <p className={clsx(
                             'text-[11px] font-medium tracking-wide',
                             isDarkMode ? 'text-slate-400' : ''
@@ -56,7 +56,7 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
 
                     {/* Veri Kaynağı */}
                     <div>
-                        <h3 className="text-[13px] text-red-600 font-medium tracking-wide mb-1">Veri Kaynağı</h3>
+                        <h3 className="text-[13px] text-izmir-600 font-medium tracking-wide mb-1">Veri Kaynağı</h3>
                         <p className={clsx(
                             'text-[11px] font-medium tracking-wide mb-1',
                             isDarkMode ? 'text-slate-400' : ''
@@ -86,8 +86,8 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
                             className={clsx(
                                 'text-[8px] font-bold transition-colors underline decoration-offset-4',
                                 isDarkMode
-                                    ? 'text-slate-300 hover:text-red-400'
-                                    : 'text-slate-900 hover:text-red-600 decoration-slate-200'
+                                    ? 'text-slate-300 hover:text-izmir-400'
+                                    : 'text-slate-900 hover:text-izmir-600 decoration-slate-200'
                             )}
                         >
                             Ata Can Yaymacı
@@ -124,7 +124,7 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
                             <span>{currentYear}</span>
                             <span>•</span>
                             <span>İzmir</span>
-                            <Heart size={10} className="text-red-500 fill-red-500"/>
+                            <Heart size={10} className="text-izmir-500 fill-izmir-500"/>
                         </div>
                     </div>
                 </div>

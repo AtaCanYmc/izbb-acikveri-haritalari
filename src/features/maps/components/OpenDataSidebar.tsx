@@ -42,7 +42,7 @@ const Header = ({
         )}>
             <div className="flex flex-row items-center justify-between gap-4">
                 <div className="text-left ml-1">
-                    <h1 className="text-2xl font-black text-red-600 tracking-tighter">İzmir Açık Veri
+                    <h1 className="text-2xl font-black text-izmir-600 tracking-tighter">İzmir Açık Veri
                         Harita</h1>
                     <p className={clsx(
                         'text-[10px] font-bold uppercase tracking-[0.2em] mt-1',
@@ -113,7 +113,7 @@ const Header = ({
                             value={activeMapId}
                             onChange={(event) => onMapChange(event.target.value)}
                             className={clsx(
-                                'w-full appearance-none px-4 py-3 pr-10 border rounded-xl text-sm font-medium focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all',
+                                'w-full appearance-none px-4 py-3 pr-10 border rounded-xl text-sm font-medium focus:ring-2 focus:ring-izmir-500 focus:border-izmir-500 outline-none transition-all',
                                 isDarkMode
                                     ? 'bg-slate-900 border-slate-700 text-slate-200'
                                     : 'bg-white border-slate-200 text-slate-700'
@@ -161,7 +161,7 @@ const Header = ({
                         type="text"
                         placeholder={mapDefinition.searchPlaceholder}
                         className={clsx(
-                            'w-full px-4 py-3 border rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all',
+                            'w-full px-4 py-3 border rounded-xl text-sm focus:ring-2 focus:ring-izmir-500 focus:border-izmir-500 outline-none transition-all',
                             isDarkMode
                                 ? 'bg-slate-900 border-slate-700 text-slate-200 placeholder:text-slate-500'
                                 : 'bg-white border-slate-200 text-slate-700 placeholder:text-slate-400'
@@ -218,8 +218,8 @@ const PointCard = ({point, isSelected, onSelectPoint, isDarkMode}: {
         'p-4 rounded-2xl border transition-all duration-200 cursor-pointer',
         isSelected
             ? isDarkMode
-                ? 'border-red-500 bg-slate-800 shadow-md ring-1 ring-red-500/20'
-                : 'border-red-500 bg-white shadow-md ring-1 ring-red-500/20'
+                ? 'border-izmir-500 bg-slate-800 shadow-md ring-1 ring-izmir-500/20'
+                : 'border-izmir-500 bg-white shadow-md ring-1 ring-izmir-500/20'
             : isDarkMode
                 ? 'border-transparent bg-slate-800 hover:border-slate-700 shadow-sm'
                 : 'border-transparent bg-white hover:border-slate-200 shadow-sm'
@@ -239,7 +239,7 @@ const PointCard = ({point, isSelected, onSelectPoint, isDarkMode}: {
                     )}>{point.badge}</span>
                 )}
                 {point.actions?.[0] && (
-                    <span className={clsx('text-xs font-bold', isDarkMode ? 'text-red-400' : 'text-red-600')}>{point.actions[0].label}</span>
+                    <span className={clsx('text-xs font-bold', isDarkMode ? 'text-izmir-400' : 'text-izmir-600')}>{point.actions[0].label}</span>
                 )}
             </div>
         </div>

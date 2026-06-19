@@ -18,8 +18,8 @@ export const LocationPermissionWarning = ({isVisible, onClose, onRetry, isDarkMo
             <div className={clsx(
                 'backdrop-blur-md p-5 rounded-[2rem] shadow-2xl relative group transition-colors border',
                 isDarkMode
-                    ? 'bg-slate-800/95 border-red-900'
-                    : 'bg-white/95 border-red-200'
+                    ? 'bg-slate-800/95 border-izmir-900'
+                    : 'bg-white/95 border-izmir-200'
             )}>
                 <button
                     onClick={onClose}
@@ -36,7 +36,7 @@ export const LocationPermissionWarning = ({isVisible, onClose, onRetry, isDarkMo
                 <div className="flex items-start gap-4 pr-6">
                     <div className={clsx(
                         'p-3 rounded-2xl',
-                        isDarkMode ? 'bg-red-950 text-red-400' : 'bg-red-100 text-red-600'
+                        isDarkMode ? 'bg-izmir-950 text-izmir-400' : 'bg-izmir-100 text-izmir-600'
                     )}>
                         <MapPinOff size={24}/>
                     </div>
@@ -76,8 +76,8 @@ export const LocationPermissionWarning = ({isVisible, onClose, onRetry, isDarkMo
                     className={clsx(
                         'w-full mt-3 py-2 text-[10px] font-bold rounded-xl transition-colors',
                         isDarkMode
-                            ? 'text-red-400 bg-red-950 hover:bg-red-900'
-                            : 'text-red-700 bg-red-100 hover:bg-red-200'
+                            ? 'text-izmir-400 bg-izmir-950 hover:bg-izmir-900'
+                            : 'text-izmir-700 bg-izmir-100 hover:bg-izmir-200'
                     )}
                 >
                     Ayarları Tamamladım, Tekrar Dene

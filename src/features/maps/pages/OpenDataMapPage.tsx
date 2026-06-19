@@ -19,7 +19,7 @@ const SidebarToggleButton = ({isSidebarOpen, onToggle, isMobile, isDarkMode}: { 
             <button
                 onClick={onToggle}
                 className={clsx(
-                    'md:hidden absolute top-4 right-4 z-[9999] p-3 rounded-2xl shadow-xl border text-red-600 transition-colors',
+                    'md:hidden absolute top-4 right-4 z-[9999] p-3 rounded-2xl shadow-xl border text-izmir-600 transition-colors',
                     isDarkMode
                         ? 'bg-slate-800 border-slate-700 hover:bg-slate-700'
                         : 'bg-white border-slate-100 hover:bg-slate-50'
@@ -34,7 +34,7 @@ const SidebarToggleButton = ({isSidebarOpen, onToggle, isMobile, isDarkMode}: { 
         <button
             onClick={onToggle}
             className={clsx(
-                'absolute top-4 z-[1002] p-3 rounded-2xl shadow-xl border text-red-600 transition-all duration-300 md:flex hidden',
+                'absolute top-4 z-[1002] p-3 rounded-2xl shadow-xl border text-izmir-600 transition-all duration-300 md:flex hidden',
                 isDarkMode
                     ? 'bg-slate-800 border-slate-700 hover:bg-slate-700'
                     : 'bg-white border-slate-100 hover:bg-slate-50',
@@ -56,7 +56,7 @@ const LoadingOverlay = ({isVisible, isDarkMode}: { isVisible: boolean; isDarkMod
             'absolute inset-0 z-[1001] backdrop-blur-sm flex items-center justify-center',
             isDarkMode ? 'bg-slate-950/60' : 'bg-white/60'
         )}>
-            <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-10 h-10 border-4 border-izmir-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
     );
 };

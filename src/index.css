@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-    --color-primary: #dc2626; /* Kırmızı rengimiz */
+    --color-primary: #0284c7; /* İzmir Deniz Mavisi */
 }
 
 :root {
