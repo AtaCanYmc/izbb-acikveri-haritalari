@@ -1,0 +1,9 @@
+/* TEAM */
+Developer: Ata Can Yaymacı
+Contact: hi@atacanyaymaci.com
+Site: https://www.izmirnobetcieczaneharitasi.live
+
+/* SITE */
+Last update: 2026/06/19
+Language: Turkish
+Tools: React, Vite, Tailwind CSS, Leaflet
