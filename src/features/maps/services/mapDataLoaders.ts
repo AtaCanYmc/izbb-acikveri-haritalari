@@ -1,12 +1,21 @@
 import type {Eczane} from "izmir-open-data-js/dist/endpoints/eczaneler";
 import type {OtoparkBilgisi} from "izmir-open-data-js/dist/endpoints/otopark";
 import type {DefaultOnemliYer} from "izmir-open-data-js/dist/common/types/onemliYer";
+import type {VapurIskele} from "izmir-open-data-js/dist/endpoints/vapur";
 import {formatDate} from "../../../utils/dateUtils.ts";
 import type {MapPoint, MapPointAction} from "../types/mapData.ts";
 import {createGoogleMapsUrl, createPhoneUrl} from "../utils/mapLinks.ts";
 import {buildMapPointId, createMapPoint, isValidCoordinate} from "../utils/mapPointBuilders.ts";
 import {izmirOpenDataClient} from "./izmirOpenDataClient.ts";
 
+const withErrorHandling = async <T>(loaderName: string, loaderFn: () => Promise<T>, fallback: T): Promise<T> => {
+    try {
+        return await loaderFn();
+    } catch (error) {
+        console.error(`[${loaderName}] Veri yükleme hatası:`, error instanceof Error ? error.message : error);
+        return fallback;
+    }
+};
 
 const createRouteAction = (latitude: number, longitude: number) => ({
     id: 'route',
@@ -107,8 +116,10 @@ const loadWrappedPoints = async (
     prefix: string,
     loader: () => Promise<{ onemliyer: DefaultOnemliYer[] }>,
 ) => {
-    const response = await loader();
-    return mapOnemliYerCollection(prefix, response.onemliyer);
+    return withErrorHandling(`loadWrappedPoints:${prefix}`, async () => {
+        const response = await loader();
+        return mapOnemliYerCollection(prefix, response.onemliyer);
+    }, []);
 };
 
 const compactPoints = (points: Array<MapPoint | null>) => {
@@ -120,18 +131,24 @@ const compactActions = (actions: Array<MapPointAction | null>) => {
 };
 
 export const loadDutyPharmacies = async () => {
-    const pharmacies = await izmirOpenDataClient.eczaneler.getNobetciList();
-    return compactPoints(pharmacies.map(mapEczane));
+    return withErrorHandling('loadDutyPharmacies', async () => {
+        const pharmacies = await izmirOpenDataClient.eczaneler.getNobetciList();
+        return compactPoints(pharmacies.map(mapEczane));
+    }, []);
 };
 
 export const loadAllPharmacies = async () => {
-    const pharmacies = await izmirOpenDataClient.eczaneler.getList();
-    return compactPoints(pharmacies.map(mapEczane));
+    return withErrorHandling('loadAllPharmacies', async () => {
+        const pharmacies = await izmirOpenDataClient.eczaneler.getList();
+        return compactPoints(pharmacies.map(mapEczane));
+    }, []);
 };
 
 export const loadParkingPoints = async () => {
-    const parkingList = await izmirOpenDataClient.otopark.getList();
-    return compactPoints(parkingList.map(mapOtopark));
+    return withErrorHandling('loadParkingPoints', async () => {
+        const parkingList = await izmirOpenDataClient.otopark.getList();
+        return compactPoints(parkingList.map(mapOtopark));
+    }, []);
 };
 
 export const loadWifiPoints = async () => {
@@ -183,33 +200,26 @@ export const loadTrainStations = async () => {
 };
 
 export const loadFerryPorts = async () => {
-    try {
+    return withErrorHandling('loadFerryPorts', async () => {
         const iskeles = await izmirOpenDataClient.vapur.getIskeleList();
 
-        // Vapur API'si doğrudan iskele listesi döndürüyor
-        // Bunu DefaultOnemliYer formatına çevirmeliyiz
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const onemliYerList = iskeles.map((iskele: any) => {
-            const item: DefaultOnemliYer = {
-                ADI: (iskele.ADI as string) || (iskele.name as string) || 'Bilinmiyor',
-                ILCE: (iskele.ILCE as string) || (iskele.ilce as string) || 'Bilinmiyor',
-                MAHALLE: (iskele.MAHALLE as string) || (iskele.mahalle as string) || 'Bilinmiyor',
-                ILCEID: String(iskele.ILCEID || 0),
-                MAHALLEID: String(iskele.MAHALLEID || 0),
-                ACIKLAMA: (iskele.ACIKLAMA as string) || (iskele.aciklama as string) || '',
-                ENLEM: Number.parseFloat(String(iskele.ENLEM || iskele.latitude || 0)),
-                BOYLAM: Number.parseFloat(String(iskele.BOYLAM || iskele.longitude || 0)),
-                YOL: (iskele.YOL as string) || (iskele.yol as string) || 'Bilinmiyor',
-                KAPINO: (iskele.KAPINO as string) || (iskele.kapino as string) || 'Bilinmiyor',
+        const onemliYerList: DefaultOnemliYer[] = iskeles.map((iskele: VapurIskele) => {
+            return {
+                ADI: iskele.Adi || 'Bilinmiyor',
+                ILCE: 'Bilinmiyor',
+                MAHALLE: 'Bilinmiyor',
+                ILCEID: '0',
+                MAHALLEID: '0',
+                ACIKLAMA: iskele.ArabaliVapurIskelesiMi ? 'Arabalı Vapur İskelesi' : 'Yolcu Vapur İskelesi',
+                ENLEM: iskele.Enlem,
+                BOYLAM: iskele.Boylam,
+                YOL: 'Bilinmiyor',
+                KAPINO: 'Bilinmiyor',
             };
-            return item;
         });
 
         return mapOnemliYerCollection('vapur', onemliYerList);
-    } catch (error) {
-        console.error('Vapur iskeleleri yükleme hatası:', error);
-        return [];
-    }
+    }, []);
 };
 
 export const loadMuhtarliklar = async () => {
