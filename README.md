@@ -8,7 +8,7 @@
 
 ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![PWA Ready](https://img.shields.io/badge/PWA-Ready-orange.svg)
-![License](https://img.shields.io/github/license/AtaCanYmc/izmir-nobetci-eczane-haritasi)
+![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ![Maps Count](https://img.shields.io/badge/Haritalar-36-blue)
 ![Tests](https://img.shields.io/badge/Tests-43%2B-green)
 
