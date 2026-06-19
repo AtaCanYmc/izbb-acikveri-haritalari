@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="public/favicon/favicon.svg" alt="İzmir Açık Veri Haritaları Logo" width="120" />
+</div>
+
 # 🗺️ İzmir Açık Veri Haritaları
 
 > İzmir Büyükşehir Belediyesi'nin açık verilerini interaktif haritalar üzerinde keşfedin. 37 farklı harita ile şehrin sağlık, ulaşım, kültür, tarih ve daha birçok önemli lokasyonunu görüntüleyin.
@@ -13,6 +17,14 @@
 İzmir Açık Veri Haritaları, İzmir Büyükşehir Belediyesi'nin açık veri API'lerini kullanarak, şehrin çeşitli kategorilerindeki önemli yerlerini etkileşimli haritalar üzerinde sunmaktadır.
 
 Başlangıçta sadece nöbetçi eczane haritası olan bu proje, artık **36 farklı harita** ile genişletilmiştir.
+
+## 📸 Ekran Görüntüleri
+
+<div align="center">
+  <img src="docs/images/home-page-example.png" alt="Ana Sayfa Görünümü" width="48%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+  &nbsp;
+  <img src="docs/images/eczane-map-example.png" alt="Nöbetçi Eczane Haritası Görünümü" width="48%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+</div>
 
 ## 🗺️ Harita Kategorileri
 
@@ -224,7 +236,7 @@ Katkılarınız hoşnut karşılanmaktadır! Lütfen:
 
 ## 📄 Lisans
 
-Bu proje MIT Lisansı altında dağıtılmaktadır. Detaylar için [LICENSE.md](LICENSE.md) dosyasına bakın.
+Bu proje **Apache License 2.0** altında dağıtılmaktadır. Detaylar için [LICENSE.md](LICENSE.md) dosyasına bakın.
 
 ## 👨‍💻 Geliştirici
 
