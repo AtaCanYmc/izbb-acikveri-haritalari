@@ -3,6 +3,7 @@ import {Search, X, Layers, Sun, Moon, ArrowRight, ExternalLink, Activity, Shield
 import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import {getCategoryConfig} from '../utils/categoryMeta.ts';
+import {resolveAssetUrl} from '../../../utils/assetUtils.ts';
 
 interface HomePageProps {
     onSelectMap: (mapId: string) => void;
@@ -96,13 +97,9 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                         <img
-                            src="/docs/images/logo.svg"
+                            src={resolveAssetUrl('logo.svg')}
                             alt="İzmir Açık Veri Haritaları"
                             className="w-10 h-10 object-contain rounded-xl shadow-md ring-1 ring-sky-500/20"
-                            onError={(e) => {
-                                // Fallback to public logo if docs image path fails in some server configs
-                                (e.currentTarget as HTMLImageElement).src = '/logo.svg';
-                            }}
                         />
                         <div>
                             <div className="flex items-center gap-2">
@@ -252,7 +249,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                             )}>
                                 <div className="w-full max-h-56 flex items-center justify-center overflow-hidden mb-4">
                                     <img
-                                        src="/images/illustrations/smart_city.svg"
+                                        src={resolveAssetUrl('images/illustrations/smart_city.svg')}
                                         alt="İzmir Akıllı Şehir Açık Veri Haritaları"
                                         className="w-full h-auto max-h-52 object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
                                     />
@@ -413,7 +410,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                         isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
                     )}>
                         <img
-                            src="/images/illustrations/open_data_mesh.svg"
+                            src={resolveAssetUrl('images/illustrations/open_data_mesh.svg')}
                             alt="Sonuç bulunamadı"
                             className="w-40 h-auto mx-auto mb-4 opacity-80"
                         />
@@ -573,12 +570,9 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                         <div className="space-y-3">
                             <div className="flex items-center gap-2.5">
                                 <img
-                                    src="/docs/images/logo.svg"
+                                    src={resolveAssetUrl('logo.svg')}
                                     alt="İzmir Açık Veri Haritaları"
                                     className="w-8 h-8 object-contain"
-                                    onError={(e) => {
-                                        (e.currentTarget as HTMLImageElement).src = '/logo.svg';
-                                    }}
                                 />
                                 <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-slate-100">
                                     İzmir Açık Veri Harita Atlası

@@ -1,3 +1,5 @@
+import {resolveAssetUrl} from '../../../utils/assetUtils.ts';
+
 export interface CategoryConfig {
     name: string;
     iconUrl: string;
@@ -12,7 +14,7 @@ export interface CategoryConfig {
 export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     'Sağlık': {
         name: 'Sağlık',
-        iconUrl: '/images/categories/saglik.svg',
+        iconUrl: resolveAssetUrl('images/categories/saglik.svg'),
         description: 'Eczaneler, hastaneler, aile sağlığı ve veteriner merkezleri',
         badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-400 dark:border-emerald-800',
         borderHoverClass: 'hover:border-emerald-400 dark:hover:border-emerald-600',
@@ -22,7 +24,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Ulaşım': {
         name: 'Ulaşım',
-        iconUrl: '/images/categories/ulasim.svg',
+        iconUrl: resolveAssetUrl('images/categories/ulasim.svg'),
         description: 'Otopark dolulukları, vapur iskeleleri, tren garları ve taksi durakları',
         badgeClass: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/60 dark:text-sky-400 dark:border-sky-800',
         borderHoverClass: 'hover:border-sky-400 dark:hover:border-sky-600',
@@ -32,7 +34,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Afet': {
         name: 'Afet',
-        iconUrl: '/images/categories/afet.svg',
+        iconUrl: resolveAssetUrl('images/categories/afet.svg'),
         description: 'Acil durum ve deprem toplanma alanları',
         badgeClass: 'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800',
         borderHoverClass: 'hover:border-amber-400 dark:hover:border-amber-600',
@@ -42,7 +44,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Dijital Hizmetler': {
         name: 'Dijital Hizmetler',
-        iconUrl: '/images/categories/dijital.svg',
+        iconUrl: resolveAssetUrl('images/categories/dijital.svg'),
         description: 'Ücretsiz WiZmirNET kablosuz internet bağlantı noktaları',
         badgeClass: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/60 dark:text-cyan-400 dark:border-cyan-800',
         borderHoverClass: 'hover:border-cyan-400 dark:hover:border-cyan-600',
@@ -52,7 +54,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Eğitim': {
         name: 'Eğitim',
-        iconUrl: '/images/categories/egitim.svg',
+        iconUrl: resolveAssetUrl('images/categories/egitim.svg'),
         description: 'Üniversiteler, liseler ve anaokulları',
         badgeClass: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/60 dark:text-indigo-400 dark:border-indigo-800',
         borderHoverClass: 'hover:border-indigo-400 dark:hover:border-indigo-600',
@@ -62,7 +64,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Kültür': {
         name: 'Kültür',
-        iconUrl: '/images/categories/kultur.svg',
+        iconUrl: resolveAssetUrl('images/categories/kultur.svg'),
         description: 'Müzeler, kütüphaneler, tiyatro, sinema, opera ve salonlar',
         badgeClass: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/60 dark:text-violet-400 dark:border-violet-800',
         borderHoverClass: 'hover:border-violet-400 dark:hover:border-violet-600',
@@ -72,7 +74,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Rekreasyon': {
         name: 'Rekreasyon',
-        iconUrl: '/images/categories/rekreasyon.svg',
+        iconUrl: resolveAssetUrl('images/categories/rekreasyon.svg'),
         description: 'Mavi bayraklı plajlar, kaplıcalar, hamamlar ve fuar alanları',
         badgeClass: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/60 dark:text-teal-400 dark:border-teal-800',
         borderHoverClass: 'hover:border-teal-400 dark:hover:border-teal-600',
@@ -82,7 +84,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Tarih': {
         name: 'Tarih',
-        iconUrl: '/images/categories/tarih.svg',
+        iconUrl: resolveAssetUrl('images/categories/tarih.svg'),
         description: 'Antik kentler, anıtlar, köşkler, tarihi hanlar ve su yapıları',
         badgeClass: 'bg-stone-100 text-stone-800 border-stone-200 dark:bg-stone-900 dark:text-stone-300 dark:border-stone-700',
         borderHoverClass: 'hover:border-stone-400 dark:hover:border-stone-600',
@@ -92,7 +94,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Yaşam': {
         name: 'Yaşam',
-        iconUrl: '/images/categories/yasam.svg',
+        iconUrl: resolveAssetUrl('images/categories/yasam.svg'),
         description: 'Semt pazarları ve günlük kentsel yaşam merkezleri',
         badgeClass: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/60 dark:text-blue-400 dark:border-blue-800',
         borderHoverClass: 'hover:border-blue-400 dark:hover:border-blue-600',
@@ -102,7 +104,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Yönetim': {
         name: 'Yönetim',
-        iconUrl: '/images/categories/yonetim.svg',
+        iconUrl: resolveAssetUrl('images/categories/yonetim.svg'),
         description: 'Muhtarlıklar ve resmi yerel yönetim birimleri',
         badgeClass: 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
         borderHoverClass: 'hover:border-slate-400 dark:hover:border-slate-600',
@@ -112,7 +114,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     },
     'Belediye': {
         name: 'Belediye',
-        iconUrl: '/images/categories/yonetim.svg',
+        iconUrl: resolveAssetUrl('images/categories/yonetim.svg'),
         description: 'İzmir Büyükşehir Belediyesi doğrudan hizmet binaları ve merkezleri',
         badgeClass: 'bg-sky-50 text-sky-800 border-sky-300 dark:bg-sky-950/60 dark:text-sky-300 dark:border-sky-800',
         borderHoverClass: 'hover:border-sky-400 dark:hover:border-sky-600',
@@ -124,7 +126,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
 
 const DEFAULT_CATEGORY_CONFIG: CategoryConfig = {
     name: 'Kategori',
-    iconUrl: '/images/categories/kultur.svg',
+    iconUrl: resolveAssetUrl('images/categories/kultur.svg'),
     description: 'Şehir açık veri katmanı',
     badgeClass: 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
     borderHoverClass: 'hover:border-slate-400 dark:hover:border-slate-600',

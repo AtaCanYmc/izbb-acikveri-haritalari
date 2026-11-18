@@ -5,16 +5,16 @@ describe('categoryMeta', () => {
     it('returns exact config for known categories', () => {
         const saglik = getCategoryConfig('Sağlık');
         expect(saglik.name).toBe('Sağlık');
-        expect(saglik.iconUrl).toBe('/images/categories/saglik.svg');
+        expect(saglik.iconUrl).toContain('images/categories/saglik.svg');
         expect(saglik.badgeClass).toContain('emerald');
 
         const ulasim = getCategoryConfig('Ulaşım');
         expect(ulasim.name).toBe('Ulaşım');
-        expect(ulasim.iconUrl).toBe('/images/categories/ulasim.svg');
+        expect(ulasim.iconUrl).toContain('images/categories/ulasim.svg');
 
         const afet = getCategoryConfig('Afet');
         expect(afet.name).toBe('Afet');
-        expect(afet.iconUrl).toBe('/images/categories/afet.svg');
+        expect(afet.iconUrl).toContain('images/categories/afet.svg');
     });
 
     it('returns default config for unknown category', () => {
