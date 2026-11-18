@@ -16,71 +16,62 @@ export const LocationPermissionWarning = ({isVisible, onClose, onRetry, isDarkMo
     return (
         <div className="absolute top-20 left-4 right-4 md:left-auto md:right-8 md:w-80 z-[2000] animate-in fade-in slide-in-from-top-4">
             <div className={clsx(
-                'backdrop-blur-md p-5 rounded-[2rem] shadow-2xl relative group transition-colors border',
+                'backdrop-blur-md p-5 rounded-2xl shadow-xl relative transition-colors border',
                 isDarkMode
-                    ? 'bg-slate-800/95 border-izmir-900'
-                    : 'bg-white/95 border-izmir-200'
+                    ? 'bg-slate-900/95 border-slate-700'
+                    : 'bg-white/95 border-slate-200'
             )}>
                 <button
+                    type="button"
                     onClick={onClose}
+                    aria-label="Uyarıyı kapat"
                     className={clsx(
-                        'absolute top-4 right-4 p-1 rounded-full transition-colors',
+                        'absolute top-3.5 right-3.5 p-1.5 rounded-lg transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center',
                         isDarkMode
-                            ? 'text-slate-500 hover:text-slate-400 hover:bg-slate-700' 
-                            : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
+                            ? 'text-slate-400 hover:text-white hover:bg-slate-800' 
+                            : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
                     )}
                 >
                     <X size={18}/>
                 </button>
 
-                <div className="flex items-start gap-4 pr-6">
+                <div className="flex items-start gap-3.5 pr-6">
                     <div className={clsx(
-                        'p-3 rounded-2xl',
-                        isDarkMode ? 'bg-izmir-950 text-izmir-400' : 'bg-izmir-100 text-izmir-600'
+                        'p-2.5 rounded-xl shrink-0',
+                        isDarkMode ? 'bg-sky-950 text-sky-400 border border-sky-800' : 'bg-sky-50 text-sky-700 border border-sky-200'
                     )}>
-                        <MapPinOff size={24}/>
+                        <MapPinOff size={20}/>
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                         <h4 className={clsx(
-                            'font-bold text-sm',
+                            'font-bold text-sm tracking-tight',
                             isDarkMode ? 'text-slate-100' : 'text-slate-900'
                         )}>Konum Erişimi Kapalı</h4>
                         <p className={clsx(
-                            'text-[11px] mt-1 leading-relaxed',
+                            'text-xs mt-1 leading-relaxed',
                             isDarkMode ? 'text-slate-400' : 'text-slate-600'
                         )}>
-                            Size yakın veri noktalarını daha rahat görebilmeniz için konum izni vermeniz önerilir.
+                            Size en yakın noktaları harita üzerinde görebilmek için tarayıcınızdan konum izni verebilirsiniz.
                         </p>
                     </div>
                 </div>
 
                 <div className={clsx(
-                    'mt-4 p-3 rounded-2xl',
-                    isDarkMode ? 'bg-slate-700' : 'bg-slate-100'
+                    'mt-3.5 p-3 rounded-xl border text-xs leading-relaxed',
+                    isDarkMode ? 'bg-slate-800/80 border-slate-700/80 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
                 )}>
-                    <p className={clsx(
-                        'text-[10px] font-semibold mb-2 uppercase tracking-wider',
-                        isDarkMode ? 'text-slate-300' : 'text-slate-700'
-                    )}>iPhone (Safari) için:</p>
-                    <p className={clsx(
-                        'text-[10px] leading-tight',
-                        isDarkMode ? 'text-slate-400' : 'text-slate-600'
-                    )}>
-                        Adres çubuğundaki <span className="font-bold">AA</span> veya <span className="font-bold">Kilit</span> ikonuna basıp
-                        <span className="font-bold"> Web Sitesi Ayarları</span> bölümünden konum iznini açabilirsiniz.
+                    <p className="font-semibold text-[11px] mb-1">Mobil tarayıcılar için:</p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                        Adres çubuğundaki kilit / ayarlar simgesine dokunup konum erişimine izin verebilirsiniz.
                     </p>
                 </div>
 
                 <button
+                    type="button"
                     onClick={onRetry}
-                    className={clsx(
-                        'w-full mt-3 py-2 text-[10px] font-bold rounded-xl transition-colors',
-                        isDarkMode
-                            ? 'text-izmir-400 bg-izmir-950 hover:bg-izmir-900'
-                            : 'text-izmir-700 bg-izmir-100 hover:bg-izmir-200'
-                    )}
+                    className="w-full mt-3 py-2.5 px-3 text-xs font-semibold rounded-xl bg-sky-600 hover:bg-sky-700 text-white transition-colors min-h-[44px]"
                 >
-                    Ayarları Tamamladım, Tekrar Dene
+                    Tekrar Dene
                 </button>
             </div>
         </div>

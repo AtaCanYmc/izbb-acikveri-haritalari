@@ -66,29 +66,30 @@ export const PwaInstallPrompt = ({ isDarkMode }: { isDarkMode: boolean }) => {
     if (!isVisible) return null;
 
     return (
-        <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-[9999] animate-in slide-in-from-bottom-5 fade-in duration-500">
+        <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-[9999] animate-in slide-in-from-bottom-5 fade-in duration-300">
             <div className={clsx(
-                "p-4 rounded-2xl shadow-2xl border flex items-start gap-4",
+                "p-4 rounded-2xl shadow-xl border flex items-start gap-3.5",
                 isDarkMode 
-                    ? "bg-slate-800 border-izmir-800 text-white" 
-                    : "bg-white border-izmir-200 text-slate-800"
+                    ? "bg-slate-900 border-slate-700 text-slate-100" 
+                    : "bg-white border-slate-200 text-slate-900"
             )}>
                 <div className={clsx(
-                    "flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center",
-                    isDarkMode ? "bg-izmir-900/50 text-izmir-400" : "bg-izmir-100 text-izmir-600"
+                    "shrink-0 w-10 h-10 rounded-xl flex items-center justify-center",
+                    isDarkMode ? "bg-sky-950 text-sky-400 border border-sky-800" : "bg-sky-50 text-sky-700 border border-sky-200"
                 )}>
-                    <Download size={24} />
+                    <Download size={20} />
                 </div>
                 
-                <div className="flex-1 pt-1">
-                    <h3 className="font-bold text-sm mb-1">Uygulamayı İndir</h3>
-                    <p className={clsx("text-xs leading-relaxed mb-3", isDarkMode ? "text-slate-300" : "text-slate-600")}>
-                        İzmir Açık Veri Haritaları'nı telefonunuza ekleyerek nöbetçi eczaneler ve haritalara anında erişin.
+                <div className="flex-1 min-w-0 pt-0.5">
+                    <h3 className="font-bold text-xs tracking-tight mb-1">Uygulama Olarak Yükle</h3>
+                    <p className={clsx("text-xs leading-relaxed mb-3", isDarkMode ? "text-slate-400" : "text-slate-600")}>
+                        Ana ekranınıza ekleyerek haritalara tek dokunuşla ve çevrimdışı erişebilirsiniz.
                     </p>
                     <div className="flex items-center gap-2">
                         <button 
+                            type="button"
                             onClick={handleInstallClick}
-                            className="flex-1 bg-izmir-600 hover:bg-izmir-700 text-white text-xs font-bold py-2 px-4 rounded-lg transition-colors"
+                            className="flex-1 bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold py-2.5 px-3 rounded-lg transition-colors min-h-[44px]"
                         >
                             Ana Ekrana Ekle
                         </button>
@@ -96,12 +97,13 @@ export const PwaInstallPrompt = ({ isDarkMode }: { isDarkMode: boolean }) => {
                 </div>
 
                 <button 
+                    type="button"
                     onClick={handleDismiss}
                     className={clsx(
-                        "absolute top-3 right-3 p-1 rounded-md transition-colors",
-                        isDarkMode ? "hover:bg-slate-700 text-slate-400" : "hover:bg-slate-100 text-slate-400"
+                        "p-1.5 rounded-lg transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center shrink-0",
+                        isDarkMode ? "hover:bg-slate-800 text-slate-400 hover:text-white" : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"
                     )}
-                    aria-label="Kapat"
+                    aria-label="Bildirimi kapat"
                 >
                     <X size={16} />
                 </button>

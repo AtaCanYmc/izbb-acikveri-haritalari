@@ -31,8 +31,8 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
 
             {/* Açılır Panel */}
             <div className={`
-                overflow-x-scroll transition-all duration-300 ease-in-out
-                ${isExpanded ? 'max-h-150 opacity-100' : 'max-h-0 opacity-0'}
+                overflow-hidden transition-all duration-300 ease-in-out
+                ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
             `}>
                 <div className={clsx(
                     'p-6 pt-2 flex flex-col gap-4',

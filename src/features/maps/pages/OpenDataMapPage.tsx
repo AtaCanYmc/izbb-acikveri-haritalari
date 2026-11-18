@@ -1,6 +1,6 @@
-import {ChevronLeft, Menu} from 'lucide-react';
+import {ChevronLeft, Menu, ArrowLeft, Layers} from 'lucide-react';
 import {toast, Toaster} from 'react-hot-toast';
-import {useRef, useState} from 'react';
+import {useRef, useState, useCallback} from 'react';
 import clsx from 'clsx';
 import html2canvas from 'html2canvas';
 import {HomePage} from '../components/HomePage.tsx';
@@ -13,37 +13,90 @@ import {SelectedPointCard} from '../components/SelectedPointCard.tsx';
 import {SEOMetadata} from '../../../components/SEOMetadata.tsx';
 import {useMapQueryParam} from '../hooks/useMapQueryParam.ts';
 import {useOpenDataMapPage} from '../hooks/useOpenDataMapPage.ts';
+import type {MapPoint} from '../types/mapData.ts';
 
-const SidebarToggleButton = ({isSidebarOpen, onToggle, isMobile, isDarkMode}: { isSidebarOpen: boolean; onToggle: () => void; isMobile: boolean; isDarkMode: boolean }) => {
-    if (isMobile) {
-        return (
-            <button
-                onClick={onToggle}
-                className={clsx(
-                    'md:hidden absolute top-4 right-4 z-[9999] p-3 rounded-2xl shadow-xl border text-izmir-600 transition-colors',
-                    isDarkMode
-                        ? 'bg-slate-800 border-slate-700 hover:bg-slate-700'
-                        : 'bg-white border-slate-100 hover:bg-slate-50'
-                )}
-            >
-                <Menu size={24}/>
-            </button>
-        );
-    }
-
+const DesktopSidebarToggleButton = ({
+    isSidebarOpen,
+    onToggle,
+    isDarkMode,
+}: {
+    isSidebarOpen: boolean;
+    onToggle: () => void;
+    isDarkMode: boolean;
+}) => {
     return (
         <button
+            type="button"
             onClick={onToggle}
+            aria-label={isSidebarOpen ? 'Yan paneli daralt' : 'Yan paneli genişlet'}
             className={clsx(
-                'absolute top-4 z-[1002] p-3 rounded-2xl shadow-xl border text-izmir-600 transition-all duration-300 md:flex hidden',
+                'absolute top-4 z-[1002] h-11 w-11 rounded-xl shadow-lg border transition-all duration-200 hidden md:flex items-center justify-center min-h-[44px] min-w-[44px]',
                 isDarkMode
-                    ? 'bg-slate-800 border-slate-700 hover:bg-slate-700'
-                    : 'bg-white border-slate-100 hover:bg-slate-50',
-                isSidebarOpen ? 'left-[390px]' : 'left-4'
+                    ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50',
+                isSidebarOpen ? 'left-[392px]' : 'left-4'
             )}
         >
-            {isSidebarOpen ? <ChevronLeft size={24}/> : <Menu size={24}/>}
+            {isSidebarOpen ? <ChevronLeft size={20} /> : <Menu size={20} />}
         </button>
+    );
+};
+
+const MobileFloatingHeader = ({
+    mapTitle,
+    onBackToHome,
+    onToggleSidebar,
+    isDarkMode,
+}: {
+    mapTitle: string;
+    onBackToHome: () => void;
+    onToggleSidebar: () => void;
+    isDarkMode: boolean;
+}) => {
+    return (
+        <div className="md:hidden fixed top-3 inset-x-3 z-[1002] flex items-center justify-between gap-2 pointer-events-none">
+            {/* Back button */}
+            <button
+                type="button"
+                onClick={onBackToHome}
+                aria-label="Tüm harita kataloğuna dön"
+                className={clsx(
+                    'pointer-events-auto h-11 px-3.5 rounded-xl border shadow-md flex items-center gap-1.5 text-xs font-semibold transition-colors shrink-0 min-h-[44px]',
+                    isDarkMode
+                        ? 'bg-slate-900/95 border-slate-700 text-slate-100 hover:bg-slate-800 backdrop-blur-md'
+                        : 'bg-white/95 border-slate-200 text-slate-800 hover:bg-slate-50 backdrop-blur-md'
+                )}
+            >
+                <ArrowLeft size={16} />
+                <span>Haritalar</span>
+            </button>
+
+            {/* Map title badge */}
+            <div className={clsx(
+                'pointer-events-auto px-3 py-2 rounded-xl border shadow-md flex items-center gap-1.5 text-xs font-bold truncate max-w-[50%] min-h-[44px]',
+                isDarkMode
+                    ? 'bg-slate-900/95 border-slate-700 text-sky-400 backdrop-blur-md'
+                    : 'bg-white/95 border-slate-200 text-sky-700 backdrop-blur-md'
+            )}>
+                <Layers size={14} className="shrink-0" />
+                <span className="truncate">{mapTitle}</span>
+            </div>
+
+            {/* Menu trigger */}
+            <button
+                type="button"
+                onClick={onToggleSidebar}
+                aria-label="Menüyü aç/kapat"
+                className={clsx(
+                    'pointer-events-auto h-11 w-11 rounded-xl border shadow-md flex items-center justify-center transition-colors shrink-0 min-h-[44px] min-w-[44px]',
+                    isDarkMode
+                        ? 'bg-slate-900/95 border-slate-700 text-slate-100 hover:bg-slate-800 backdrop-blur-md'
+                        : 'bg-white/95 border-slate-200 text-slate-800 hover:bg-slate-50 backdrop-blur-md'
+                )}
+            >
+                <Menu size={20} />
+            </button>
+        </div>
     );
 };
 
@@ -54,10 +107,11 @@ const LoadingOverlay = ({isVisible, isDarkMode}: { isVisible: boolean; isDarkMod
 
     return (
         <div className={clsx(
-            'absolute inset-0 z-[1001] backdrop-blur-sm flex items-center justify-center',
-            isDarkMode ? 'bg-slate-950/60' : 'bg-white/60'
+            'absolute inset-0 z-[1001] backdrop-blur-xs flex flex-col items-center justify-center gap-3 transition-opacity',
+            isDarkMode ? 'bg-slate-950/60 text-slate-300' : 'bg-white/70 text-slate-700'
         )}>
-            <div className="w-10 h-10 border-4 border-izmir-600 border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-10 h-10 border-3 border-sky-600 border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs font-mono font-medium">Veri katmanı yükleniyor...</span>
         </div>
     );
 };
@@ -83,6 +137,14 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         handleRetryLocationPermission,
     } = useOpenDataMapPage(mapDefinition);
 
+    const handleSelectPoint = useCallback((point: MapPoint) => {
+        setSelectedPoint(point);
+        // On mobile view, close the sidebar so the marker card and map are in view
+        if (window.innerWidth < 768) {
+            setIsSidebarOpen(false);
+        }
+    }, [setSelectedPoint, setIsSidebarOpen]);
+
     const handleOpenDownloadModal = () => {
         setIsDownloadModalOpen(true);
     };
@@ -93,17 +155,17 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             return;
         }
 
-        const loadingToast = toast.loading('Harita indiriliyor...');
+        const loadingToast = toast.loading('Harita görseli hazırlanıyor...');
 
         try {
-            // Leaflet container'ını bul
-            const leafletContainer = mapContainerRef.current.querySelector('.leaflet-container') as HTMLElement;
+            const leafletContainer = mapContainerRef.current.querySelector('.leaflet-container') as HTMLElement | null;
             if (!leafletContainer) {
-                throw new Error('Harita container\'ı bulunamadı');
+                toast.dismiss(loadingToast);
+                toast.error('Harita bileşeni bulunamadı');
+                return;
             }
 
-            // html2canvas'ın tüm elementleri işlemesi için kısa bir bekleme
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, 400));
 
             const canvas = await html2canvas(leafletContainer, {
                 useCORS: true,
@@ -115,11 +177,9 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 foreignObjectRendering: false,
                 ignoreElements: (element) => element.tagName === 'svg' || element.tagName === 'iframe',
                 onclone: (clonedDocument) => {
-                    // Cloned document'teki tüm style tag'larından oklch() temizle
                     const styles = clonedDocument.querySelectorAll('style');
                     styles.forEach(style => {
                         if (style.textContent) {
-                            // oklch() fonksiyonlarını white renk ile değiştir
                             style.textContent = style.textContent.replace(/oklch\([^)]*\)/g, '#ffffff');
                         }
                     });
@@ -132,24 +192,24 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             link.click();
 
             toast.dismiss(loadingToast);
-            toast.success('Harita başarıyla indirildi!');
+            toast.success('Harita görseli indirildi');
         } catch (error) {
             console.error('Harita indirme hatası:', error);
             toast.dismiss(loadingToast);
-            toast.error('Harita indirme hatası. Lütfen tekrar deneyiniz.');
+            toast.error('Harita indirme hatası oluştu');
         }
     };
 
-    // Anasayfa göster eğer harita seçilmemişse
+    // Return Home Page if no specific map selected
     if (!mapDefinition) {
         return (
             <>
                 <SEOMetadata 
                     title="İzmir Açık Veri Haritaları" 
-                    description="İzmir Büyükşehir Belediyesi'nin açık verilerini harita üzerinde keşfedin"
-                    keywords="izmir açık veri, harita"
+                    description="İzmir Büyükşehir Belediyesi açık verilerini interaktif haritalar üzerinde keşfedin."
+                    keywords="izmir açık veri, harita atlası, belediye verileri"
                 />
-                <Toaster />
+                <Toaster position="bottom-center" />
                 <HomePage
                     onSelectMap={(mapId) => setMapId(mapId)}
                     isDarkMode={isDarkMode}
@@ -159,27 +219,34 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         );
     }
 
-    // mapDef guaranteed non-null after the check above
     const mapDef = mapDefinition;
-
     const isLocationWarningVisible = locationStatus === 'denied' && showLocationWarning;
 
     return (
-        <div className="flex h-[100dvh] w-full overflow-hidden bg-white relative font-sans">
+        <div className="flex h-[100dvh] w-full overflow-hidden relative font-sans">
             <SEOMetadata 
-                title={`${mapDef.title} | İzmir Açık Veri Haritası`}
-                description={mapDef.description || 'İzmir Büyükşehir Belediyesi\'nin açık verilerini harita üzerinde keşfedin'}
-                keywords={`izmir açık veri, ${mapDef.title.toLocaleLowerCase('tr-TR')}, harita, api`}
+                title={`${mapDef.title} | İzmir Açık Veri Harita Atlası`}
+                description={mapDef.description || 'İzmir Büyükşehir Belediyesi açık veri katmanı'}
+                keywords={`izmir açık veri, ${mapDef.title.toLocaleLowerCase('tr-TR')}, harita atlası`}
             />
-            <Toaster/>
+            <Toaster position="bottom-center" />
 
-            <SidebarToggleButton
+            {/* Desktop Sidebar Toggle Button */}
+            <DesktopSidebarToggleButton
                 isSidebarOpen={isSidebarOpen}
                 onToggle={() => setIsSidebarOpen((current) => !current)}
-                isMobile={false}
                 isDarkMode={isDarkMode}
             />
 
+            {/* Mobile Top Floating Header */}
+            <MobileFloatingHeader
+                mapTitle={mapDef.title}
+                onBackToHome={() => setMapId(null)}
+                onToggleSidebar={() => setIsSidebarOpen((current) => !current)}
+                isDarkMode={isDarkMode}
+            />
+
+            {/* Sidebar Component */}
             <OpenDataSidebar
                 mapDefinition={mapDef}
                 activeMapId={activeMapId || mapDef.id}
@@ -188,7 +255,8 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 searchTerm={searchTerm}
                 onMapChange={setMapId}
                 onSearchChange={setSearchTerm}
-                onSelectPoint={setSelectedPoint}
+                onSelectPoint={handleSelectPoint}
+                onBackToHome={() => setMapId(null)}
                 loading={loading}
                 isSidebarOpen={isSidebarOpen}
                 isDarkMode={isDarkMode}
@@ -197,30 +265,39 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 onOpenDeveloperDocs={() => setIsDeveloperDocsOpen(true)}
             />
 
+            {/* Mobile Sidebar Backdrop Overlay */}
             <div
-                className={`
-                    md:hidden fixed inset-0 backdrop-blur-sm z-[1005] transition-opacity duration-300
-                    ${isSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
-                    ${isDarkMode ? 'bg-black/40' : 'bg-black/40'}
-                `}
+                className={clsx(
+                    'md:hidden fixed inset-0 z-[1005] transition-opacity duration-200',
+                    isSidebarOpen
+                        ? 'opacity-100 pointer-events-auto bg-slate-950/50 backdrop-blur-xs'
+                        : 'opacity-0 pointer-events-none'
+                )}
                 onClick={() => setIsSidebarOpen(false)}
             />
 
+            {/* Main Interactive Map Canvas */}
             <main className={clsx(
                 'flex-1 relative h-full overflow-hidden',
-                isDarkMode ? 'bg-slate-900' : 'bg-slate-100'
+                isDarkMode ? 'bg-slate-950' : 'bg-slate-100'
             )}>
-                <LoadingOverlay isVisible={loading} isDarkMode={isDarkMode}/>
+                <LoadingOverlay isVisible={loading} isDarkMode={isDarkMode} />
                 <div ref={mapContainerRef} className="absolute inset-0 h-full w-full">
-                    <OpenDataMap points={points} selectedPoint={selectedPoint} onMarkerClick={setSelectedPoint} isDarkMode={isDarkMode}/>
+                    <OpenDataMap
+                        points={points}
+                        selectedPoint={selectedPoint}
+                        onMarkerClick={handleSelectPoint}
+                        isDarkMode={isDarkMode}
+                    />
                 </div>
-                <SelectedPointCard isDarkMode={isDarkMode} point={selectedPoint} onClose={() => setSelectedPoint(null)}/>
-                <SidebarToggleButton
-                    isSidebarOpen={isSidebarOpen}
-                    onToggle={() => setIsSidebarOpen((current) => !current)}
-                    isMobile={true}
+
+                {/* Selected Point Details (Floating card on desktop, bottom sheet on mobile) */}
+                <SelectedPointCard
                     isDarkMode={isDarkMode}
+                    point={selectedPoint}
+                    onClose={() => setSelectedPoint(null)}
                 />
+
                 <LocationPermissionWarning
                     isVisible={isLocationWarningVisible}
                     onClose={() => setShowLocationWarning(false)}
@@ -229,6 +306,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 />
             </main>
 
+            {/* Modals */}
             <DownloadModal
                 isOpen={isDownloadModalOpen}
                 onClose={() => setIsDownloadModalOpen(false)}

@@ -1,5 +1,5 @@
 import {X, Copy, Check, ExternalLink} from 'lucide-react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import clsx from 'clsx';
 
 interface DeveloperDocsModalProps {
@@ -21,19 +21,21 @@ const CodeBlock = ({code, isDarkMode}: { code: string, isDarkMode: boolean }) =>
         <div className="relative group mt-2 mb-4">
             <div className="absolute right-2 top-2 z-10">
                 <button
+                    type="button"
                     onClick={handleCopy}
+                    aria-label="Kodu kopyala"
                     className={clsx(
-                        "p-1.5 rounded-md transition-colors",
-                        isDarkMode ? "bg-slate-700 hover:bg-slate-600 text-slate-300" : "bg-slate-200 hover:bg-slate-300 text-slate-600"
+                        "p-2 rounded-lg transition-colors flex items-center justify-center min-w-[36px] min-h-[36px]",
+                        isDarkMode ? "bg-slate-800 hover:bg-slate-700 text-slate-300" : "bg-white hover:bg-slate-100 text-slate-700 shadow-xs border border-slate-200"
                     )}
                     title="Kodu kopyala"
                 >
-                    {copied ? <Check size={14}/> : <Copy size={14}/>}
+                    {copied ? <Check size={15} className="text-emerald-500" /> : <Copy size={15} />}
                 </button>
             </div>
             <pre className={clsx(
-                "p-4 rounded-xl overflow-x-auto text-sm font-mono leading-relaxed",
-                isDarkMode ? "bg-slate-900 text-slate-300" : "bg-slate-100 text-slate-800"
+                "p-4 rounded-xl overflow-x-auto text-xs font-mono leading-relaxed border custom-scrollbar",
+                isDarkMode ? "bg-slate-950 border-slate-800 text-slate-200" : "bg-slate-50 border-slate-200 text-slate-800"
             )}>
                 <code>{code}</code>
             </pre>
@@ -42,62 +44,86 @@ const CodeBlock = ({code, isDarkMode}: { code: string, isDarkMode: boolean }) =>
 };
 
 export const DeveloperDocsModal = ({isOpen, onClose, isDarkMode}: DeveloperDocsModalProps) => {
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isOpen) {
+                onClose();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 sm:p-6 backdrop-blur-sm bg-black/50 animate-in fade-in duration-200">
+        <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="dev-docs-modal-title"
+            className="fixed inset-0 z-[2000] flex items-center justify-center p-4 sm:p-6"
+        >
+            {/* Backdrop */}
+            <div
+                className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity"
+                onClick={onClose}
+            />
+
+            {/* Modal Box */}
             <div className={clsx(
-                "w-full max-w-3xl max-h-[90vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200",
-                isDarkMode ? "bg-slate-800 border border-slate-700" : "bg-white border border-slate-200"
+                "relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border z-10 overscroll-contain",
+                isDarkMode ? "bg-slate-900 border-slate-700 text-slate-100" : "bg-white border-slate-200 text-slate-900"
             )}>
+                {/* Header */}
                 <div className={clsx(
-                    "flex items-center justify-between p-4 sm:p-6 border-b",
-                    isDarkMode ? "border-slate-700" : "border-slate-100"
+                    "flex items-center justify-between p-4 sm:p-5 border-b shrink-0",
+                    isDarkMode ? "border-slate-800" : "border-slate-100"
                 )}>
                     <div>
-                        <h2 className={clsx("text-xl font-bold flex items-center gap-2", isDarkMode ? "text-white" : "text-slate-900")}>
-                            Geliştiriciler İçin
+                        <h2 id="dev-docs-modal-title" className="text-lg font-bold tracking-tight">
+                            Geliştirici Dokümantasyonu
                         </h2>
-                        <p className={clsx("text-sm mt-1", isDarkMode ? "text-slate-400" : "text-slate-500")}>
-                            İzmir Açık Veri Portalı API'sini projelerinizde kullanın.
+                        <p className={clsx("text-xs mt-0.5", isDarkMode ? "text-slate-400" : "text-slate-500")}>
+                            İzmir Açık Veri Portalı API servislerini kendi projelerinizde kullanın.
                         </p>
                     </div>
                     <button
+                        type="button"
                         onClick={onClose}
+                        aria-label="Kapat"
                         className={clsx(
-                            "p-2 rounded-full transition-colors",
-                            isDarkMode ? "hover:bg-slate-700 text-slate-400" : "hover:bg-slate-100 text-slate-500"
+                            "p-2 rounded-lg transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center",
+                            isDarkMode ? "hover:bg-slate-800 text-slate-400 hover:text-white" : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"
                         )}
                     >
-                        <X size={24}/>
+                        <X size={18} />
                     </button>
                 </div>
 
-                <div className={clsx(
-                    "flex-1 overflow-y-auto p-4 sm:p-6 space-y-6",
-                    isDarkMode ? "text-slate-300" : "text-slate-700"
-                )}>
+                {/* Body Content */}
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 custom-scrollbar text-xs leading-relaxed">
                     <section>
-                        <h3 className={clsx("text-lg font-semibold mb-2", isDarkMode ? "text-white" : "text-slate-900")}>izmir-open-data-js SDK</h3>
-                        <p className="text-sm leading-relaxed mb-4">
-                            Bu harita projesinin altyapısını oluşturan, İzmir Büyükşehir Belediyesi Açık Veri Portalı için gayriresmi ancak güçlü ve tip güvenli (TypeScript) bir API istemcisidir.
-                        </p>
-                        
-                        <div className="flex gap-4 items-center">
+                        <h3 className="font-bold text-sm mb-1.5 flex items-center justify-between">
+                            <span>izmir-open-data-js SDK</span>
                             <a 
                                 href="https://www.npmjs.com/package/izmir-open-data-js" 
                                 target="_blank" 
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-1.5 text-sm text-izmir-600 hover:text-izmir-700 font-medium"
+                                rel="noreferrer noopener"
+                                className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 hover:underline font-mono text-[11px]"
                             >
-                                NPM Sayfası <ExternalLink size={14}/>
+                                npm sayfası <ExternalLink size={12} />
                             </a>
-                        </div>
+                        </h3>
+                        <p className={isDarkMode ? "text-slate-400" : "text-slate-600"}>
+                            Bu harita projesinin veri katmanını besleyen, İzmir Büyükşehir Belediyesi Açık Veri Portalı için geliştirilmiş tip güvenli (TypeScript) açık kaynak API kütüphanesidir.
+                        </p>
                     </section>
 
                     <section>
-                        <h3 className={clsx("text-lg font-semibold mb-2", isDarkMode ? "text-white" : "text-slate-900")}>Kurulum</h3>
-                        <p className="text-sm mb-2">Projenize NPM, Yarn, PNPM veya Bun kullanarak kurabilirsiniz:</p>
+                        <h3 className="font-bold text-sm mb-1.5">Kurulum</h3>
+                        <p className={clsx("mb-2", isDarkMode ? "text-slate-400" : "text-slate-600")}>
+                            Projenize npm, pnpm veya yarn ile ekleyebilirsiniz:
+                        </p>
                         <CodeBlock 
                             code="npm install izmir-open-data-js" 
                             isDarkMode={isDarkMode} 
@@ -105,28 +131,59 @@ export const DeveloperDocsModal = ({isOpen, onClose, isDarkMode}: DeveloperDocsM
                     </section>
 
                     <section>
-                        <h3 className={clsx("text-lg font-semibold mb-2", isDarkMode ? "text-white" : "text-slate-900")}>Örnek Kullanım</h3>
-                        <p className="text-sm mb-2">SDK'yı projenize import edip anında verilere erişmeye başlayabilirsiniz. Promise tabanlıdır.</p>
+                        <h3 className="font-bold text-sm mb-1.5">Örnek Kullanım</h3>
+                        <p className={clsx("mb-2", isDarkMode ? "text-slate-400" : "text-slate-600")}>
+                            SDK asenkron Promise tabanlıdır:
+                        </p>
                         <CodeBlock 
-                            code={`import { IzmirClient } from "izmir-open-data-js";\n\n// Nöbetçi Eczaneleri Getir\nconst pharmacies = await IzmirClient.eczaneler.getNobetciList();\nconsole.log(pharmacies[0].Adi, pharmacies[0].Telefon);\n\n// Otopark Doluluk Oranlarını Getir\nconst parkings = await IzmirClient.otopark.getList();\nconst alsancak = parkings.find(p => p.name.includes("Alsancak"));\nconsole.log(alsancak.occupancy.total.free);`}
+                            code={`import { IzmirClient } from "izmir-open-data-js";
+
+// Nöbetçi eczaneleri çekme
+const pharmacies = await IzmirClient.eczaneler.getNobetciList();
+console.log(pharmacies[0].Adi, pharmacies[0].Telefon);
+
+// Otopark doluluk oranlarını sorgulama
+const parkings = await IzmirClient.otopark.getList();
+const alsancak = parkings.find(p => p.name.includes("Alsancak"));
+console.log(alsancak?.occupancy?.total?.free);`}
                             isDarkMode={isDarkMode} 
                         />
                     </section>
                     
                     <section>
-                        <h3 className={clsx("text-lg font-semibold mb-2", isDarkMode ? "text-white" : "text-slate-900")}>Desteklenen Servisler</h3>
-                        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm mt-3">
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>Eczaneler</li>
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>Otoparklar</li>
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>Ulaşım (ESHOT)</li>
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>Sağlık Tesisleri</li>
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>WizmirNET</li>
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>BİSİM (Bisiklet)</li>
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>Vapur İskeleleri</li>
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>Kültür / Sanat</li>
-                            <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-izmir-500"></span>Tarihi Yapılar</li>
-                        </ul>
+                        <h3 className="font-bold text-sm mb-2">Desteklenen Veri Servisleri</h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-[11px]">
+                            {['Eczaneler', 'Otoparklar', 'Hastaneler', 'Kütüphaneler', 'WiZmirNET', 'Vapur İskeleleri', 'Afet Alanları', 'Müzeler', 'Tarihi Yapılar'].map((item) => (
+                                <div
+                                    key={item}
+                                    className={clsx(
+                                        'p-2 rounded-lg border flex items-center gap-1.5',
+                                        isDarkMode ? 'bg-slate-800/60 border-slate-700/60 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+                                    )}
+                                >
+                                    <span className="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0" />
+                                    <span className="truncate">{item}</span>
+                                </div>
+                            ))}
+                        </div>
                     </section>
+                </div>
+
+                {/* Footer */}
+                <div className={clsx(
+                    "p-4 border-t shrink-0 flex justify-end",
+                    isDarkMode ? "border-slate-800 bg-slate-900/50" : "border-slate-100 bg-slate-50/50"
+                )}>
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className={clsx(
+                            "px-4 py-2 rounded-lg font-semibold text-xs transition-colors min-h-[44px]",
+                            isDarkMode ? "bg-slate-800 text-slate-300 hover:bg-slate-700" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                        )}
+                    >
+                        Kapat
+                    </button>
                 </div>
             </div>
         </div>

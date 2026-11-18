@@ -1,5 +1,4 @@
-import {useEffect} from 'react';
-import {Download, Code} from 'lucide-react';
+import {Download, Code, ArrowLeft, Search, X, Check, Sun, Moon} from 'lucide-react';
 import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import type {MapDefinition, MapPoint} from '../types/mapData.ts';
@@ -14,6 +13,7 @@ interface OpenDataSidebarProps {
     onMapChange: (mapId: string) => void;
     onSearchChange: (value: string) => void;
     onSelectPoint: (point: MapPoint) => void;
+    onBackToHome?: () => void;
     loading: boolean;
     isSidebarOpen: boolean;
     isDarkMode: boolean;
@@ -23,16 +23,18 @@ interface OpenDataSidebarProps {
 }
 
 const Header = ({
-                    mapDefinition,
-                    activeMapId,
-                    searchTerm,
-                    onMapChange,
-                    onSearchChange,
-                    isDarkMode,
-                    onToggleTheme,
-                    onDownload,
-                    onOpenDeveloperDocs,
-                }: Pick<OpenDataSidebarProps, 'mapDefinition' | 'activeMapId' | 'searchTerm' | 'onMapChange' | 'onSearchChange'> & {
+    mapDefinition,
+    activeMapId,
+    searchTerm,
+    onMapChange,
+    onSearchChange,
+    onBackToHome,
+    isDarkMode,
+    onToggleTheme,
+    onDownload,
+    onOpenDeveloperDocs,
+}: Pick<OpenDataSidebarProps, 'mapDefinition' | 'activeMapId' | 'searchTerm' | 'onMapChange' | 'onSearchChange'> & {
+    onBackToHome?: () => void;
     isDarkMode: boolean;
     onToggleTheme: () => void;
     onDownload: () => void;
@@ -40,223 +42,236 @@ const Header = ({
 }) => {
     return (
         <div className={clsx(
-            'p-6 border-b',
-            isDarkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
+            'p-4 sm:p-5 border-b shrink-0 transition-colors',
+            isDarkMode ? 'border-slate-800 bg-slate-900 text-slate-100' : 'border-slate-200 bg-white text-slate-900'
         )}>
-            <div className="flex flex-row items-center justify-between gap-4">
-                <div className="text-left ml-1">
-                    <h1 className="text-2xl font-black text-izmir-600 tracking-tighter">İzmir Açık Veri
-                        Harita</h1>
-                    <p className={clsx(
-                        'text-[10px] font-bold uppercase tracking-[0.2em] mt-1',
-                        isDarkMode ? 'text-slate-500' : 'text-slate-400'
-                    )}>{mapDefinition.title}</p>
-                </div>
-                <div className="flex flex-row items-center justify-end gap-2">
+            {/* Top action row */}
+            <div className="flex items-center justify-between gap-2 mb-3">
+                {onBackToHome && (
+                    <button
+                        type="button"
+                        onClick={onBackToHome}
+                        className={clsx(
+                            'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors min-h-[36px]',
+                            isDarkMode
+                                ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                        )}
+                        title="Tüm harita kataloğuna dön"
+                    >
+                        <ArrowLeft size={14} />
+                        <span>Tüm Haritalar</span>
+                    </button>
+                )}
+
+                <div className="flex items-center gap-1.5 ml-auto">
                     <button
                         type="button"
                         onClick={onToggleTheme}
-                        aria-label={isDarkMode ? 'Acik moda gec' : 'Koyu moda gec'}
+                        aria-label={isDarkMode ? 'Açık temaya geç' : 'Koyu temaya geç'}
                         className={clsx(
-                            'h-8 w-8 shrink-0 rounded-full border transition-colors inline-flex items-center justify-center',
+                            'h-9 w-9 rounded-lg border transition-colors flex items-center justify-center shrink-0',
                             isDarkMode
                                 ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
                                 : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
                         )}
                     >
-                        {isDarkMode ? (
-                            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 strokeWidth="2" aria-hidden="true">
-                                <circle cx="12" cy="12" r="4"/>
-                                <path
-                                    d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-                            </svg>
-                        ) : (
-                            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 strokeWidth="2" aria-hidden="true">
-                                <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
-                            </svg>
-                        )}
+                        {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
                     </button>
                     <button
                         type="button"
                         onClick={onOpenDeveloperDocs}
-                        aria-label="Geliştiriciler İçin"
+                        aria-label="Geliştirici API dokümanları"
                         className={clsx(
-                            'h-8 w-8 shrink-0 rounded-full border transition-colors inline-flex items-center justify-center',
+                            'h-9 w-9 rounded-lg border transition-colors flex items-center justify-center shrink-0',
                             isDarkMode
                                 ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
                                 : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
                         )}
-                        title="Geliştiriciler İçin"
+                        title="Geliştirici API Dokümanları"
                     >
-                        <Code size={20}/>
+                        <Code size={16} />
                     </button>
                     <button
                         type="button"
                         onClick={onDownload}
-                        aria-label="Haritayı indir"
+                        aria-label="Harita verilerini indir"
                         className={clsx(
-                            'h-8 w-8 shrink-0 rounded-full border transition-colors inline-flex items-center justify-center',
+                            'h-9 w-9 rounded-lg border transition-colors flex items-center justify-center shrink-0',
                             isDarkMode
                                 ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
                                 : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
                         )}
-                        title="Haritayı indir"
+                        title="Veriyi Dışa Aktar"
                     >
-                        <Download size={20}/>
+                        <Download size={16} />
                     </button>
                 </div>
             </div>
 
-            <p className={clsx(
-                'text-[11px] mt-4 leading-relaxed',
-                isDarkMode ? 'text-slate-400' : 'text-slate-500'
-            )}>{mapDefinition.description}</p>
-
-            <div className={clsx(
-                'mt-4 rounded-2xl border shadow-sm p-3 space-y-3',
-                isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
-            )}>
-                <div>
-                    <label className={clsx(
-                        'text-[10px] font-bold uppercase tracking-[0.2em] block mb-2',
-                        isDarkMode ? 'text-slate-500' : 'text-slate-400'
+            {/* Title & Category */}
+            <div className="mb-3">
+                <div className="flex items-center gap-2 mb-1">
+                    <span className={clsx(
+                        'text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded',
+                        isDarkMode ? 'bg-sky-950 text-sky-400 border border-sky-800' : 'bg-sky-50 text-sky-700 border border-sky-200'
                     )}>
-                        Harita Secici
-                    </label>
-                    <div className="relative">
-                        <select
-                            value={activeMapId}
-                            onChange={(event) => onMapChange(event.target.value)}
-                            className={clsx(
-                                'w-full appearance-none px-4 py-3 pr-10 border rounded-xl text-sm font-medium focus:ring-2 focus:ring-izmir-500 focus:border-izmir-500 outline-none transition-all',
-                                isDarkMode
-                                    ? 'bg-slate-900 border-slate-700 text-slate-200'
-                                    : 'bg-white border-slate-200 text-slate-700'
-                            )}
-                        >
-                            {Array.from(new Map(mapRegistry.map(map => [map.category, map])).entries()).map(([category]) => {
-                                const mapsInCategory = mapRegistry.filter(map => map.category === category);
-                                return (
-                                    <optgroup key={category} label={category}>
-                                        {mapsInCategory.map((map) => (
-                                            <option key={map.id} value={map.id}>
-                                                {map.title}
-                                            </option>
-                                        ))}
-                                    </optgroup>
-                                );
-                            })}
-                        </select>
-                        <svg
-                            className={clsx(
-                                'pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4',
-                                isDarkMode ? 'text-slate-500' : 'text-slate-400'
-                            )}
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                clipRule="evenodd"
-                            />
+                        {mapDefinition.category}
+                    </span>
+                </div>
+                <h1 className="text-xl font-bold tracking-tight leading-snug">
+                    {mapDefinition.title}
+                </h1>
+                <p className={clsx(
+                    'text-xs mt-1 leading-relaxed line-clamp-2',
+                    isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                )}>
+                    {mapDefinition.description}
+                </p>
+            </div>
+
+            {/* Map Selector & Search Controls */}
+            <div className="space-y-2.5">
+                {/* Select Map */}
+                <div className="relative">
+                    <label htmlFor="map-select-dropdown" className="sr-only">Harita Seçin</label>
+                    <select
+                        id="map-select-dropdown"
+                        value={activeMapId}
+                        onChange={(event) => onMapChange(event.target.value)}
+                        className={clsx(
+                            'w-full appearance-none px-3.5 py-2.5 pr-8 border rounded-lg text-xs font-medium outline-none transition-all cursor-pointer',
+                            isDarkMode
+                                ? 'bg-slate-800 border-slate-700 text-slate-100 focus:border-sky-500'
+                                : 'bg-slate-50 border-slate-200 text-slate-800 focus:border-sky-500'
+                        )}
+                    >
+                        {Array.from(new Map(mapRegistry.map((m) => [m.category, m])).entries()).map(([category]) => {
+                            const mapsInCategory = mapRegistry.filter((m) => m.category === category);
+                            return (
+                                <optgroup key={category} label={category}>
+                                    {mapsInCategory.map((m) => (
+                                        <option key={m.id} value={m.id}>
+                                            {m.title}
+                                        </option>
+                                    ))}
+                                </optgroup>
+                            );
+                        })}
+                    </select>
+                    <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                         </svg>
                     </div>
                 </div>
 
-                <div>
-                    <label className={clsx(
-                        'text-[10px] font-bold uppercase tracking-[0.2em] block mb-2',
-                        isDarkMode ? 'text-slate-500' : 'text-slate-400'
-                    )}>
-                        Arama
-                    </label>
+                {/* Instant Search Input */}
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <Search size={14} />
+                    </div>
                     <input
-                        type="text"
+                        type="search"
                         placeholder={mapDefinition.searchPlaceholder}
-                        className={clsx(
-                            'w-full px-4 py-3 border rounded-xl text-sm focus:ring-2 focus:ring-izmir-500 focus:border-izmir-500 outline-none transition-all',
-                            isDarkMode
-                                ? 'bg-slate-900 border-slate-700 text-slate-200 placeholder:text-slate-500'
-                                : 'bg-white border-slate-200 text-slate-700 placeholder:text-slate-400'
-                        )}
+                        aria-label={mapDefinition.searchPlaceholder}
                         value={searchTerm}
                         onChange={(event) => onSearchChange(event.target.value)}
+                        className={clsx(
+                            'w-full pl-9 pr-8 py-2.5 border rounded-lg text-xs font-medium outline-none transition-all',
+                            isDarkMode
+                                ? 'bg-slate-800 border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-sky-500'
+                                : 'bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:border-sky-500'
+                        )}
                     />
+                    {searchTerm && (
+                        <button
+                            type="button"
+                            onClick={() => onSearchChange('')}
+                            aria-label="Aramayı temizle"
+                            className="absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                        >
+                            <X size={14} />
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
     );
 };
 
-const LoadingState = ({isDarkMode}: {isDarkMode: boolean}) => {
-    return (
-        <div
-            className={clsx(
-                'flex-1 flex items-center justify-center h-40 animate-pulse italic',
-                isDarkMode
-                    ? 'text-slate-500 bg-slate-800/50'
-                    : 'text-slate-400 bg-slate-50/30'
-            )}
-        >
-            Yukleniyor...
-        </div>
-    );
-};
-
-const EmptyState = ({mapDefinition, isDarkMode}: Pick<OpenDataSidebarProps, 'mapDefinition'> & {isDarkMode: boolean}) => {
-    return (
-        <div
-            className={clsx(
-                'flex-1 p-6 text-center flex items-center justify-center',
-                isDarkMode
-                    ? 'text-slate-400 bg-slate-800/50'
-                    : 'text-slate-500 bg-slate-50/30'
-            )}
-        >
-            <div>
-                <h3 className={clsx('font-bold', isDarkMode ? 'text-slate-200' : 'text-slate-800')}>{mapDefinition.emptyStateTitle}</h3>
-                <p className="text-xs mt-2">{mapDefinition.emptyStateDescription}</p>
-            </div>
-        </div>
-    );
-};
-
-const PointCard = ({point, isSelected, onSelectPoint, isDarkMode}: {
+const PointCard = ({
+    point,
+    isSelected,
+    onSelectPoint,
+    isDarkMode,
+}: {
     point: MapPoint;
     isSelected: boolean;
     onSelectPoint: (point: MapPoint) => void;
     isDarkMode: boolean;
 }) => {
-    const cardClasses = clsx(
-        'p-4 rounded-2xl border transition-all duration-200 cursor-pointer',
-        isSelected
-            ? isDarkMode
-                ? 'border-izmir-500 bg-slate-800 shadow-md ring-1 ring-izmir-500/20'
-                : 'border-izmir-500 bg-white shadow-md ring-1 ring-izmir-500/20'
-            : isDarkMode
-                ? 'border-transparent bg-slate-800 hover:border-slate-700 shadow-sm'
-                : 'border-transparent bg-white hover:border-slate-200 shadow-sm'
-    );
-
     return (
-        <div onClick={() => onSelectPoint(point)} className={cardClasses}>
-            <h3 className={clsx('font-bold tracking-tight', isDarkMode ? 'text-slate-200' : 'text-slate-800')}>{point.title}</h3>
-            {point.subtitle && (
-                <p className={clsx('text-[11px] mt-1 line-clamp-2', isDarkMode ? 'text-slate-400' : 'text-slate-500')}>{point.subtitle}</p>
+        <div
+            role="button"
+            tabIndex={0}
+            onClick={() => onSelectPoint(point)}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelectPoint(point);
+                }
+            }}
+            className={clsx(
+                'p-3.5 rounded-xl border text-left transition-all duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500',
+                isSelected
+                    ? isDarkMode
+                        ? 'border-sky-500 bg-sky-950/40 shadow-sm ring-1 ring-sky-500/30'
+                        : 'border-sky-600 bg-sky-50/70 shadow-sm ring-1 ring-sky-600/30'
+                    : isDarkMode
+                        ? 'border-slate-800 bg-slate-900/90 hover:border-slate-700 hover:bg-slate-800/80'
+                        : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
             )}
-            <div className="flex items-center justify-between mt-3 gap-3">
-                {point.badge && (
-                    <span className={clsx(
-                        'text-[9px] px-2 py-1 rounded font-bold uppercase',
-                        isDarkMode ? 'bg-slate-700 text-slate-300' : 'bg-slate-100 text-slate-600'
-                    )}>{point.badge}</span>
+        >
+            <div className="flex items-start justify-between gap-2">
+                <h3 className={clsx(
+                    'font-bold text-xs tracking-tight leading-snug',
+                    isSelected
+                        ? isDarkMode ? 'text-sky-400' : 'text-sky-700'
+                        : isDarkMode ? 'text-slate-100' : 'text-slate-900'
+                )}>
+                    {point.title}
+                </h3>
+                {isSelected && (
+                    <Check size={14} className={isDarkMode ? 'text-sky-400' : 'text-sky-600'} />
                 )}
+            </div>
+
+            {point.subtitle && (
+                <p className={clsx(
+                    'text-[11px] mt-1 line-clamp-2 leading-relaxed',
+                    isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                )}>
+                    {point.subtitle}
+                </p>
+            )}
+
+            <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-[10px]">
+                {point.badge ? (
+                    <span className={clsx(
+                        'px-2 py-0.5 rounded font-mono font-medium uppercase',
+                        isDarkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-600'
+                    )}>
+                        {point.badge}
+                    </span>
+                ) : (
+                    <span />
+                )}
+
                 {point.actions?.[0] && (
-                    <span className={clsx('text-xs font-bold', isDarkMode ? 'text-izmir-400' : 'text-izmir-600')}>{point.actions[0].label}</span>
+                    <span className="font-semibold text-sky-600 dark:text-sky-400">
+                        {point.actions[0].label} &rarr;
+                    </span>
                 )}
             </div>
         </div>
@@ -264,37 +279,50 @@ const PointCard = ({point, isSelected, onSelectPoint, isDarkMode}: {
 };
 
 const PointsList = ({
-                        mapDefinition,
-                        points,
-                        selectedPoint,
-                        onSelectPoint,
-                        loading,
-                        isDarkMode
-                    }: Pick<OpenDataSidebarProps, 'mapDefinition' | 'points' | 'selectedPoint' | 'onSelectPoint' | 'loading' | 'isDarkMode'>) => {
+    mapDefinition,
+    points,
+    selectedPoint,
+    onSelectPoint,
+    loading,
+    isDarkMode,
+}: Pick<OpenDataSidebarProps, 'mapDefinition' | 'points' | 'selectedPoint' | 'onSelectPoint' | 'loading' | 'isDarkMode'>) => {
     if (loading) {
-        return <LoadingState isDarkMode={isDarkMode}/>;
+        return (
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-xs text-slate-400">
+                <div className="w-8 h-8 border-2 border-sky-600 border-t-transparent rounded-full animate-spin mb-3" />
+                <span>Veriler yükleniyor...</span>
+            </div>
+        );
     }
 
     if (points.length === 0) {
-        return <EmptyState mapDefinition={mapDefinition} isDarkMode={isDarkMode}/>;
+        return (
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-xs text-slate-400">
+                <p className="font-semibold mb-1 text-slate-600 dark:text-slate-300">{mapDefinition.emptyStateTitle}</p>
+                <p className="text-[11px] max-w-xs">{mapDefinition.emptyStateDescription}</p>
+            </div>
+        );
     }
 
     return (
-        <div
-            className={clsx(
-                'flex-1 overflow-y-auto p-4 space-y-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
-                isDarkMode ? 'bg-slate-900' : 'bg-slate-50/30'
-            )}
-        >
-            {points.map((point) => (
-                <PointCard
-                    key={point.id}
-                    point={point}
-                    isSelected={selectedPoint?.id === point.id}
-                    onSelectPoint={onSelectPoint}
-                    isDarkMode={isDarkMode}
-                />
-            ))}
+        <div className="flex-1 flex flex-col min-h-0">
+            <div className={clsx(
+                'px-4 py-2 border-b text-[11px] font-mono flex items-center justify-between shrink-0',
+                isDarkMode ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-600'
+            )}>
+                <span>{points.length} lokasyon bulundu</span>
+            </div>
+            <div className="flex-1 overflow-y-auto p-3 space-y-2.5 custom-scrollbar">
+                {points.map((point) => (
+                    <PointCard
+                        key={point.id}
+                        point={point}
+                        isSelected={selectedPoint?.id === point.id}
+                        onSelectPoint={onSelectPoint}
+                        isDarkMode={isDarkMode}
+                    />
+                ))}
+            </div>
         </div>
     );
 };
@@ -309,36 +337,34 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
         onMapChange,
         onSearchChange,
         onSelectPoint,
+        onBackToHome,
         loading,
         isSidebarOpen,
         isDarkMode,
         onToggleTheme,
         onDownload,
-        onOpenDeveloperDocs
+        onOpenDeveloperDocs,
     } = props;
-
-    // Force reflow when dark mode changes to ensure Tailwind classes are applied
-    useEffect(() => {
-        void document.documentElement.offsetHeight;
-    }, [isDarkMode]);
 
     return (
         <aside
+            aria-label="Harita kontrol paneli"
             className={clsx(
-                'fixed md:relative z-[1010] h-full border-r transition-[width,transform] duration-300 ease-in-out flex flex-col overflow-hidden',
-                isDarkMode
-                    ? 'bg-slate-900 border-slate-800'
-                    : 'bg-white border-slate-200',
-                isSidebarOpen ? 'w-[320px] md:w-[380px] translate-x-0' : 'w-0 -translate-x-full md:translate-x-0 md:w-0'
+                'fixed md:relative z-[1010] h-full border-r transition-[width,transform] duration-200 ease-out flex flex-col overflow-hidden',
+                isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200',
+                isSidebarOpen
+                    ? 'w-[320px] sm:w-[360px] md:w-[380px] translate-x-0'
+                    : 'w-0 -translate-x-full md:translate-x-0 md:w-0'
             )}
         >
-            <div className="sidebar-content h-full flex flex-col">
+            <div className="w-[320px] sm:w-[360px] md:w-[380px] h-full flex flex-col">
                 <Header
                     mapDefinition={mapDefinition}
                     activeMapId={activeMapId}
                     searchTerm={searchTerm}
                     onMapChange={onMapChange}
                     onSearchChange={onSearchChange}
+                    onBackToHome={onBackToHome}
                     isDarkMode={isDarkMode}
                     onToggleTheme={onToggleTheme}
                     onDownload={onDownload}
@@ -352,7 +378,7 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
                     loading={loading}
                     isDarkMode={isDarkMode}
                 />
-                <Footer isDarkMode={isDarkMode}/>
+                <Footer isDarkMode={isDarkMode} />
             </div>
         </aside>
     );

@@ -2,56 +2,138 @@
 
 @theme {
     --color-primary: #0284c7; /* İzmir Deniz Mavisi */
+    --color-primary-hover: #0369a1;
+    --color-izmir-50: #f0f9ff;
+    --color-izmir-100: #e0f2fe;
+    --color-izmir-200: #bae6fd;
+    --color-izmir-300: #7dd3fc;
+    --color-izmir-400: #38bdf8;
+    --color-izmir-500: #0ea5e9;
+    --color-izmir-600: #0284c7;
+    --color-izmir-700: #0369a1;
+    --color-izmir-800: #075985;
+    --color-izmir-900: #0c4a6e;
+    --color-izmir-950: #082f49;
+    --color-surface-light: #ffffff;
+    --color-surface-dark: #0f172a;
+    --color-card-light: #ffffff;
+    --color-card-dark: #1e293b;
+    --color-border-light: #e2e8f0;
+    --color-border-dark: #334155;
 }
 
 :root {
-    background-color: white;
-    color: black;
+    background-color: #ffffff;
+    color: #0f172a;
+    color-scheme: light dark;
 }
 
-html {
-    transition: background-color 300ms ease-in-out;
+html, body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 html.dark {
     background-color: #0f172a !important;
-    color: #e2e8f0;
+    color: #f1f5f9;
 }
 
-/* Smooth dark mode transitions for specific elements */
-html.dark * {
-    @apply transition-colors duration-300 ease-in-out;
+/* Accessible focus ring style */
+:focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
 }
 
-.sidebar-content {
-    width: 380px;
-    flex-shrink: 0;
+/* Prevent layout shifts and scrolling bleed */
+dialog:modal {
+    overscroll-behavior: contain;
 }
 
-@media (max-width: 768px) {
-    .sidebar-content {
-        width: 320px;
-    }
+dialog::backdrop {
+    overscroll-behavior: contain;
 }
 
-html, body, #root {
-    width: 100%;
-    margin: 0;
-    padding: 0;
+/* Clean scrollbar for sidebars and card lists */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
 }
 
-/* Dark mode for Leaflet popups */
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(148, 163, 184, 0.4);
+    border-radius: 9999px;
+}
+
+html.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(71, 85, 105, 0.6);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(100, 116, 139, 0.7);
+}
+
+/* Leaflet map popup dark mode overrides */
 html.dark .leaflet-popup-content-wrapper {
     background-color: #1e293b !important;
-    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4) !important;
+    color: #f1f5f9 !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid #334155 !important;
+    border-radius: 1rem !important;
 }
 
 html.dark .leaflet-popup-content {
-    color: #e2e8f0 !important;
+    color: #f1f5f9 !important;
 }
 
 html.dark .leaflet-popup-tip {
     background-color: #1e293b !important;
 }
 
+/* Leaflet zoom controls styling */
+.leaflet-bar {
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 0.75rem !important;
+    overflow: hidden;
+}
 
+.leaflet-bar a {
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    font-size: 16px !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+html.dark .leaflet-bar a {
+    background-color: #1e293b !important;
+    color: #f1f5f9 !important;
+    border-bottom: 1px solid #334155 !important;
+}
+
+.leaflet-bar a:hover {
+    background-color: #f8fafc !important;
+}
+
+html.dark .leaflet-bar a:hover {
+    background-color: #334155 !important;
+}
