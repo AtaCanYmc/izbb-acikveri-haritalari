@@ -194,10 +194,12 @@ const ClusteredMarkers = ({
 export const OpenDataMap = ({points, selectedPoint, onMarkerClick, isDarkMode = false}: OpenDataMapProps) => {
     const userLocation = useUserLocation();
 
+    const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY || '';
+
     // Tile layer URL'sini dark mode'a göre seç
     const tileLayerUrl = isDarkMode
-        ? "https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png" // CartoDB Voyager Dark
-        : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"; // Voyager light (default)
+        ? `https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png${cartoApiKey ? `?key=${cartoApiKey}` : ''}`
+        : `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${cartoApiKey ? `?key=${cartoApiKey}` : ''}`;
 
     return (
         <div className="h-full w-full relative z-0 min-h-[100vh]">
