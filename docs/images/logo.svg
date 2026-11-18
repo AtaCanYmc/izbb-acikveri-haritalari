@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#041b2d" />
+      <stop offset="50%" stop-color="#073b64" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#bae6fd" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.6" />
+    </linearGradient>
+
+    <!-- Map Fold Gradients -->
+    <linearGradient id="mapFold1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.15" />
+    </linearGradient>
+
+    <linearGradient id="mapFold2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.05" />
+    </linearGradient>
+
+    <linearGradient id="mapFold3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#075985" stop-opacity="0.1" />
+    </linearGradient>
+
+    <!-- Pin & Tower Gradients -->
+    <linearGradient id="pinBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="40%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+
+    <linearGradient id="pinCoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e0f2fe" />
+    </linearGradient>
+
+    <linearGradient id="towerGoldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="40%" stop-color="#facc15" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+
+    <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Drop Shadows & Glows -->
+    <filter id="badgeShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#021c33" flood-opacity="0.6" />
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#0284c7" flood-opacity="0.3" />
+    </filter>
+
+    <filter id="pinGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0284c7" flood-opacity="0.5" />
+      <feGaussianBlur stdDeviation="3" result="glow" />
+      <feComposite in="SourceGraphic" in2="glow" operator="over" />
+    </filter>
+
+    <filter id="coreGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Main Squircle Outer Body -->
+  <g filter="url(#badgeShadow)">
+    <rect x="36" y="36" width="440" height="440" rx="112" fill="url(#bgGrad)" />
+    <rect x="36" y="36" width="440" height="440" rx="112" fill="none" stroke="url(#borderGrad)" stroke-width="2.5" />
+  </g>
+
+  <!-- Ambient Internal Glow -->
+  <circle cx="256" cy="180" r="140" fill="#0284c7" opacity="0.25" filter="url(#coreGlow)" />
+  <circle cx="256" cy="270" r="180" fill="#38bdf8" opacity="0.1" filter="url(#coreGlow)" />
+
+  <!-- Geometric Isomeric Map Base (Faceted Planes) -->
+  <g opacity="0.85">
+    <!-- Plane 1 (Left fold) -->
+    <polygon points="106,356 196,396 196,306 106,266" fill="url(#mapFold1)" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1.5" stroke-linejoin="round" />
+    
+    <!-- Plane 2 (Center fold) -->
+    <polygon points="196,396 316,356 316,266 196,306" fill="url(#mapFold2)" stroke="#bae6fd" stroke-opacity="0.4" stroke-width="1.5" stroke-linejoin="round" />
+    
+    <!-- Plane 3 (Right fold) -->
+    <polygon points="316,356 406,396 406,306 316,266" fill="url(#mapFold3)" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1.5" stroke-linejoin="round" />
+
+    <!-- Contour Grid Lines on Map -->
+    <line x1="136" y1="280" x2="196" y2="306" stroke="#38bdf8" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="3 3" />
+    <line x1="196" y1="306" x2="276" y2="280" stroke="#38bdf8" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="3 3" />
+    <line x1="276" y1="280" x2="376" y2="320" stroke="#38bdf8" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="3 3" />
+
+    <line x1="106" y1="326" x2="196" y2="366" stroke="#38bdf8" stroke-opacity="0.2" stroke-width="1" />
+    <line x1="196" y1="366" x2="316" y2="326" stroke="#38bdf8" stroke-opacity="0.2" stroke-width="1" />
+    <line x1="316" y1="326" x2="406" y2="366" stroke="#38bdf8" stroke-opacity="0.2" stroke-width="1" />
+  </g>
+
+  <!-- Coordinate Pulse Wave on Center Fold -->
+  <ellipse cx="256" cy="378" rx="60" ry="20" fill="none" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="2" />
+  <ellipse cx="256" cy="378" rx="90" ry="30" fill="none" stroke="#38bdf8" stroke-opacity="0.2" stroke-width="1.5" stroke-dasharray="6 4" />
+  <ellipse cx="256" cy="378" rx="120" ry="40" fill="none" stroke="#38bdf8" stroke-opacity="0.1" stroke-width="1" />
+
+  <!-- Data Nodes (Glowing Points on Map Grid) -->
+  <g>
+    <!-- Node Left -->
+    <circle cx="150" cy="316" r="4" fill="#38bdf8" opacity="0.8" />
+    <circle cx="150" cy="316" r="8" fill="none" stroke="#38bdf8" opacity="0.3" stroke-width="1" />
+
+    <!-- Node Mid-Left -->
+    <circle cx="216" cy="340" r="3" fill="#bae6fd" opacity="0.9" />
+
+    <!-- Node Right -->
+    <circle cx="360" cy="326" r="4" fill="#38bdf8" opacity="0.8" />
+    <circle cx="360" cy="326" r="8" fill="none" stroke="#38bdf8" opacity="0.3" stroke-width="1" />
+
+    <!-- Connecting Data Vectors -->
+    <path d="M150 316 L216 340 L256 378 L360 326" fill="none" stroke="url(#pulseGrad)" stroke-width="2" />
+  </g>
+
+  <!-- Central Monumental Symbol: Modern Pin & Clock Tower Fusion -->
+  <g filter="url(#pinGlow)">
+    <!-- Main Location Beacon Outer Silhouette -->
+    <path d="M256,92 
+             C192,92 144,142 144,208 
+             C144,286 242,374 256,386 
+             C270,374 368,286 368,208 
+             C368,142 320,92 256,92 Z" 
+          fill="url(#pinBodyGrad)" 
+          stroke="url(#borderGrad)" 
+          stroke-width="2" />
+
+    <!-- Subtle Inner Bevel Arc -->
+    <path d="M256,104 
+             C202,104 160,146 160,204 
+             C160,268 238,342 256,360 
+             C274,342 352,268 352,204 
+             C352,146 310,104 256,104 Z" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-opacity="0.15" 
+          stroke-width="1.5" />
+
+    <!-- Inner Core Dial / Disc (White / Pale Sky) -->
+    <circle cx="256" cy="204" r="76" fill="url(#pinCoreGrad)" filter="url(#coreGlow)" />
+    <circle cx="256" cy="204" r="76" fill="none" stroke="#bae6fd" stroke-width="2" />
+
+    <!-- Dial Compass Ticks -->
+    <line x1="256" y1="134" x2="256" y2="140" stroke="#0284c7" stroke-width="2" stroke-linecap="round" />
+    <line x1="256" y1="268" x2="256" y2="274" stroke="#0284c7" stroke-width="2" stroke-linecap="round" />
+    <line x1="186" y1="204" x2="192" y2="204" stroke="#0284c7" stroke-width="2" stroke-linecap="round" />
+    <line x1="320" y1="204" x2="326" y2="204" stroke="#0284c7" stroke-width="2" stroke-linecap="round" />
+
+    <!-- İzmir Clock Tower (Saat Kulesi) Silhouette Inside Dial -->
+    <g transform="translate(256, 204) scale(0.92) translate(-256, -204)">
+      <!-- Spire Crescent / Top Finial -->
+      <circle cx="256" cy="144" r="3.5" fill="url(#towerGoldGrad)" />
+      <path d="M256,147.5 L256,152" stroke="#ca8a04" stroke-width="1.5" stroke-linecap="round" />
+
+      <!-- Top Islamic Dome & Tier -->
+      <path d="M251,155 C251,152 253,150 256,150 C259,150 261,152 261,155 L263,161 L249,161 Z" fill="url(#towerGoldGrad)" />
+      
+      <!-- Upper Balcony & Cornice -->
+      <rect x="244" y="161" width="24" height="3" rx="1" fill="#0369a1" />
+      <rect x="246" y="164" width="20" height="8" rx="1" fill="#0284c7" />
+      
+      <!-- Arched Openings on Upper Section -->
+      <rect x="253" y="166" width="6" height="6" rx="2" fill="#041b2d" />
+
+      <!-- Mid Balcony -->
+      <rect x="240" y="172" width="32" height="4" rx="1.5" fill="#075985" />
+      <rect x="243" y="174" width="26" height="1.5" fill="#38bdf8" opacity="0.6" />
+
+      <!-- Clock Face Section -->
+      <rect x="244" y="176" width="24" height="24" rx="2" fill="#0369a1" />
+      
+      <!-- The Famous Clock on the Tower -->
+      <circle cx="256" cy="188" r="8" fill="#ffffff" stroke="#facc15" stroke-width="1.5" />
+      <!-- Clock Hands pointing to ~ 09:05 (Iconic moment) -->
+      <line x1="256" y1="188" x2="252" y2="187" stroke="#0c4a6e" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="256" y1="188" x2="256" y2="183" stroke="#0c4a6e" stroke-width="1.2" stroke-linecap="round" />
+      <circle cx="256" cy="188" r="1.2" fill="#0284c7" />
+
+      <!-- Tower Shaft with Moorish Geometric Filigree Columns -->
+      <rect x="246" y="200" width="20" height="32" fill="#0284c7" />
+      <!-- Vertical Grooves/Columns -->
+      <line x1="250" y1="202" x2="250" y2="230" stroke="#0369a1" stroke-width="1.5" />
+      <line x1="256" y1="202" x2="256" y2="230" stroke="#38bdf8" stroke-width="1" opacity="0.8" />
+      <line x1="262" y1="202" x2="262" y2="230" stroke="#0369a1" stroke-width="1.5" />
+
+      <!-- Lower Plinth & Arched Portico Base -->
+      <rect x="238" y="232" width="36" height="4" rx="1" fill="#075985" />
+      <path d="M236,236 L276,236 L280,254 L232,254 Z" fill="#0369a1" />
+      
+      <!-- Base Horseshoe Archways (Typical Izmir Clock Tower architecture) -->
+      <path d="M241,254 L241,245 C241,242 244,240 247,240 C250,240 253,242 253,245 L253,254 Z" fill="#041b2d" />
+      <path d="M259,254 L259,245 C259,242 262,240 265,240 C268,240 271,242 271,245 L271,254 Z" fill="#041b2d" />
+      
+      <!-- Sub-Base Foundation Step -->
+      <rect x="226" y="254" width="60" height="4" rx="1" fill="#073b64" />
+      <rect x="220" y="258" width="72" height="4" rx="1" fill="#041b2d" />
+    </g>
+  </g>
+
+  <!-- Aegean Sea Nautical Compass Star Indicator on Top Corner -->
+  <g transform="translate(382, 102) scale(0.65)" opacity="0.85">
+    <polygon points="20,0 25,15 40,20 25,25 20,40 15,25 0,20 15,15" fill="#facc15" />
+    <circle cx="20" cy="20" r="3" fill="#ffffff" />
+  </g>
+
+  <!-- Modern Technical Badge Tag on Bottom -->
+  <g transform="translate(256, 436)">
+    <rect x="-84" y="-14" width="168" height="28" rx="14" fill="#031f36" fill-opacity="0.8" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="1.2" />
+    <circle cx="-62" cy="0" r="3.5" fill="#38bdf8" />
+    <text x="-48" y="4.5" fill="#e0f2fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5">AÇIK VERİ ATLASI</text>
+  </g>
+</svg>

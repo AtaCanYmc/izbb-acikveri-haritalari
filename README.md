@@ -1,5 +1,9 @@
 <div align="center">
-  <img src="public/favicon/favicon.svg" alt="İzmir Açık Veri Haritaları Logo" width="120" />
+  <a href="https://github.com/AtaCanYmc/izbb-acikveri-haritalari">
+    <img src="docs/images/logo.svg" alt="İzmir Açık Veri Haritaları Logo" width="160" height="160" />
+  </a>
+  <br />
+  <br />
 </div>
 
 # İzmir Açık Veri Haritaları
