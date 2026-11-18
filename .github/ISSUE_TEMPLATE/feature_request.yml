@@ -1,0 +1,39 @@
+name: Feature Request
+description: Propose a new map dataset, interface improvement, or architectural enhancement
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check existing issues and roadmap to ensure this proposal is not already tracked.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Describe the technical friction, missing map layer, or functional requirement.
+      placeholder: I encounter an issue when...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: Detail the requested behavior, UI flow, or new open data endpoint.
+      placeholder: Add support for...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe alternative solutions or workarounds you evaluated.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Contributor Checklist
+      options:
+        - label: I searched existing issues and PRs before submitting this request.
+          required: true
+        - label: The requested dataset is available on the Izmir Open Data Portal or official sources.
+          required: false

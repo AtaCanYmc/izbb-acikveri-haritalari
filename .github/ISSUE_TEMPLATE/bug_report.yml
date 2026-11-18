@@ -1,0 +1,50 @@
+name: Bug Report
+description: Report a reproducible defect or bug
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please verify the issue has not already been reported before opening a ticket.
+        For security vulnerability reports, refer to [SECURITY.md](../../SECURITY.md).
+  - type: textarea
+    id: summary
+    attributes:
+      label: Bug Description
+      description: Provide a clear and concise description of the issue.
+      placeholder: Describe what happened.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Step-by-step instructions to reproduce the problem.
+      placeholder: |
+        1. Open map '...'
+        2. Filter by '...'
+        3. Observe error '...'
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Browser Console or Terminal Output
+      description: Paste relevant browser console messages or network errors.
+      render: shell
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser version, OS, device type.
+      placeholder: Chrome 133 on macOS 15.3, Safari on iOS 18.2
+    validations:
+      required: true

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerabilities
+    url: https://github.com/AtaCanYmc/izbb-acikveri-haritalari/security/policy
+    about: Please report security vulnerabilities privately according to our security policy.
+  - name: Izmir Open Data Portal
+    url: https://acikveri.bizizmir.com
+    about: Official portal for Izmir Metropolitan Municipality open data sets.

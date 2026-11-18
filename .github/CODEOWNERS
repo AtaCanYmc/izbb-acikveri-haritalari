@@ -1,0 +1,10 @@
+# Global code ownership
+* @AtaCanYmc
+
+# CI workflows and automation manifests
+/.github/ @AtaCanYmc
+
+# Governance, security, and licensing
+/LICENSE.md @AtaCanYmc
+/SECURITY.md @AtaCanYmc
+/CONTRIBUTING.md @AtaCanYmc
