@@ -130,15 +130,16 @@ Uygulama yerel olarak `http://localhost:5173` adresinde çalışır.
 
 ## Ortam Değişkenleri
 
-Uygulamanın harita karolarını yükleyebilmesi için bir CARTO Basemaps API anahtarı gerekir.
+Uygulama varsayılan olarak herhangi bir API anahtarı gerektirmeden ücretsiz **OpenStreetMap** katmanını kullanır. CARTO Basemaps (Voyager ve Dark) tema katmanlarını etkinleştirmek için isteğe bağlı olarak `VITE_CARTO_API_KEY` tanımlanabilir.
 
 | Değişken | Tip | Zorunlu | Açıklama |
 | --- | --- | --- | --- |
-| `VITE_CARTO_API_KEY` | String | Evet | [CARTO Basemaps](https://carto.com/basemaps/apikey) ücretsiz katman API anahtarı |
+| `VITE_CARTO_API_KEY` | String | Hayır (Opsiyonel) | [CARTO Basemaps](https://carto.com/basemaps/apikey) API anahtarı. Belirtilmezse ücretsiz OpenStreetMap kullanılır. |
 
 Örnek `.env` dosyası:
 
 ```env
+# İsteğe bağlı CARTO anahtarı (boş bırakılırsa OpenStreetMap kullanılır)
 VITE_CARTO_API_KEY=your_carto_api_key_here
 ```
 

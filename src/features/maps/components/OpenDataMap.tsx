@@ -7,6 +7,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 import {getMapIcon, userIcon} from '../../../components/map/mapIcons.tsx';
 import type {MapPoint} from '../types/mapData.ts';
+import {getTileLayerConfig} from '../utils/mapTileConfig.ts';
 
 // Default icon is no longer globally set to avoid overriding custom icons
 // L.Marker.prototype.options.icon = DefaultIcon;
@@ -194,19 +195,16 @@ const ClusteredMarkers = ({
 export const OpenDataMap = ({points, selectedPoint, onMarkerClick, isDarkMode = false}: OpenDataMapProps) => {
     const userLocation = useUserLocation();
 
-    const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY || '';
-
-    // Tile layer URL'sini dark mode'a göre seç
-    const tileLayerUrl = isDarkMode
-        ? `https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png${cartoApiKey ? `?key=${cartoApiKey}` : ''}`
-        : `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${cartoApiKey ? `?key=${cartoApiKey}` : ''}`;
+    const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY;
+    const tileConfig = getTileLayerConfig(cartoApiKey, isDarkMode);
 
     return (
         <div className="h-full w-full relative z-0 min-h-[100vh]">
             <MapContainer center={IZMIR_CENTER} zoom={11} style={{height: '100%', width: '100%'}} zoomControl={false}>
                 <TileLayer
-                    url={tileLayerUrl}
-                    attribution="&copy; OpenStreetMap"
+                    url={tileConfig.url}
+                    attribution={tileConfig.attribution}
+                    maxZoom={tileConfig.maxZoom}
                 />
                 <MapResizer selectedPoint={selectedPoint}/>
                 {userLocation && <ChangeView center={userLocation}/>}
