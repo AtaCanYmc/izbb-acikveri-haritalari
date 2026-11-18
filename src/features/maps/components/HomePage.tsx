@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import {getCategoryConfig} from '../utils/categoryMeta.ts';
 import {resolveAssetUrl} from '../../../utils/assetUtils.ts';
+import {sanitizeUrl} from '../../../utils/security.ts';
 
 interface HomePageProps {
     onSelectMap: (mapId: string) => void;
@@ -126,7 +127,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                         <a
                             href="https://acikveri.bizizmir.com"
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             className={clsx(
                                 'hidden lg:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border transition-colors min-h-[44px]',
                                 isDarkMode
@@ -505,9 +506,9 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
 
                                             <div className="relative z-10 flex items-center">
                                                 <a
-                                                    href={map.sourceUrl}
+                                                    href={sanitizeUrl(map.sourceUrl)}
                                                     target="_blank"
-                                                    rel="noreferrer"
+                                                    rel="noopener noreferrer"
                                                     onClick={(e) => e.stopPropagation()}
                                                     className={clsx(
                                                         'p-1.5 rounded-lg border text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors',
@@ -590,7 +591,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                                     <a
                                         href="https://acikveri.bizizmir.com"
                                         target="_blank"
-                                        rel="noreferrer"
+                                        rel="noopener noreferrer"
                                         className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center gap-1"
                                     >
                                         <span>İzBB Açık Veri Portalı</span>
@@ -601,7 +602,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                                     <a
                                         href="https://www.izmir.bel.tr"
                                         target="_blank"
-                                        rel="noreferrer"
+                                        rel="noopener noreferrer"
                                         className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center gap-1"
                                     >
                                         <span>İzmir Büyükşehir Belediyesi</span>
@@ -612,7 +613,7 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                                     <a
                                         href="https://github.com/AtaCanYmc/izbb-acikveri-haritalari"
                                         target="_blank"
-                                        rel="noreferrer"
+                                        rel="noopener noreferrer"
                                         className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors inline-flex items-center gap-1"
                                     >
                                         <span>GitHub Açık Kaynak Deposu</span>

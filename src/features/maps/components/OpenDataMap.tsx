@@ -8,6 +8,7 @@ import 'leaflet.markercluster';
 import {getMapIcon, userIcon} from '../../../components/map/mapIcons.tsx';
 import type {MapPoint} from '../types/mapData.ts';
 import {getTileLayerConfig} from '../utils/mapTileConfig.ts';
+import {escapeHtml, sanitizeUrl} from '../../../utils/security.ts';
 
 // Default icon is no longer globally set to avoid overriding custom icons
 // L.Marker.prototype.options.icon = DefaultIcon;
@@ -157,24 +158,37 @@ const ClusteredMarkers = ({
 
             const marker = L.marker([point.latitude, point.longitude], {icon});
 
+            const safeTitle = escapeHtml(point.title);
+            const safeSubtitle = point.subtitle ? `<p class="text-[11px] mb-2 leading-tight opacity-85">${escapeHtml(point.subtitle)}</p>` : '';
+            const safeDescription = point.description ? `<p class="text-[10px] mb-2 opacity-75">${escapeHtml(point.description)}</p>` : '';
+            const safeBadge = point.badge ? `<div class="flex justify-end"><span class="font-bold text-[9px] uppercase text-izmir-700">${escapeHtml(point.badge)}</span></div>` : '';
+            const safeDetailLines = point.detailLines.map((line) => `<div class="text-[10px] opacity-75">${escapeHtml(line)}</div>`).join('');
+            const safeActions = point.actions && point.actions.length > 0 ? `
+                <div class="flex flex-col gap-2 pb-2">
+                    ${point.actions.map((action) => {
+                        const safeHref = sanitizeUrl(action.href);
+                        const safeLabel = escapeHtml(action.label);
+                        const targetAttr = action.external ? 'target="_blank"' : '';
+                        const relAttr = action.external ? 'rel="noopener noreferrer"' : '';
+                        return `
+                            <a href="${safeHref}" ${targetAttr} ${relAttr} class="flex-1 bg-slate-900 text-white text-center py-2 rounded-xl font-bold text-xs hover:bg-slate-800 transition-colors">
+                                ${safeLabel}
+                            </a>
+                        `;
+                    }).join('')}
+                </div>
+            ` : '';
+
             marker.bindPopup(
                 L.popup().setContent(`
                     <div class="p-1 min-w-[170px] text-inherit">
-                        <h3 class="font-bold border-b pb-1 mb-1">${point.title}</h3>
-                        ${point.subtitle ? `<p class="text-[11px] mb-2 leading-tight opacity-85">${point.subtitle}</p>` : ''}
-                        ${point.description ? `<p class="text-[10px] mb-2 opacity-75">${point.description}</p>` : ''}
+                        <h3 class="font-bold border-b pb-1 mb-1">${safeTitle}</h3>
+                        ${safeSubtitle}
+                        ${safeDescription}
                         <div class="flex flex-col gap-1.5">
-                            ${point.actions && point.actions.length > 0 ? `
-                                <div class="flex flex-col gap-2 pb-2">
-                                    ${point.actions.map((action) => `
-                                        <a href="${action.href}" target="${action.external ? '_blank' : ''}" class="flex-1 bg-slate-900 text-white text-center py-2 rounded-xl font-bold text-xs hover:bg-slate-800 transition-colors">
-                                            ${action.label}
-                                        </a>
-                                    `).join('')}
-                                </div>
-                            ` : ''}
-                            ${point.detailLines.map((line) => `<div class="text-[10px] opacity-75">${line}</div>`).join('')}
-                            ${point.badge ? `<div class="flex justify-end"><span class="font-bold text-[9px] uppercase text-izmir-700">${point.badge}</span></div>` : ''}
+                            ${safeActions}
+                            ${safeDetailLines}
+                            ${safeBadge}
                         </div>
                     </div>
                 `)

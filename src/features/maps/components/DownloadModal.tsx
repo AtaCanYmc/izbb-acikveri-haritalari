@@ -3,6 +3,7 @@ import {X, Image, FileJson, FileText, MapPin, FileCode} from 'lucide-react';
 import {toast} from 'react-hot-toast';
 import clsx from 'clsx';
 import type {MapPoint} from '../types/mapData.ts';
+import {escapeHtml, safeJsonStringify} from '../../../utils/security.ts';
 
 interface DownloadModalProps {
     isOpen: boolean;
@@ -150,12 +151,15 @@ export const DownloadModal = ({
             const cdnLeafletJs = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
             const cdnClusterJs = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js';
 
+            const safeTitleText = escapeHtml(mapTitle);
+            const safePointsJson = safeJsonStringify(mapPoints);
+
             const html = `<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${mapTitle} - İzmir Açık Veri Haritası</title>
+    <title>${safeTitleText} - İzmir Açık Veri Haritası</title>
     <link rel="stylesheet" href="${cdnLeafletCss}" />
     <link rel="stylesheet" href="${cdnClusterCss}" />
     <link rel="stylesheet" href="${cdnClusterDefaultCss}" />
@@ -173,6 +177,16 @@ export const DownloadModal = ({
     <script src="${cdnLeafletJs}"></script>
     <script src="${cdnClusterJs}"></script>
     <script>
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         const map = L.map('map').setView([38.4237, 27.1428], 11);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
@@ -180,19 +194,16 @@ export const DownloadModal = ({
         }).addTo(map);
 
         const markerClusterGroup = L.markerClusterGroup();
-        const points = ${JSON.stringify(mapPoints)};
+        const points = ${safePointsJson};
 
         points.forEach(point => {
             if (point.latitude && point.longitude) {
                 const marker = L.marker([point.latitude, point.longitude]);
-                const popupContent = \`
-                    <div style="min-width: 180px;">
-                        <h4 style="margin: 0 0 6px 0; color: #0284c7; font-size: 13px; font-weight: 700;">\${point.title || ''}</h4>
-                        \${point.subtitle ? \`<p style="margin: 3px 0; font-size: 11px; color: #475569;">\${point.subtitle}</p>\` : ''}
-                        \${point.description ? \`<p style="margin: 3px 0; font-size: 11px; color: #64748b;">\${point.description}</p>\` : ''}
-                        \${point.badge ? \`<span style="display:inline-block; margin-top:4px; font-size:10px; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:600;">\${point.badge}</span>\` : ''}
-                    </div>
-                \`;
+                const safePointTitle = escapeHtml(point.title);
+                const safePointSub = point.subtitle ? '<p style="margin: 3px 0; font-size: 11px; color: #475569;">' + escapeHtml(point.subtitle) + '</p>' : '';
+                const safePointDesc = point.description ? '<p style="margin: 3px 0; font-size: 11px; color: #64748b;">' + escapeHtml(point.description) + '</p>' : '';
+                const safePointBadge = point.badge ? '<span style="display:inline-block; margin-top:4px; font-size:10px; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:600;">' + escapeHtml(point.badge) + '</span>' : '';
+                const popupContent = '<div style="min-width: 180px;"><h4 style="margin: 0 0 6px 0; color: #0284c7; font-size: 13px; font-weight: 700;">' + safePointTitle + '</h4>' + safePointSub + safePointDesc + safePointBadge + '</div>';
                 marker.bindPopup(popupContent);
                 markerClusterGroup.addLayer(marker);
             }
@@ -203,10 +214,7 @@ export const DownloadModal = ({
         const info = L.control({position: 'topright'});
         info.onAdd = () => {
             const div = L.DomUtil.create('div', 'info');
-            div.innerHTML = \`
-                <h4>${mapTitle}</h4>
-                <p><strong>\${points.length}</strong> konum kayıtlı</p>
-            \`;
+            div.innerHTML = '<h4>' + escapeHtml(${JSON.stringify(mapTitle)}) + '</h4><p><strong>' + points.length + '</strong> konum kayıtlı</p>';
             return div;
         };
         info.addTo(map);

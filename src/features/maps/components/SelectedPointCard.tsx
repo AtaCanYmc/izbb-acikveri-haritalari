@@ -2,6 +2,7 @@ import {useEffect} from 'react';
 import {X, Phone, Navigation, MapPin} from 'lucide-react';
 import clsx from 'clsx';
 import type {MapPoint} from '../types/mapData.ts';
+import {sanitizeUrl} from '../../../utils/security.ts';
 
 interface SelectedPointCardProps {
     point: MapPoint | null;
@@ -115,7 +116,7 @@ export const SelectedPointCard = ({point, onClose, isDarkMode = false}: Selected
                         return (
                             <a
                                 key={action.id}
-                                href={action.href}
+                                href={sanitizeUrl(action.href)}
                                 target={action.external ? '_blank' : undefined}
                                 rel={action.external ? 'noreferrer noopener' : undefined}
                                 className={clsx(

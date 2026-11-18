@@ -64,6 +64,7 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
                         <a
                             href="https://acikveri.bizizmir.com"
                             target="_blank"
+                            rel="noopener noreferrer"
                             className={clsx(
                                 'text-[8px] hover:underline flex items-center gap-1',
                                 isDarkMode ? 'text-blue-400' : 'text-blue-500'
@@ -98,6 +99,7 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
                     <div className="flex items-center justify-between pt-2">
                         <div className="flex items-center gap-3">
                             <a href="https://github.com/AtaCanYmc/izbb-acikveri-haritalari" target="_blank"
+                               rel="noopener noreferrer"
                                className={clsx(
                                    'transition-colors',
                                    isDarkMode
@@ -107,12 +109,14 @@ const Footer = ({isDarkMode = false}: FooterProps) => {
                                 <Github size={16}/>
                             </a>
                             <a href="https://www.linkedin.com/in/ata-can-yaymacı/"
+                               target="_blank"
+                               rel="noopener noreferrer"
                                className={clsx(
                                    'transition-colors',
                                    isDarkMode
                                        ? 'text-slate-500 hover:text-slate-300'
                                        : 'text-slate-400 hover:text-slate-900'
-                               )} target="_blank">
+                               )}>
                                 <Linkedin size={16}/>
                             </a>
                         </div>
