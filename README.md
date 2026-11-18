@@ -170,7 +170,7 @@ npm run build
 
 ## CI/CD İş Akışı
 
-GitHub Actions üzerinde çalışan iki iş akışı mevcuttur:
+GitHub Actions üzerinde çalışan otomatik iş akışları:
 
 1. **Code Quality (`.github/workflows/quality.yml`):**
    - Her `push` ve `pull_request` tetiklemesinde çalışır.
@@ -179,7 +179,10 @@ GitHub Actions üzerinde çalışan iki iş akışı mevcuttur:
 2. **Deploy (`.github/workflows/deploy.yml`):**
    - `main` dalına birleştirilen değişikliklerde derleme çıktısını otomatik olarak GitHub Pages ortamına dağıtır.
 
-3. **Owner Auto-Merge (`.github/workflows/owner-auto-merge.yml`):**
+3. **Release Please (`.github/workflows/release-please.yml`):**
+   - Conventional Commits mesajlarını analiz ederek otomatik SemVer sürüm artırımı, `CHANGELOG.md` güncellemesi ve sürüm çekme istekleri (Release PR) oluşturur; PR birleştirildiğinde GitHub Release ve git etiketi yayınlar.
+
+4. **Owner Auto-Merge (`.github/workflows/owner-auto-merge.yml`):**
    - Depo sahibine ait çekme isteklerini tüm CI kontrolleri başarıyla tamamlandığında otomatik olarak birleştirir.
 
 ---
