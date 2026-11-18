@@ -1,0 +1,183 @@
+# İzmir Açık Veri Haritaları - Tam Veri Kataloğu
+
+> 36 Belediye açık veri katmanının tam listesi, açıklamaları ve açık veri portalı kaynakları.
+
+## Nöbetçi Eczaneler (Sağlık)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=nobetci-eczaneler
+- Açıklama: İzmir genelindeki güncel nöbetçi eczaneleri harita ve liste görünümüyle keşfedin.
+- Kaynak Veri Seti: https://acikveri.bizizmir.com/dataset/nobetci-eczaneler-ve-eczane-listesi
+
+## Tüm Eczaneler (Sağlık)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=eczaneler
+- Açıklama: İzmir genelindeki tüm eczaneleri harita üzerinde görüntüleyin ve iletişim bilgilerini alın.
+- Kaynak Veri Seti: https://acikveri.bizizmir.com/dataset/eczaneler-listesi
+
+## Otoparklar (Ulaşım)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=otoparklar
+- Açıklama: Otopark konumlarını ve doluluk bilgisini canlı olarak harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://acikveri.bizizmir.com/dataset/otopark-doluluk-ve-lokasyon-bilgileri
+
+## WiZmirNET Noktaları (Dijital Hizmetler)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=wizmirnet
+- Açıklama: Ücretsiz kablosuz internet noktalarını harita üzerinde görün ve yol tarifi alın.
+- Kaynak Veri Seti: https://acikveri.bizizmir.com/dataset/kablosuz-internet-baglanti-noktalari
+
+## Afet Toplanma Alanları (Afet)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=afet-toplanma-alanlari
+- Açıklama: Afet ve acil durum toplanma alanlarını ilçe ve mahalle bazında harita üzerinde görün.
+- Kaynak Veri Seti: https://acikveri.bizizmir.com/dataset/afet-ve-acil-durum-toplanma-alanlari
+
+## Semt Pazarları (Yaşam)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=semt-pazarlari
+- Açıklama: İzmir’deki semt pazarlarının konumlarını ve mahalle bazlı dağılımını keşfedin.
+- Kaynak Veri Seti: https://acikveri.bizizmir.com/dataset/semt-pazar-yerleri
+
+## İzBB Hizmet Noktaları (Belediye)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=izbb-hizmet-noktalari
+- Açıklama: Belediyeye bağlı hizmet noktalarını tek ekranda görün ve yol tarifi alın.
+- Kaynak Veri Seti: https://acikveri.bizizmir.com/dataset/izbb-hizmet-noktalari
+
+## Hastaneler (Sağlık)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=hastaneler
+- Açıklama: İzmir’deki hastanelerin konumlarını hızlıca görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/hastaneler
+
+## Aile Sağlığı Merkezleri (Sağlık)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=aile-sagligi-merkezleri
+- Açıklama: Aile sağlığı merkezlerinin konumlarını ilçe ve mahalle bazında inceleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/ailesagligimerkezleri
+
+## Veterinerlikler (Sağlık)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=veterinerlikler
+- Açıklama: Veteriner kliniklerini ve mahalle bazlı dağılımını haritada görün.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/veterinerlikler
+
+## Üniversiteler (Eğitim)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=universiteler
+- Açıklama: İzmir’deki üniversiteleri ve kampüs lokasyonlarını görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/universiteler
+
+## Liseler (Eğitim)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=liseler
+- Açıklama: İzmir genelindeki lise konumlarını harita ve liste olarak görün.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/liseler
+
+## Anaokulları (Eğitim)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=anaokullari
+- Açıklama: Anaokulu konumlarını ilçe ve mahalle bazında keşfedin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/anaokullari
+
+## Taksi Duraklari (Ulaşım)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=taksi-duraklar
+- Açıklama: İzmir genelindeki taksi durakların konumlarını harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/taksi-duraklar
+
+## Tren Garları (Ulaşım)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=tren-garlari
+- Açıklama: İzmir genelindeki tren garlarını harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/tren-garlari
+
+## Vapur İskeleleri (Ulaşım)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=vapur-iskeleleri
+- Açıklama: İzmir genelindeki vapur iskeleleri konumlarını harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/vapur-iskeleleri
+
+## Muhtarlıklar (Yönetim)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=muhtarliklar
+- Açıklama: İzmir genelindeki muhtarlık konumlarını harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/muhtarliklar
+
+## Plajlar (Rekreasyon)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=plajlar
+- Açıklama: İzmir genelindeki plajları harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/plajlar
+
+## Hamamlar (Rekreasyon)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=hamamlar
+- Açıklama: İzmir genelindeki hamamları harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/hamamlar
+
+## Kaplıcalar (Rekreasyon)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=kaplicalar
+- Açıklama: İzmir genelindeki kaplıca alanlarını harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/kaplicalar
+
+## Fuar Alanları (Rekreasyon)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=fuar-alanlari
+- Açıklama: İzmir genelindeki fuar alanlarını harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/fuar-alanlari
+
+## Kütüphaneler (Kültür)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=kutuphaneler
+- Açıklama: İzmir genelindeki kütüphaneleri harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/kutuphaneler
+
+## Kültür Merkezleri (Kültür)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=kultur-merkezleri
+- Açıklama: İzmir genelindeki kultur merkezlerini harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/kultur-merkezleri
+
+## Opera ve Bale (Kültür)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=opera-bale
+- Açıklama: Izmir\
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/opera-bale
+
+## Galeriler ve Salonlar (Kültür)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=galeriler-salonlar
+- Açıklama: Izmir\
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/galeriler-salonlar
+
+## Senfoni Orkestrası (Kültür)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=senfoni-orkestrasi
+- Açıklama: Izmir\
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/senfoni-orkestrasi
+
+## Sinemalar (Kültür)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=sinemalar
+- Açıklama: İzmir genelindeki sinemaları harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/sinemalar
+
+## Tiyatrolar (Kültür)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=tiyatrolar
+- Açıklama: İzmir genelindeki tiyatroları harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/tiyatrolar
+
+## Müzeler (Kültür)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=muzeler
+- Açıklama: İzmir genelindeki müzeleri harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/muzeler
+
+## Antik Kentler (Tarih)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=antik-kentler
+- Açıklama: İzmir genelindeki antik kentleri harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/antik-kentler
+
+## Antik Yapılar (Tarih)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=antik-yapılar
+- Açıklama: Izmir\
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/antik-yapılar
+
+## Köşk ve Konaklar (Tarih)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=kosk-konaklar
+- Açıklama: Izmir\
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/kosk-konaklar
+
+## Kule, Anıt ve Heykeller (Tarih)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=kule-anıt-heykeller
+- Açıklama: Izmir\
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/kule-anıt-heykeller
+
+## Tarihi Çarşı ve Hanlar (Tarih)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=tarihi-carsi-hanlar
+- Açıklama: Izmir\
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/tarihi-carsi-hanlar
+
+## Tarihi Su Yapıları (Tarih)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=tarihi-su-yapilari
+- Açıklama: Izmir\
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/tarihi-su-yapilari
+
+## Tarihi Yapılar (Tarih)
+- Harita URL: https://www.izmirnobetcieczaneharitasi.live/?map=tarihi-yapılar
+- Açıklama: İzmir genelindeki tarihi yapıları harita üzerinde görüntüleyin.
+- Kaynak Veri Seti: https://openapi.izmir.bel.tr/api/ibb/cbs/tarihi-yapılar

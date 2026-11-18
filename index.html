@@ -1,31 +1,92 @@
 <!doctype html>
-<html lang="tr"> <head>
+<html lang="tr">
+<head>
     <meta charset="UTF-8"/>
-    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico"/>
+    <link rel="icon" type="image/svg+xml" href="/logo.svg"/>
+    <link rel="alternate icon" type="image/x-icon" href="/favicon/favicon.ico"/>
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+    <meta name="theme-color" content="#0284c7"/>
 
-    <title>İzmir Nöbetçi Eczaneler | Canlı Harita ve Liste</title>
-    <meta name="description" content="İzmir'de şu an açık olan nöbetçi eczaneleri harita üzerinde görün. En yakın eczane için yol tarifi alın ve telefonla anında ulaşın." />
-    <meta name="keywords" content="izmir nöbetçi eczane, nöbetçi eczaneler bugün, eczane haritası, izmir eczane listesi" />
+    <title>İzmir Açık Veri Harita Atlası | Nöbetçi Eczaneler, Otoparklar ve 36 Belediye Katmanı</title>
+    <meta name="description" content="İzmir Büyükşehir Belediyesi açık verileriyle nöbetçi eczaneler, afet toplanma alanları, canlı otopark dolulukları, WiZmirNET ve 36 şehir haritasını interaktif keşfedin." />
+    <meta name="keywords" content="izmir açık veri, izmir harita atlası, izmir nöbetçi eczaneler, izmir otopark doluluk, afet toplanma alanları, wizmirnet, izmir belediye haritası, izbb açık veri" />
     <meta name="author" content="Ata Can Yaymacı" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
+    {/* Open Graph / Facebook */}
+    <meta property="og:site_name" content="İzmir Açık Veri Haritaları" />
+    <meta property="og:locale" content="tr_TR" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="İzmir Nöbetçi Eczane Haritası" />
-    <meta property="og:description" content="İzmir genelindeki tüm nöbetçi eczanelere anında ulaşın. Yol tarifi ve telefon desteği ile." />
-    <meta property="og:url" content="https://www.izmirnobetcieczaneharitasi.live" />
-    <meta property="twitter:title" content="İzmir Nöbetçi Eczane Haritası" />
-    <meta property="twitter:description" content="İzmir nöbetçi eczaneleri artık parmaklarınızın ucunda." />
+    <meta property="og:title" content="İzmir Açık Veri Harita Atlası" />
+    <meta property="og:description" content="İzmir Büyükşehir Belediyesi açık verileriyle nöbetçi eczaneler, afet toplanma alanları, otopark dolulukları ve 36 belediye katmanı tek haritada." />
+    <meta property="og:url" content="https://www.izmirnobetcieczaneharitasi.live/" />
+    <meta property="og:image" content="https://www.izmirnobetcieczaneharitasi.live/logo.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="İzmir Açık Veri Harita Atlası Logosu" />
 
-    <link rel="canonical" href="https://www.izmirnobetcieczaneharitasi.live" />
-    <link rel="manifest" href="/site.webmanifest">
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.izmirnobetcieczaneharitasi.live/" />
+    <meta name="twitter:title" content="İzmir Açık Veri Harita Atlası" />
+    <meta name="twitter:description" content="36 belediye açık veri katmanı: nöbetçi eczaneler, toplanma alanları, otopark dolulukları tek haritada." />
+    <meta name="twitter:image" content="https://www.izmirnobetcieczaneharitasi.live/logo.svg" />
+    <meta name="twitter:image:alt" content="İzmir Açık Veri Harita Atlası Logosu" />
+
+    <link rel="canonical" href="https://www.izmirnobetcieczaneharitasi.live/" />
+    <link rel="manifest" href="/site.webmanifest"/>
+
+    {/* Structured Data (Schema.org JSON-LD) */}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://www.izmirnobetcieczaneharitasi.live/#website",
+          "url": "https://www.izmirnobetcieczaneharitasi.live/",
+          "name": "İzmir Açık Veri Harita Atlası",
+          "description": "İzmir Büyükşehir Belediyesi açık verilerini interaktif haritalar üzerinde keşfedin.",
+          "inLanguage": "tr-TR",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.izmirnobetcieczaneharitasi.live/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://www.izmirnobetcieczaneharitasi.live/#webapp",
+          "name": "İzmir Açık Veri Harita Atlası",
+          "url": "https://www.izmirnobetcieczaneharitasi.live/",
+          "description": "Nöbetçi eczaneler, afet toplanma alanları, otopark dolulukları ve 36 açık veri katmanını içeren kentsel harita platformu.",
+          "applicationCategory": "UtilitiesApplication",
+          "operatingSystem": "All",
+          "inLanguage": "tr-TR",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "TRY"
+          },
+          "provider": {
+            "@type": "GovernmentOrganization",
+            "name": "İzmir Büyükşehir Belediyesi Açık Veri Portalı",
+            "url": "https://acikveri.bizizmir.com"
+          }
+        }
+      ]
+    }
+    </script>
+
     <script defer data-domain="izmirnobetcieczaneharitasi.live" src="https://plausible.io/js/script.js"></script>
     <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 </head>
 <body>
 <noscript>
     Bu siteyi görüntüleyebilmek için JavaScript'i etkinleştirmeniz gerekmektedir.
-    İzmir nöbetçi eczane listesine erişmek için lütfen tarayıcı ayarlarınızı kontrol edin.
+    İzmir Açık Veri Harita Atlası ve nöbetçi eczane listesine erişmek için lütfen tarayıcı ayarlarınızı kontrol edin.
 </noscript>
 <div id="root"></div>
 <script type="module" src="/src/main.tsx"></script>

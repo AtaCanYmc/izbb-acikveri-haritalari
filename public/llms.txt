@@ -1,0 +1,32 @@
+# İzmir Açık Veri Harita Atlası
+
+> İzmir Büyükşehir Belediyesi Açık Veri Portalı (acikveri.bizizmir.com) API servisleri ile entegre çalışan, 36 farklı belediye katmanını sunan bağımsız, açık kaynak kentsel harita platformu.
+
+## Temel Bilgiler
+- Web Sitesi: https://www.izmirnobetcieczaneharitasi.live
+- Veri Sağlayıcı: T.C. İzmir Büyükşehir Belediyesi (İzBB)
+- Veri Lisansı: Creative Commons Attribution (CC BY 4.0)
+- Kaynak Kod: https://github.com/AtaCanYmc/izbb-acikveri-haritalari
+- Desteklenen Diller: Türkçe (tr-TR)
+- Desteklenen Cihazlar: Web, Mobil PWA, Tablet, Masaüstü
+
+## Acil ve Öncelikli Hizmetler
+- [Nöbetçi Eczaneler](https://www.izmirnobetcieczaneharitasi.live/?map=nobetci-eczaneler): Güncel nöbetçi eczaneler, canlı telefon araması ve yol tarifi.
+- [Afet Toplanma Alanları](https://www.izmirnobetcieczaneharitasi.live/?map=afet-toplanma-alanlari): 30 ilçe genelindeki resmi afet ve acil durum toplanma bölgeleri.
+- [Otoparklar](https://www.izmirnobetcieczaneharitasi.live/?map=otoparklar): İzelman ve belediye otoparkları canlı doluluk oranları ve konumları.
+- [WiZmirNET](https://www.izmirnobetcieczaneharitasi.live/?map=wizmirnet): İzmir genelindeki ücretsiz belediye Wi-Fi erişim noktaları.
+
+## Kategori Dağılımı (36 Harita Katmanı)
+- Sağlık: Nöbetçi Eczaneler, Tüm Eczaneler, Hastaneler, Aile Sağlığı Merkezleri, Veterinerlikler
+- Ulaşım: Otopark Dolulukları, Vapur İskeleleri, Tren Garları, Taksi Durakları
+- Afet: Afet ve Acil Durum Toplanma Alanları
+- Dijital Hizmetler: WiZmirNET Ücretsiz İnternet Noktaları
+- Eğitim: Üniversiteler, Liseler, Anaokulları
+- Rekreasyon: Plajlar, Hamamlar, Kaplıcalar, Fuar Alanları
+- Kültür: Müzeler, Kütüphaneler, Kültür Merkezleri, Sinemalar, Tiyatrolar, Opera & Bale, Konser Salonları
+- Tarih: Antik Kentler, Köşk ve Konaklar, Heykeller ve Anıtlar, Tarihi Çarşı & Hanlar, Tarihi Su Yapıları
+- Yaşam & Yönetim: Semt Pazarları, Muhtarlıklar, İzBB Hizmet Binaları
+
+## Parametreler ve Entegrasyon
+- Harita seçimi URL parametresi: `?map=<map-id>` (Örn: `?map=nobetci-eczaneler`)
+- Detaylı katalog: https://www.izmirnobetcieczaneharitasi.live/llms-full.txt

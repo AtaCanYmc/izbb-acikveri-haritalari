@@ -2,8 +2,14 @@
 Developer: Ata Can Yaymacı
 Contact: hi@atacanyaymaci.com
 Site: https://www.izmirnobetcieczaneharitasi.live
+Repo: https://github.com/AtaCanYmc/izbb-acikveri-haritalari
+
+/* THANKS */
+Data Provider: İzmir Büyükşehir Belediyesi Açık Veri Portalı (acikveri.bizizmir.com)
+Map Tiles: OpenStreetMap contributors, CARTO
 
 /* SITE */
-Last update: 2026/06/19
+Last update: 2026/11/18
 Language: Turkish
-Tools: React, Vite, Tailwind CSS, Leaflet
+Standards: HTML5, CSS3, Schema.org JSON-LD, PWA, WCAG 2.1 AAA
+Tools: React 18, TypeScript, Vite, Tailwind CSS, Leaflet, Vitest

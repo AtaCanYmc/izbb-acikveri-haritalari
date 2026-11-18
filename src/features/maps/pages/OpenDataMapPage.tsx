@@ -214,9 +214,10 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         return (
             <>
                 <SEOMetadata 
-                    title="İzmir Açık Veri Haritaları" 
-                    description="İzmir Büyükşehir Belediyesi açık verilerini interaktif haritalar üzerinde keşfedin."
-                    keywords="izmir açık veri, harita atlası, belediye verileri"
+                    title="İzmir Açık Veri Haritaları | 36 Canlı Şehir Haritası ve Nöbetçi Eczaneler" 
+                    description="İzmir Büyükşehir Belediyesi açık verileriyle nöbetçi eczaneler, afet toplanma alanları, canlı otopark dolulukları ve 36 şehir haritasını interaktif keşfedin."
+                    keywords="izmir açık veri, izmir harita atlası, nöbetçi eczaneler izmir, otopark doluluk, afet toplanma alanları, wizmirnet, belediye verileri"
+                    url="https://www.izmirnobetcieczaneharitasi.live/"
                 />
                 <Toaster position="bottom-center" />
                 <HomePage
@@ -235,8 +236,11 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
         <div className="flex h-[100dvh] w-full overflow-hidden relative font-sans">
             <SEOMetadata 
                 title={`${mapDef.title} | İzmir Açık Veri Harita Atlası`}
-                description={mapDef.description || 'İzmir Büyükşehir Belediyesi açık veri katmanı'}
-                keywords={`izmir açık veri, ${mapDef.title.toLocaleLowerCase('tr-TR')}, harita atlası`}
+                description={mapDef.description || `${mapDef.title} - İzmir Büyükşehir Belediyesi resmi açık veri harita katmanı.`}
+                keywords={`izmir açık veri, ${mapDef.title.toLocaleLowerCase('tr-TR')}, ${mapDef.category.toLocaleLowerCase('tr-TR')}, izmir harita`}
+                url={`https://www.izmirnobetcieczaneharitasi.live/?map=${mapDef.id}`}
+                category={mapDef.category}
+                mapId={mapDef.id}
             />
             <Toaster position="bottom-center" />
 
