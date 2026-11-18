@@ -2,6 +2,7 @@ import {Download, Code, ArrowLeft, Search, X, Check, Sun, Moon} from 'lucide-rea
 import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import type {MapDefinition, MapPoint} from '../types/mapData.ts';
+import {getCategoryConfig} from '../utils/categoryMeta.ts';
 import Footer from '../../../components/footer/footer.tsx';
 
 interface OpenDataSidebarProps {
@@ -109,25 +110,35 @@ const Header = ({
                 </div>
             </div>
 
-            {/* Title & Category */}
-            <div className="mb-3">
-                <div className="flex items-center gap-2 mb-1">
-                    <span className={clsx(
-                        'text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded',
-                        isDarkMode ? 'bg-sky-950 text-sky-400 border border-sky-800' : 'bg-sky-50 text-sky-700 border border-sky-200'
-                    )}>
-                        {mapDefinition.category}
-                    </span>
+            {/* Title & Category with authentic icon */}
+            <div className="mb-3 flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl p-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center shrink-0 mt-0.5">
+                    <img
+                        src={getCategoryConfig(mapDefinition.category).iconUrl}
+                        alt=""
+                        aria-hidden="true"
+                        className="w-full h-full object-contain"
+                    />
                 </div>
-                <h1 className="text-xl font-bold tracking-tight leading-snug">
-                    {mapDefinition.title}
-                </h1>
-                <p className={clsx(
-                    'text-xs mt-1 leading-relaxed line-clamp-2',
-                    isDarkMode ? 'text-slate-400' : 'text-slate-500'
-                )}>
-                    {mapDefinition.description}
-                </p>
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className={clsx(
+                            'text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border',
+                            getCategoryConfig(mapDefinition.category).badgeClass
+                        )}>
+                            {mapDefinition.category}
+                        </span>
+                    </div>
+                    <h1 className="text-xl font-bold tracking-tight leading-snug">
+                        {mapDefinition.title}
+                    </h1>
+                    <p className={clsx(
+                        'text-xs mt-1 leading-relaxed line-clamp-2',
+                        isDarkMode ? 'text-slate-400' : 'text-slate-500'
+                    )}>
+                        {mapDefinition.description}
+                    </p>
+                </div>
             </div>
 
             {/* Map Selector & Search Controls */}

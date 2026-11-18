@@ -14,6 +14,7 @@ import {SEOMetadata} from '../../../components/SEOMetadata.tsx';
 import {useMapQueryParam} from '../hooks/useMapQueryParam.ts';
 import {useOpenDataMapPage} from '../hooks/useOpenDataMapPage.ts';
 import type {MapPoint} from '../types/mapData.ts';
+import {getCategoryConfig} from '../utils/categoryMeta.ts';
 
 const DesktopSidebarToggleButton = ({
     isSidebarOpen,
@@ -44,15 +45,19 @@ const DesktopSidebarToggleButton = ({
 
 const MobileFloatingHeader = ({
     mapTitle,
+    category,
     onBackToHome,
     onToggleSidebar,
     isDarkMode,
 }: {
     mapTitle: string;
+    category?: string;
     onBackToHome: () => void;
     onToggleSidebar: () => void;
     isDarkMode: boolean;
 }) => {
+    const catConfig = category ? getCategoryConfig(category) : null;
+
     return (
         <div className="md:hidden fixed top-3 inset-x-3 z-[1002] flex items-center justify-between gap-2 pointer-events-none">
             {/* Back button */}
@@ -71,14 +76,18 @@ const MobileFloatingHeader = ({
                 <span>Haritalar</span>
             </button>
 
-            {/* Map title badge */}
+            {/* Map title badge with category icon */}
             <div className={clsx(
-                'pointer-events-auto px-3 py-2 rounded-xl border shadow-md flex items-center gap-1.5 text-xs font-bold truncate max-w-[50%] min-h-[44px]',
+                'pointer-events-auto px-3 py-2 rounded-xl border shadow-md flex items-center gap-2 text-xs font-bold truncate max-w-[55%] min-h-[44px]',
                 isDarkMode
                     ? 'bg-slate-900/95 border-slate-700 text-sky-400 backdrop-blur-md'
                     : 'bg-white/95 border-slate-200 text-sky-700 backdrop-blur-md'
             )}>
-                <Layers size={14} className="shrink-0" />
+                {catConfig ? (
+                    <img src={catConfig.iconUrl} alt="" aria-hidden="true" className="w-4 h-4 object-contain shrink-0" />
+                ) : (
+                    <Layers size={14} className="shrink-0" />
+                )}
                 <span className="truncate">{mapTitle}</span>
             </div>
 
@@ -241,6 +250,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
             {/* Mobile Top Floating Header */}
             <MobileFloatingHeader
                 mapTitle={mapDef.title}
+                category={mapDef.category}
                 onBackToHome={() => setMapId(null)}
                 onToggleSidebar={() => setIsSidebarOpen((current) => !current)}
                 isDarkMode={isDarkMode}

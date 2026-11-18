@@ -1,0 +1,25 @@
+<svg width="90" height="88" viewBox="0 0 90 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="26" y="29" width="12" height="5" rx="1" fill="#A7DCDC"/>
+<rect x="26" y="39" width="5" height="5" rx="1" fill="#A7DCDC"/>
+<rect x="26" y="49" width="5" height="5" rx="1" fill="#A7DCDC"/>
+<path d="M21.1069 59.8491V8.42767C21.1069 6.72295 21.7841 5.08804 22.9896 3.88262C24.195 2.6772 25.8299 2 27.5346 2H36.6918C38.3966 2 40.0315 2.6772 41.2369 3.88262C42.4423 5.08804 43.1195 6.72295 43.1195 8.42767V32.9057" stroke="#015AAD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M74.1131 59.8491H53.1131M30.6162 59.8491V40.1258C30.6162 38.4211 31.2934 36.7862 32.4988 35.5807C33.7043 34.3753 35.3392 33.6981 37.0439 33.6981H48.5785" stroke="#015AAD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.2642 59.8491H71.3396M48.8428 59.8491V27.2767C48.8428 25.572 49.52 23.9371 50.7254 22.7317C51.9308 21.5263 53.5657 20.8491 55.2704 20.8491H64.4277C66.1324 20.8491 67.7673 21.5263 68.9727 22.7317C70.1782 23.9371 70.8554 25.572 70.8554 27.2767V59.8491" stroke="#015AAD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.2641 59.8491V68.1504C16.2641 69.255 15.3686 70.1504 14.2641 70.1504H6.3584" stroke="#015AAD" stroke-width="3" stroke-linejoin="round"/>
+<path d="M74.1134 59.8491V67.7547C74.1134 68.8593 75.0088 69.7547 76.1134 69.7547H84.019" stroke="#015AAD" stroke-width="3" stroke-linejoin="round"/>
+<path d="M30.9243 59.4528V74.5094" stroke="#015AAD" stroke-width="3" stroke-linejoin="round"/>
+<path d="M45.585 59.8491L45.585 77.283" stroke="#015AAD" stroke-width="3" stroke-linejoin="round"/>
+<path d="M60.2451 59.4528V74.5094" stroke="#015AAD" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="5.16981" cy="69.3585" r="3.16981" fill="white" stroke="#015AAD" stroke-width="3"/>
+<circle cx="85.2074" cy="69.3585" r="3.16981" fill="white" stroke="#015AAD" stroke-width="3"/>
+<circle cx="30.5282" cy="74.1132" r="3.16981" fill="white" stroke="#015AAD" stroke-width="3"/>
+<circle cx="60.6415" cy="74.1132" r="3.16981" fill="white" stroke="#015AAD" stroke-width="3"/>
+<circle cx="45.5848" cy="81.2453" r="4.75472" fill="white" stroke="#015AAD" stroke-width="3"/>
+<rect x="26" y="19" width="12" height="5" rx="1" fill="#A7DCDC"/>
+<rect x="26" y="9" width="12" height="5" rx="1" fill="#A7DCDC"/>
+<rect x="54" y="29" width="12" height="5" rx="1" fill="#A7DCDC"/>
+<rect x="54" y="39" width="12" height="5" rx="1" fill="#A7DCDC"/>
+<rect x="54" y="49" width="12" height="5" rx="1" fill="#A7DCDC"/>
+<rect x="36" y="49" width="8" height="5" rx="1" fill="#A7DCDC"/>
+<rect x="36" y="39" width="8" height="5" rx="1" fill="#A7DCDC"/>
+</svg>
