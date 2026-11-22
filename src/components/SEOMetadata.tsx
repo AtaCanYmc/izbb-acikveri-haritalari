@@ -11,7 +11,7 @@ interface SEOMetadataProps {
     mapId?: string;
 }
 
-const DEFAULT_ORIGIN = 'https://www.izmirnobetcieczaneharitasi.live';
+const DEFAULT_ORIGIN = 'https://izmirharitalari.atacanymc.com.tr';
 const DEFAULT_IMAGE = `${DEFAULT_ORIGIN}/logo.svg`;
 
 export const SEOMetadata = ({

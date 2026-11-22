@@ -3,7 +3,7 @@
 > İzmir Büyükşehir Belediyesi Açık Veri Portalı (acikveri.bizizmir.com) API servisleri ile entegre çalışan, 36 farklı belediye katmanını sunan bağımsız, açık kaynak kentsel harita platformu.
 
 ## Temel Bilgiler
-- Web Sitesi: https://www.izmirnobetcieczaneharitasi.live
+- Web Sitesi: https://izmirharitalari.atacanymc.com.tr
 - Veri Sağlayıcı: T.C. İzmir Büyükşehir Belediyesi (İzBB)
 - Veri Lisansı: Creative Commons Attribution (CC BY 4.0)
 - Kaynak Kod: https://github.com/AtaCanYmc/izbb-acikveri-haritalari
@@ -11,10 +11,10 @@
 - Desteklenen Cihazlar: Web, Mobil PWA, Tablet, Masaüstü
 
 ## Acil ve Öncelikli Hizmetler
-- [Nöbetçi Eczaneler](https://www.izmirnobetcieczaneharitasi.live/?map=nobetci-eczaneler): Güncel nöbetçi eczaneler, canlı telefon araması ve yol tarifi.
-- [Afet Toplanma Alanları](https://www.izmirnobetcieczaneharitasi.live/?map=afet-toplanma-alanlari): 30 ilçe genelindeki resmi afet ve acil durum toplanma bölgeleri.
-- [Otoparklar](https://www.izmirnobetcieczaneharitasi.live/?map=otoparklar): İzelman ve belediye otoparkları canlı doluluk oranları ve konumları.
-- [WiZmirNET](https://www.izmirnobetcieczaneharitasi.live/?map=wizmirnet): İzmir genelindeki ücretsiz belediye Wi-Fi erişim noktaları.
+- [Nöbetçi Eczaneler](https://izmirharitalari.atacanymc.com.tr/?map=nobetci-eczaneler): Güncel nöbetçi eczaneler, canlı telefon araması ve yol tarifi.
+- [Afet Toplanma Alanları](https://izmirharitalari.atacanymc.com.tr/?map=afet-toplanma-alanlari): 30 ilçe genelindeki resmi afet ve acil durum toplanma bölgeleri.
+- [Otoparklar](https://izmirharitalari.atacanymc.com.tr/?map=otoparklar): İzelman ve belediye otoparkları canlı doluluk oranları ve konumları.
+- [WiZmirNET](https://izmirharitalari.atacanymc.com.tr/?map=wizmirnet): İzmir genelindeki ücretsiz belediye Wi-Fi erişim noktaları.
 
 ## Kategori Dağılımı (36 Harita Katmanı)
 - Sağlık: Nöbetçi Eczaneler, Tüm Eczaneler, Hastaneler, Aile Sağlığı Merkezleri, Veterinerlikler
@@ -29,4 +29,4 @@
 
 ## Parametreler ve Entegrasyon
 - Harita seçimi URL parametresi: `?map=<map-id>` (Örn: `?map=nobetci-eczaneler`)
-- Detaylı katalog: https://www.izmirnobetcieczaneharitasi.live/llms-full.txt
+- Detaylı katalog: https://izmirharitalari.atacanymc.com.tr/llms-full.txt

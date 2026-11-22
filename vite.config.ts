@@ -16,8 +16,8 @@ export default defineConfig({
                 theme_color: '#0284c7',
                 background_color: '#0284c7',
                 display: 'standalone',
-                scope: '/izbb-acikveri-haritalari/',
-                start_url: '/izbb-acikveri-haritalari/',
+                scope: '/',
+                start_url: '/',
                 icons: [
                     {
                         src: 'favicon/web-app-manifest-192x192.png',
@@ -44,5 +44,5 @@ export default defineConfig({
             }
         })
     ],
-    base: '/izbb-acikveri-haritalari/'
+    base: '/'
 })

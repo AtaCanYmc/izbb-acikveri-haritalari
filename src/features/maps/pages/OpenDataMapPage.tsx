@@ -217,7 +217,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                     title="İzmir Açık Veri Haritaları | 36 Canlı Şehir Haritası ve Nöbetçi Eczaneler" 
                     description="İzmir Büyükşehir Belediyesi açık verileriyle nöbetçi eczaneler, afet toplanma alanları, canlı otopark dolulukları ve 36 şehir haritasını interaktif keşfedin."
                     keywords="izmir açık veri, izmir harita atlası, nöbetçi eczaneler izmir, otopark doluluk, afet toplanma alanları, wizmirnet, belediye verileri"
-                    url="https://www.izmirnobetcieczaneharitasi.live/"
+                    url="https://izmirharitalari.atacanymc.com.tr/"
                 />
                 <Toaster position="bottom-center" />
                 <HomePage
@@ -238,7 +238,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 title={`${mapDef.title} | İzmir Açık Veri Harita Atlası`}
                 description={mapDef.description || `${mapDef.title} - İzmir Büyükşehir Belediyesi resmi açık veri harita katmanı.`}
                 keywords={`izmir açık veri, ${mapDef.title.toLocaleLowerCase('tr-TR')}, ${mapDef.category.toLocaleLowerCase('tr-TR')}, izmir harita`}
-                url={`https://www.izmirnobetcieczaneharitasi.live/?map=${mapDef.id}`}
+                url={`https://izmirharitalari.atacanymc.com.tr/?map=${mapDef.id}`}
                 category={mapDef.category}
                 mapId={mapDef.id}
             />

@@ -2,5 +2,5 @@ User-agent: *
 Allow: /
 
 # Sitemap ve Ana Konakçı Bilgisi
-Sitemap: https://www.izmirnobetcieczaneharitasi.live/sitemap.xml
-Host: https://www.izmirnobetcieczaneharitasi.live
+Sitemap: https://izmirharitalari.atacanymc.com.tr/sitemap.xml
+Host: https://izmirharitalari.atacanymc.com.tr

@@ -1,7 +1,7 @@
 /* TEAM */
 Developer: Ata Can Yaymacı
 Contact: hi@atacanyaymaci.com
-Site: https://www.izmirnobetcieczaneharitasi.live
+Site: https://izmirharitalari.atacanymc.com.tr
 Repo: https://github.com/AtaCanYmc/izbb-acikveri-haritalari
 
 /* THANKS */
