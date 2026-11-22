@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/compare/izmir-nobetci-eczane-haritasi-v1.0.1...izmir-nobetci-eczane-haritasi-v1.1.0) (2026-11-22)
+
+
+### Features
+
+* **maps:** implement v1.1.0 performance, offline cache, accessibility, and transit routing ([9043376](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/commit/904337626c6ea894221c76efb9f3f2acf0493094))
+
+
+### Documentation
+
+* update roadmap, contributing, and README for clarity and accuracy ([5495515](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/commit/549551569bd84d7f4627e0306082c26c4ba2cb59))
+
 ## [1.0.1](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/compare/izmir-nobetci-eczane-haritasi-v1.0.0...izmir-nobetci-eczane-haritasi-v1.0.1) (2026-11-22)
 
 
