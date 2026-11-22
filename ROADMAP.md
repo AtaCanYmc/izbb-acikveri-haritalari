@@ -8,9 +8,9 @@ This roadmap tracks engineering milestones, performance enhancements, and planne
 
 - [x] Integration of 36 distinct municipal datasets from the Izmir Open Data Portal.
 - [x] Marker clustering with `leaflet.markercluster` for dense coordinate points.
-- [x] Dynamic tile layers supporting light and dark modes with CARTO Basemaps API key authentication.
+- [x] Dynamic tile layers supporting light and dark modes, defaulting to free OpenStreetMap tiles with optional CARTO Basemaps API key support.
 - [x] Progressive Web App (PWA) configuration with offline asset caching and installation prompt.
-- [x] Client-side dataset export capabilities in PNG, JSON, CSV, and GeoJSON formats.
+- [x] Client-side dataset export capabilities in PNG, GeoJSON, CSV, JSON, and standalone offline HTML formats.
 - [x] User geolocation tracking with permission-based location centring.
 - [x] Automated CI quality workflow covering ESLint, TypeScript type checks, and Vitest unit suites.
 

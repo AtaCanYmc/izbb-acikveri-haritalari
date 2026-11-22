@@ -8,13 +8,23 @@
 
 # İzmir Açık Veri Haritaları
 
-İzmir Büyükşehir Belediyesi Açık Veri Portalı API servislerini kullanarak 36 farklı belediye veri kümesini Leaflet tabanlı etkileşimli haritalar üzerinde görselleştiren web uygulaması.
+İzmir Büyükşehir Belediyesi Açık Veri Portalı API servislerini kullanarak 36 belediye veri kümesini Leaflet tabanlı etkileşimli haritalar üzerinde görselleştiren web uygulaması.
+
+Canlı uygulama: [izmirharitalari.atacanymc.com.tr](https://izmirharitalari.atacanymc.com.tr/)
 
 [![CI](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/actions/workflows/quality.yml/badge.svg)](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/actions/workflows/quality.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE.md)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
 [![PWA](https://img.shields.io/badge/PWA-Ready-orange.svg)](https://web.dev/progressive-web-apps/)
+[![Demo Video](https://img.shields.io/badge/YouTube-Tan%C4%B1t%C4%B1m%20Videosu-red.svg)](https://www.youtube.com/watch?v=BnCiBaFpaWs)
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=BnCiBaFpaWs">
+    <img src="docs/images/banner-atlas.jpg" alt="İzmir Veri Atlası: Tanıtım Videosunu İzle" width="100%" />
+  </a>
+  <p><a href="https://www.youtube.com/watch?v=BnCiBaFpaWs">Tanıtım Videosunu YouTube üzerinden izleyin</a></p>
+</div>
 
 ---
 
@@ -46,13 +56,41 @@ flowchart TD
     Registry --> State["React Application State"]
     State --> View["OpenDataMap (React Leaflet)"]
     State --> Cluster["Leaflet MarkerCluster Engine"]
-    State --> Export["Veri Dışa Aktarımı (PNG, JSON, CSV, GeoJSON)"]
-    Tiles["CARTO Basemaps API (Voyager & Dark All)"] --> View
+    State --> Export["Veri Dışa Aktarımı (PNG, GeoJSON, CSV, JSON, HTML)"]
+    Tiles["OpenStreetMap / CARTO Basemaps (Voyager & Dark)"] --> View
+```
+
+### Dizin Yapısı
+
+```text
+.
+├── .github/workflows/          # CI (quality), GitHub Pages deploy, release-please, auto-merge
+├── docs/images/                # README görselleri, ekran görüntüleri ve logo
+├── public/                     # Statik varlıklar (CNAME, sitemap.xml, robots.txt, llms.txt, SVG)
+└── src/
+    ├── components/             # Ortak bileşenler (SEOMetadata, PwaInstallPrompt, DeveloperDocsModal, footer, mapIcons)
+    ├── features/maps/
+    │   ├── components/         # HomePage, OpenDataMap, OpenDataSidebar, SelectedPointCard, DownloadModal
+    │   ├── config/             # mapRegistry.ts (36 katman tanımı)
+    │   ├── hooks/              # useOpenDataMapPage, useLocationPermission, useMapQueryParam
+    │   ├── pages/              # OpenDataMapPage.tsx
+    │   ├── services/           # izmirOpenDataClient.ts, mapDataLoaders.ts
+    │   ├── types/              # mapData.ts
+    │   └── utils/              # categoryMeta, mapLinks, mapPointBuilders, mapTileConfig, searchUtils
+    └── utils/                  # assetUtils.ts, dateUtils.ts, security.ts
 ```
 
 ---
 
 ## Ekran Görüntüleri
+
+<div align="center">
+  <img src="docs/images/open-data-showcase.jpg" alt="İzmir Açık Veri Harita Katmanları" width="48%" />
+  &nbsp;
+  <img src="docs/images/open-source-overview.jpg" alt="Açık Kaynak İzmir Harita Görünümü" width="48%" />
+</div>
+
+<br />
 
 <div align="center">
   <img src="docs/images/home-page-example.png" alt="Ana Sayfa Görünümü" width="48%" />
@@ -85,7 +123,7 @@ Uygulama toplam 36 bağımsız harita katmanını 8 ana kategoride sunar:
 - **Dinamik Karo Katmanı:** Açık ve koyu tema geçişine duyarlı CARTO raster karo entegrasyonu.
 - **Kullanıcı Konumu:** Tarayıcı Geolocation API üzerinden anlık koordinat tespiti ve yarıçap odaklaması.
 - **Arama ve Filtreleme:** İlçe, mahalle ve mekan adına göre istemci tarafında anlık veri filtreleme.
-- **Veri Dışa Aktarma:** Seçili harita verilerini PNG ekran görüntüsü, JSON, CSV veya GeoJSON formatlarında indirme.
+- **Veri Dışa Aktarma:** Seçili harita verilerini PNG ekran görüntüsü, GeoJSON, CSV, JSON veya tek dosyalık çevrimdışı HTML harita formatında indirme.
 - **PWA Desteği:** `vite-plugin-pwa` ile çevrimdışı önbellekleme ve mobil cihazlara doğrudan kurulabilirlik.
 
 ---
@@ -96,7 +134,7 @@ Uygulama toplam 36 bağımsız harita katmanını 8 ana kategoride sunar:
 - **Harita Kütüphaneleri:** Leaflet 1.9, React-Leaflet 5, Leaflet MarkerCluster 1.5
 - **Stil ve Arayüz:** Tailwind CSS v4, Lucide React
 - **Veri Sağlayıcı:** `izmir-open-data-js`
-- **Test ve Tip Kontrolü:** Vitest 1.0, ESLint 9, TypeScript `tsc`
+- **Test ve Tip Kontrolü:** Vitest 5.1, ESLint 9, TypeScript `tsc`
 
 ---
 
@@ -104,8 +142,8 @@ Uygulama toplam 36 bağımsız harita katmanını 8 ana kategoride sunar:
 
 ### Gereksinimler
 
-- Node.js 18.x veya 20.x
-- npm 9 veya üzeri
+- Node.js 22.x
+- npm 10 veya üzeri
 
 ### Kurulum Adımları
 
@@ -158,9 +196,6 @@ npm run type-check
 
 # Birim testlerini tek seferlik çalıştır
 npm test -- --run
-
-# Test kapsam (coverage) raporu üret
-npm run test:coverage
 
 # Üretim derlemesi oluştur
 npm run build

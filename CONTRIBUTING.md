@@ -14,9 +14,9 @@ All contributors and maintainers are expected to maintain professional, respectf
 
 ### Prerequisites
 
-- Node.js 18.x or 20.x
-- npm 9+ or compatible package manager
-- CARTO Basemaps API key (free tier available at [carto.com/basemaps/apikey](https://carto.com/basemaps/apikey))
+- Node.js 22.x
+- npm 10+ or compatible package manager
+- Optional: CARTO Basemaps API key ([carto.com/basemaps/apikey](https://carto.com/basemaps/apikey)). Without a key, the app defaults to free OpenStreetMap tiles.
 
 ### Getting Started
 
