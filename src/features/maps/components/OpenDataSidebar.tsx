@@ -1,4 +1,5 @@
-import {Download, Code, ArrowLeft, Search, X, Check, Sun, Moon} from 'lucide-react';
+import {useEffect, useRef, useState} from 'react';
+import {Download, Code, ArrowLeft, Search, X, Check, Sun, Moon, Contrast} from 'lucide-react';
 import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import type {MapDefinition, MapPoint} from '../types/mapData.ts';
@@ -15,10 +16,13 @@ interface OpenDataSidebarProps {
     onSearchChange: (value: string) => void;
     onSelectPoint: (point: MapPoint) => void;
     onBackToHome?: () => void;
+    onCloseSidebar?: () => void;
     loading: boolean;
     isSidebarOpen: boolean;
     isDarkMode: boolean;
     onToggleTheme: () => void;
+    isHighContrast?: boolean;
+    onToggleHighContrast?: () => void;
     onDownload: () => void;
     onOpenDeveloperDocs: () => void;
 }
@@ -32,12 +36,16 @@ const Header = ({
     onBackToHome,
     isDarkMode,
     onToggleTheme,
+    isHighContrast = false,
+    onToggleHighContrast,
     onDownload,
     onOpenDeveloperDocs,
 }: Pick<OpenDataSidebarProps, 'mapDefinition' | 'activeMapId' | 'searchTerm' | 'onMapChange' | 'onSearchChange'> & {
     onBackToHome?: () => void;
     isDarkMode: boolean;
     onToggleTheme: () => void;
+    isHighContrast?: boolean;
+    onToggleHighContrast?: () => void;
     onDownload: () => void;
     onOpenDeveloperDocs: () => void;
 }) => {
@@ -66,6 +74,23 @@ const Header = ({
                 )}
 
                 <div className="flex items-center gap-1.5 ml-auto">
+                    {onToggleHighContrast && (
+                        <button
+                            type="button"
+                            onClick={onToggleHighContrast}
+                            aria-pressed={isHighContrast}
+                            aria-label={isHighContrast ? 'Yüksek kontrast temasını kapat' : 'Yüksek kontrast temasını aç (WCAG AAA)'}
+                            title="Yüksek Kontrast (WCAG AAA)"
+                            className={clsx(
+                                'h-9 w-9 rounded-lg border transition-colors flex items-center justify-center shrink-0',
+                                isDarkMode
+                                    ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+                                    : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'
+                            )}
+                        >
+                            <Contrast size={16} />
+                        </button>
+                    )}
                     <button
                         type="button"
                         onClick={onToggleTheme}
@@ -213,19 +238,31 @@ const Header = ({
 
 const PointCard = ({
     point,
+    optionId,
     isSelected,
+    isFocused,
     onSelectPoint,
+    onFocus,
     isDarkMode,
+    itemRef,
 }: {
     point: MapPoint;
+    optionId: string;
     isSelected: boolean;
+    isFocused: boolean;
     onSelectPoint: (point: MapPoint) => void;
+    onFocus: () => void;
     isDarkMode: boolean;
+    itemRef: (node: HTMLDivElement | null) => void;
 }) => {
     return (
         <div
-            role="button"
-            tabIndex={0}
+            ref={itemRef}
+            id={optionId}
+            role="option"
+            aria-selected={isSelected}
+            tabIndex={isFocused ? 0 : -1}
+            onFocus={onFocus}
             onClick={() => onSelectPoint(point)}
             onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -294,9 +331,55 @@ const PointsList = ({
     points,
     selectedPoint,
     onSelectPoint,
+    onCloseSidebar,
     loading,
     isDarkMode,
-}: Pick<OpenDataSidebarProps, 'mapDefinition' | 'points' | 'selectedPoint' | 'onSelectPoint' | 'loading' | 'isDarkMode'>) => {
+}: Pick<OpenDataSidebarProps, 'mapDefinition' | 'points' | 'selectedPoint' | 'onSelectPoint' | 'onCloseSidebar' | 'loading' | 'isDarkMode'>) => {
+    const [focusedIndex, setFocusedIndex] = useState(0);
+    const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+    const safeFocusedIndex = points.length === 0 ? 0 : Math.min(focusedIndex, points.length - 1);
+
+    useEffect(() => {
+        if (!selectedPoint) return;
+        const selectedIdx = points.findIndex((p) => p.id === selectedPoint.id);
+        if (selectedIdx >= 0) {
+            itemRefs.current[selectedIdx]?.scrollIntoView({block: 'nearest'});
+        }
+    }, [selectedPoint, points]);
+
+    const moveFocus = (nextIndex: number) => {
+        if (points.length === 0) return;
+        const clamped = Math.max(0, Math.min(points.length - 1, nextIndex));
+        setFocusedIndex(clamped);
+        const node = itemRefs.current[clamped];
+        if (node) {
+            node.focus();
+            node.scrollIntoView({block: 'nearest'});
+        }
+    };
+
+    const handleListKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (points.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            moveFocus(safeFocusedIndex + 1);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            moveFocus(safeFocusedIndex - 1);
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            moveFocus(0);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            moveFocus(points.length - 1);
+        } else if (e.key === 'Escape' && onCloseSidebar) {
+            e.preventDefault();
+            onCloseSidebar();
+        }
+    };
+
     if (loading) {
         return (
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-xs text-slate-400">
@@ -315,6 +398,8 @@ const PointsList = ({
         );
     }
 
+    const activeOptionId = points[safeFocusedIndex] ? `point-option-${safeFocusedIndex}` : undefined;
+
     return (
         <div className="flex-1 flex flex-col min-h-0">
             <div className={clsx(
@@ -322,15 +407,28 @@ const PointsList = ({
                 isDarkMode ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-600'
             )}>
                 <span>{points.length} lokasyon bulundu</span>
+                <span className="text-[10px] opacity-75">↑↓ Gezin · Enter Seç</span>
             </div>
-            <div className="flex-1 overflow-y-auto p-3 space-y-2.5 custom-scrollbar">
-                {points.map((point) => (
+            <div
+                role="listbox"
+                aria-label={`${mapDefinition.title} konum listesi`}
+                aria-activedescendant={activeOptionId}
+                onKeyDown={handleListKeyDown}
+                className="flex-1 overflow-y-auto p-3 space-y-2.5 custom-scrollbar"
+            >
+                {points.map((point, index) => (
                     <PointCard
                         key={point.id}
                         point={point}
+                        optionId={`point-option-${index}`}
                         isSelected={selectedPoint?.id === point.id}
+                        isFocused={index === safeFocusedIndex}
                         onSelectPoint={onSelectPoint}
+                        onFocus={() => setFocusedIndex(index)}
                         isDarkMode={isDarkMode}
+                        itemRef={(node) => {
+                            itemRefs.current[index] = node;
+                        }}
                     />
                 ))}
             </div>
@@ -349,10 +447,13 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
         onSearchChange,
         onSelectPoint,
         onBackToHome,
+        onCloseSidebar,
         loading,
         isSidebarOpen,
         isDarkMode,
         onToggleTheme,
+        isHighContrast,
+        onToggleHighContrast,
         onDownload,
         onOpenDeveloperDocs,
     } = props;
@@ -378,6 +479,8 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
                     onBackToHome={onBackToHome}
                     isDarkMode={isDarkMode}
                     onToggleTheme={onToggleTheme}
+                    isHighContrast={isHighContrast}
+                    onToggleHighContrast={onToggleHighContrast}
                     onDownload={onDownload}
                     onOpenDeveloperDocs={onOpenDeveloperDocs}
                 />
@@ -386,6 +489,7 @@ export const OpenDataSidebar = (props: OpenDataSidebarProps) => {
                     points={points}
                     selectedPoint={selectedPoint}
                     onSelectPoint={onSelectPoint}
+                    onCloseSidebar={onCloseSidebar}
                     loading={loading}
                     isDarkMode={isDarkMode}
                 />

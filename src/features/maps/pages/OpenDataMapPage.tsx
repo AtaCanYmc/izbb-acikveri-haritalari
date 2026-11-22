@@ -125,10 +125,21 @@ const LoadingOverlay = ({isVisible, isDarkMode}: { isVisible: boolean; isDarkMod
     );
 };
 
-export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }: { isDarkMode?: boolean; onToggleTheme?: () => void }) => {
+export const OpenDataMapPage = ({
+    isDarkMode = false,
+    onToggleTheme = () => {},
+    isHighContrast = false,
+    onToggleHighContrast = () => {},
+}: {
+    isDarkMode?: boolean;
+    onToggleTheme?: () => void;
+    isHighContrast?: boolean;
+    onToggleHighContrast?: () => void;
+}) => {
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
     const [isDeveloperDocsOpen, setIsDeveloperDocsOpen] = useState(false);
+    const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
     const {activeMap, activeMapId, setMapId} = useMapQueryParam();
     const mapDefinition = activeMap;
     const {
@@ -224,6 +235,8 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                     onSelectMap={(mapId) => setMapId(mapId)}
                     isDarkMode={isDarkMode}
                     onToggleTheme={onToggleTheme}
+                    isHighContrast={isHighContrast}
+                    onToggleHighContrast={onToggleHighContrast}
                 />
             </>
         );
@@ -271,10 +284,13 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 onSearchChange={setSearchTerm}
                 onSelectPoint={handleSelectPoint}
                 onBackToHome={() => setMapId(null)}
+                onCloseSidebar={() => setIsSidebarOpen(false)}
                 loading={loading}
                 isSidebarOpen={isSidebarOpen}
                 isDarkMode={isDarkMode}
                 onToggleTheme={onToggleTheme}
+                isHighContrast={isHighContrast}
+                onToggleHighContrast={onToggleHighContrast}
                 onDownload={handleOpenDownloadModal}
                 onOpenDeveloperDocs={() => setIsDeveloperDocsOpen(true)}
             />
@@ -301,6 +317,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                         points={points}
                         selectedPoint={selectedPoint}
                         onMarkerClick={handleSelectPoint}
+                        onUserLocationChange={setUserLocation}
                         isDarkMode={isDarkMode}
                     />
                 </div>
@@ -309,6 +326,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
                 <SelectedPointCard
                     isDarkMode={isDarkMode}
                     point={selectedPoint}
+                    userLocation={userLocation}
                     onClose={() => setSelectedPoint(null)}
                 />
 

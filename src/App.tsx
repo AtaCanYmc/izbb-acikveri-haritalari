@@ -14,6 +14,17 @@ function App() {
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
     });
 
+    const [isHighContrast, setIsHighContrast] = useState<boolean>(() => {
+        const storedContrast = localStorage.getItem('open-data-contrast');
+        if (storedContrast === 'high') {
+            return true;
+        }
+        if (storedContrast === 'normal') {
+            return false;
+        }
+        return window.matchMedia('(prefers-contrast: more)').matches;
+    });
+
     useEffect(() => {
         const root = document.documentElement;
         // Trigger reflow to ensure CSS transitions work properly
@@ -27,13 +38,32 @@ function App() {
         localStorage.setItem('open-data-theme', isDarkMode ? 'dark' : 'light');
     }, [isDarkMode]);
 
+    useEffect(() => {
+        const root = document.documentElement;
+        if (isHighContrast) {
+            root.classList.add('high-contrast');
+        } else {
+            root.classList.remove('high-contrast');
+        }
+        localStorage.setItem('open-data-contrast', isHighContrast ? 'high' : 'normal');
+    }, [isHighContrast]);
+
     const toggleTheme = () => {
         setIsDarkMode((prev) => !prev);
     };
 
+    const toggleHighContrast = () => {
+        setIsHighContrast((prev) => !prev);
+    };
+
     return (
         <>
-            <OpenDataMapPage isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
+            <OpenDataMapPage
+                isDarkMode={isDarkMode}
+                onToggleTheme={toggleTheme}
+                isHighContrast={isHighContrast}
+                onToggleHighContrast={toggleHighContrast}
+            />
             <PwaInstallPrompt isDarkMode={isDarkMode} />
         </>
     );

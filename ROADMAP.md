@@ -19,14 +19,14 @@ This roadmap tracks engineering milestones, performance enhancements, and planne
 ## Near-Term Milestones: v1.1.0
 
 ### Performance & Map Rendering
-- [ ] Migrate heavy raster layer clustering to WebWorker processing for datasets exceeding 2,000 coordinates.
-- [ ] Implement viewport-based coordinate bounding to avoid rendering off-screen markers.
-- [ ] Add offline caching strategy for frequently viewed municipal categories.
+- [x] Migrate heavy raster layer clustering to WebWorker processing for datasets exceeding 2,000 coordinates.
+- [x] Implement viewport-based coordinate bounding to avoid rendering off-screen markers.
+- [x] Add offline caching strategy for frequently viewed municipal categories.
 
 ### Interface & Accessibility
-- [ ] Full keyboard navigation support for the map marker list drawer.
-- [ ] High-contrast accessibility themes meeting WCAG 2.1 AAA contrast ratios.
-- [ ] Route calculation and transit link suggestions to selected locations.
+- [x] Full keyboard navigation support for the map marker list drawer.
+- [x] High-contrast accessibility themes meeting WCAG 2.1 AAA contrast ratios.
+- [x] Route calculation and transit link suggestions to selected locations.
 
 ---
 

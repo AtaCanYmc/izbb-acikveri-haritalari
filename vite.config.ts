@@ -8,7 +8,39 @@ export default defineConfig({
         react(),
         VitePWA({
             registerType: 'autoUpdate',
-            includeAssets: ['favicon/favicon.ico', 'favicon/apple-touch-icon.png', 'favicon/mask-icon.svg'],
+            includeAssets: ['favicon/favicon.ico', 'favicon/apple-touch-icon.png', 'favicon/favicon.svg'],
+            workbox: {
+                runtimeCaching: [
+                    {
+                        urlPattern: /^https:\/\/openapi\.izmir\.bel\.tr\/api\/.*/i,
+                        handler: 'StaleWhileRevalidate',
+                        options: {
+                            cacheName: 'izbb-open-data-api',
+                            expiration: {
+                                maxEntries: 60,
+                                maxAgeSeconds: 24 * 60 * 60,
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
+                    {
+                        urlPattern: /^https:\/\/([a-z0-9-]+\.)?(tile\.openstreetmap\.org|basemaps\.cartocdn\.com)\/.*/i,
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'map-tiles-cache',
+                            expiration: {
+                                maxEntries: 250,
+                                maxAgeSeconds: 7 * 24 * 60 * 60,
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
+                ],
+            },
             manifest: {
                 name: 'İzmir Açık Veri Haritaları',
                 short_name: 'İzmir Haritaları',

@@ -1,11 +1,13 @@
 import {useEffect} from 'react';
-import {X, Phone, Navigation, MapPin} from 'lucide-react';
+import {X, Phone, Navigation, MapPin, Bus, Footprints} from 'lucide-react';
 import clsx from 'clsx';
 import type {MapPoint} from '../types/mapData.ts';
+import {calculateDistanceKm, createTransitUrl, createWalkingUrl, estimateTravelTimes} from '../utils/mapLinks.ts';
 import {sanitizeUrl} from '../../../utils/security.ts';
 
 interface SelectedPointCardProps {
     point: MapPoint | null;
+    userLocation?: [number, number] | null;
     onClose: () => void;
     isDarkMode?: boolean;
 }
@@ -25,7 +27,7 @@ const isGoogleMapsUrl = (href?: string): boolean => {
     }
 };
 
-export const SelectedPointCard = ({point, onClose, isDarkMode = false}: SelectedPointCardProps) => {
+export const SelectedPointCard = ({point, userLocation = null, onClose, isDarkMode = false}: SelectedPointCardProps) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape' && point) {
@@ -120,6 +122,65 @@ export const SelectedPointCard = ({point, onClose, isDarkMode = false}: Selected
                     ))}
                 </div>
             )}
+
+            {/* Route Calculation & Transit Link Suggestions */}
+            <div className="mb-3 space-y-2">
+                {userLocation && (
+                    (() => {
+                        const distanceKm = calculateDistanceKm(
+                            userLocation[0],
+                            userLocation[1],
+                            point.latitude,
+                            point.longitude,
+                        );
+                        const estimates = estimateTravelTimes(distanceKm);
+                        return (
+                            <div className={clsx(
+                                'px-3 py-2 rounded-xl border text-[11px] font-mono flex items-center justify-between gap-2 flex-wrap',
+                                isDarkMode
+                                    ? 'bg-slate-800/70 border-slate-700 text-slate-200'
+                                    : 'bg-slate-50 border-slate-200 text-slate-700'
+                            )}>
+                                <span className="font-bold">{estimates.distanceLabel}</span>
+                                <span>Araç ~{estimates.drivingMinutes} dk</span>
+                                <span>Toplu Taşıma ~{estimates.transitMinutes} dk</span>
+                                <span>Yürüyüş ~{estimates.walkingMinutes} dk</span>
+                            </div>
+                        );
+                    })()
+                )}
+
+                <div className="grid grid-cols-2 gap-2">
+                    <a
+                        href={sanitizeUrl(createTransitUrl(point.latitude, point.longitude, userLocation))}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className={clsx(
+                            'flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-semibold border transition-colors min-h-[40px]',
+                            isDarkMode
+                                ? 'bg-indigo-950/60 border-indigo-800 text-indigo-200 hover:bg-indigo-900/70'
+                                : 'bg-indigo-50 border-indigo-200 text-indigo-800 hover:bg-indigo-100'
+                        )}
+                    >
+                        <Bus size={14} />
+                        <span>Toplu Taşıma</span>
+                    </a>
+                    <a
+                        href={sanitizeUrl(createWalkingUrl(point.latitude, point.longitude, userLocation))}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className={clsx(
+                            'flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-semibold border transition-colors min-h-[40px]',
+                            isDarkMode
+                                ? 'bg-teal-950/60 border-teal-800 text-teal-200 hover:bg-teal-900/70'
+                                : 'bg-teal-50 border-teal-200 text-teal-800 hover:bg-teal-100'
+                        )}
+                    >
+                        <Footprints size={14} />
+                        <span>Yürüyerek</span>
+                    </a>
+                </div>
+            </div>
 
             {/* Action Buttons: Directions, Call */}
             {point.actions && point.actions.length > 0 && (

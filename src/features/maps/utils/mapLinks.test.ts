@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { createGoogleMapsUrl, createPhoneUrl } from './mapLinks.ts';
+import {
+  createGoogleMapsUrl,
+  createPhoneUrl,
+  createTransitUrl,
+  createWalkingUrl,
+  calculateDistanceKm,
+  estimateTravelTimes,
+} from './mapLinks.ts';
 
 describe('mapLinks', () => {
   describe('createGoogleMapsUrl', () => {
@@ -92,6 +99,31 @@ describe('mapLinks', () => {
 
       expect(() => new URL(mapsUrl)).not.toThrow();
       expect(() => new URL(phoneUrl)).not.toThrow();
+    });
+  });
+
+  describe('route and transit helpers', () => {
+    it('builds valid transit and walking direction URLs with optional origin', () => {
+      const transit = new URL(createTransitUrl(38.4237, 27.1428, [38.45, 27.12]));
+      expect(transit.hostname).toBe('www.google.com');
+      expect(transit.pathname).toBe('/maps/dir/');
+      expect(transit.searchParams.get('travelmode')).toBe('transit');
+      expect(transit.searchParams.get('origin')).toBe('38.45,27.12');
+
+      const walking = new URL(createWalkingUrl(38.4237, 27.1428));
+      expect(walking.searchParams.get('travelmode')).toBe('walking');
+      expect(walking.searchParams.get('origin')).toBeNull();
+    });
+
+    it('calculates Haversine distance and travel estimates', () => {
+      const km = calculateDistanceKm(38.4192, 27.1287, 38.4555, 27.1103);
+      expect(km).toBeGreaterThan(3.5);
+      expect(km).toBeLessThan(5.0);
+
+      const est = estimateTravelTimes(km);
+      expect(est.distanceLabel).toMatch(/km$/);
+      expect(est.walkingMinutes).toBeGreaterThan(est.drivingMinutes);
+      expect(estimateTravelTimes(0.45).distanceLabel).toBe('450 m');
     });
   });
 });

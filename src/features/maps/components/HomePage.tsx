@@ -1,5 +1,5 @@
 import {useState, useMemo} from 'react';
-import {Search, X, Layers, Sun, Moon, ArrowRight, ExternalLink, Activity, ShieldAlert, Car, Wifi} from 'lucide-react';
+import {Search, X, Layers, Sun, Moon, Contrast, ArrowRight, ExternalLink, Activity, ShieldAlert, Car, Wifi} from 'lucide-react';
 import clsx from 'clsx';
 import {mapRegistry} from '../config/mapRegistry.ts';
 import {getCategoryConfig} from '../utils/categoryMeta.ts';
@@ -11,6 +11,8 @@ interface HomePageProps {
     onSelectMap: (mapId: string) => void;
     isDarkMode: boolean;
     onToggleTheme: () => void;
+    isHighContrast?: boolean;
+    onToggleHighContrast?: () => void;
 }
 
 const FEATURED_MAP_IDS = [
@@ -48,7 +50,13 @@ const FEATURED_MAP_IDS = [
     },
 ];
 
-export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps) => {
+export const HomePage = ({
+    onSelectMap,
+    isDarkMode,
+    onToggleTheme,
+    isHighContrast = false,
+    onToggleHighContrast,
+}: HomePageProps) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
@@ -244,6 +252,24 @@ export const HomePage = ({onSelectMap, isDarkMode, onToggleTheme}: HomePageProps
                             <span>acikveri.bizizmir.com</span>
                             <ExternalLink size={13} className="opacity-70" />
                         </a>
+
+                        {onToggleHighContrast && (
+                            <button
+                                type="button"
+                                onClick={onToggleHighContrast}
+                                aria-pressed={isHighContrast}
+                                aria-label={isHighContrast ? 'Yüksek kontrast temasını kapat' : 'Yüksek kontrast temasını aç (WCAG AAA)'}
+                                title="Yüksek Kontrast (WCAG AAA)"
+                                className={clsx(
+                                    'h-11 w-11 rounded-xl border flex items-center justify-center transition-colors',
+                                    isDarkMode
+                                        ? 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-800'
+                                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100'
+                                )}
+                            >
+                                <Contrast size={19} />
+                            </button>
+                        )}
 
                         <button
                             type="button"
