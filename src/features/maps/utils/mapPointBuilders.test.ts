@@ -109,6 +109,13 @@ describe('mapPointBuilders', () => {
       expect(isValidCoordinate(89.9999, 179.9999)).toBe(true);
       expect(isValidCoordinate(-89.9999, -179.9999)).toBe(true);
     });
+
+    it('should return false for out-of-range geographic coordinates', () => {
+      expect(isValidCoordinate(91, 27.1428)).toBe(false);
+      expect(isValidCoordinate(-91, 27.1428)).toBe(false);
+      expect(isValidCoordinate(38.4237, 181)).toBe(false);
+      expect(isValidCoordinate(38.4237, -181)).toBe(false);
+    });
   });
 
   describe('buildMapPointId', () => {

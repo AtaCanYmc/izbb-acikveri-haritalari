@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         Please verify the issue has not already been reported before opening a ticket.
-        For security vulnerability reports, refer to [SECURITY.md](../../SECURITY.md).
+        For security vulnerability reports, refer to [SECURITY.md](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/blob/main/SECURITY.md).
   - type: textarea
     id: summary
     attributes:

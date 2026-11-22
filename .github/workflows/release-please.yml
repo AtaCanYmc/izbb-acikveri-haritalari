@@ -13,9 +13,10 @@ jobs:
   release-please:
     name: Release Please
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Run Release Please Action
-        uses: googleapis/release-please-action@v5
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5
         id: release
         with:
           config-file: release-please-config.json
@@ -23,6 +24,10 @@ jobs:
 
       - name: Log Release Information
         if: ${{ steps.release.outputs.release_created }}
+        env:
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          VERSION: ${{ steps.release.outputs.version }}
+          HTML_URL: ${{ steps.release.outputs.html_url }}
         run: |
-          echo "Release created: ${{ steps.release.outputs.tag_name }} (${{ steps.release.outputs.version }})"
-          echo "Release URL: ${{ steps.release.outputs.html_url }}"
+          echo "Release created: $TAG_NAME ($VERSION)"
+          echo "Release URL: $HTML_URL"

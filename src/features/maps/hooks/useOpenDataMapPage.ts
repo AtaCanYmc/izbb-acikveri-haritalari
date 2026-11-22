@@ -1,25 +1,27 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import toast from "react-hot-toast";
 import type {MapDefinition, MapPoint} from "../types/mapData.ts";
+import {normalizeTurkish} from "../utils/searchUtils.ts";
 import {useLocationPermission} from "./useLocationPermission.ts";
 
 const matchesSearch = (point: MapPoint, searchTerm: string) => {
-    const normalizedSearch = searchTerm.trim().toLocaleLowerCase('tr-TR');
+    const normalizedSearch = normalizeTurkish(searchTerm);
 
     if (!normalizedSearch) {
         return true;
     }
 
-    const haystack = [
-        point.title,
-        point.subtitle,
-        point.description,
-        point.badge,
-        ...point.detailLines,
-    ]
-        .filter(Boolean)
-        .join(' ')
-        .toLocaleLowerCase('tr-TR');
+    const haystack = normalizeTurkish(
+        [
+            point.title,
+            point.subtitle,
+            point.description,
+            point.badge,
+            ...point.detailLines,
+        ]
+            .filter(Boolean)
+            .join(' '),
+    );
 
     return haystack.includes(normalizedSearch);
 };
@@ -32,29 +34,45 @@ export const useOpenDataMapPage = (mapDefinition: MapDefinition | null) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const locationPermission = useLocationPermission();
 
-    const loadPoints = useCallback(async () => {
+    useEffect(() => {
+        let cancelled = false;
+
         if (!mapDefinition) {
+            setPoints([]);
+            setSelectedPoint(null);
             setLoading(false);
             return;
         }
 
-        try {
-            setLoading(true);
-            const nextPoints = await mapDefinition.loadPoints();
-            setPoints(nextPoints);
-            setSelectedPoint(null);
-            toast.success(`${mapDefinition.title} verileri güncellendi`);
-        } catch (error) {
-            console.error(`${mapDefinition.id} verileri yüklenemedi`, error);
-            toast.error('Harita verileri alınamadı. Lütfen daha sonra tekrar deneyin.');
-        } finally {
-            setLoading(false);
-        }
-    }, [mapDefinition]);
+        const loadPoints = async () => {
+            try {
+                setLoading(true);
+                const nextPoints = await mapDefinition.loadPoints();
+                if (cancelled) {
+                    return;
+                }
+                setPoints(nextPoints);
+                setSelectedPoint(null);
+                toast.success(`${mapDefinition.title} verileri güncellendi`);
+            } catch (error) {
+                if (cancelled) {
+                    return;
+                }
+                console.error(`${mapDefinition.id} verileri yüklenemedi`, error);
+                toast.error('Harita verileri alınamadı. Lütfen daha sonra tekrar deneyin.');
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
+            }
+        };
 
-    useEffect(() => {
         void loadPoints();
-    }, [loadPoints]);
+
+        return () => {
+            cancelled = true;
+        };
+    }, [mapDefinition]);
 
     useEffect(() => {
         setSearchTerm('');

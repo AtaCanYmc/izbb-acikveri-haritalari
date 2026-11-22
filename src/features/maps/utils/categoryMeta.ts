@@ -136,7 +136,10 @@ const DEFAULT_CATEGORY_CONFIG: CategoryConfig = {
 };
 
 export const getCategoryConfig = (category: string): CategoryConfig => {
-    return CATEGORY_CONFIGS[category] || {
+    if (Object.hasOwn(CATEGORY_CONFIGS, category)) {
+        return CATEGORY_CONFIGS[category];
+    }
+    return {
         ...DEFAULT_CATEGORY_CONFIG,
         name: category,
     };

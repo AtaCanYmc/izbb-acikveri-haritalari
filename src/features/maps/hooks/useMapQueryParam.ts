@@ -15,7 +15,9 @@ const writeMapIdToUrl = (mapId: string | null) => {
     } else {
         searchParams.delete(MAP_QUERY_PARAM);
     }
-    window.location.href = `${window.location.pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}${window.location.hash}`;
+    const query = searchParams.toString();
+    const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`;
+    window.history.pushState({}, '', nextUrl);
 };
 
 export const useMapQueryParam = () => {

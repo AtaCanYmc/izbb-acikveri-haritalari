@@ -40,6 +40,8 @@ describe('security utils', () => {
             expect(sanitizeUrl('data:text/html;base64,...')).toBe('#');
             expect(sanitizeUrl('vbscript:msgbox(1)')).toBe('#');
             expect(sanitizeUrl('file:///etc/passwd')).toBe('#');
+            expect(sanitizeUrl('blob:https://example.com/uuid')).toBe('#');
+            expect(sanitizeUrl('//evil.example/path')).toBe('#');
         });
     });
 
@@ -49,6 +51,11 @@ describe('security utils', () => {
             const json = safeJsonStringify(payload);
             expect(json).not.toContain('</script>');
             expect(json).toContain('\\u003c/script\\u003e');
+        });
+
+        it('handles non-serializable top-level values safely', () => {
+            expect(safeJsonStringify(undefined)).toBe('null');
+            expect(safeJsonStringify(() => {})).toBe('null');
         });
     });
 });

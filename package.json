@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "lint-fix": "eslint --fix .",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc -b --noEmit",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage"

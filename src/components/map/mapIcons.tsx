@@ -68,9 +68,9 @@ ICONS.bisim = ICONS.bisiklet;
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getMapIcon = (type: string, isSelected: boolean) => {
-    const iconSvg = ICONS[type.toLowerCase()];
-    if (iconSvg) {
-        return createCustomIcon(iconSvg, isSelected);
+    const key = type.toLowerCase();
+    if (Object.hasOwn(ICONS, key)) {
+        return createCustomIcon(ICONS[key], isSelected);
     }
     return isSelected ? SelectedIcon : DefaultIcon;
 };

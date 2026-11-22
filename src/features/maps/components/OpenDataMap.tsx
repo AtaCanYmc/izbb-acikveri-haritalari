@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {MapContainer, Marker, Popup, TileLayer, useMap, ZoomControl} from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -36,9 +36,10 @@ const MapResizer = ({selectedPoint}: { selectedPoint: MapPoint | null }) => {
     const map = useMap();
 
     useEffect(() => {
-        window.setTimeout(() => {
+        const timerId = window.setTimeout(() => {
             map.invalidateSize();
         }, 100);
+        return () => window.clearTimeout(timerId);
     }, [map]);
 
     useEffect(() => {
@@ -115,12 +116,28 @@ const useUserLocation = () => {
             return;
         }
 
-        navigator.geolocation.getCurrentPosition((position) => {
-            setUserLocation([position.coords.latitude, position.coords.longitude]);
-        });
+        let isActive = true;
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                if (isActive) {
+                    setUserLocation([position.coords.latitude, position.coords.longitude]);
+                }
+            },
+            () => {
+                // Geolocation error is handled by useLocationPermission
+            },
+        );
+
+        return () => {
+            isActive = false;
+        };
     }, []);
 
     return userLocation;
+};
+
+type LeafletWithCluster = typeof L & {
+    markerClusterGroup?: (options?: Record<string, unknown>) => L.FeatureGroup;
 };
 
 const ClusteredMarkers = ({
@@ -133,11 +150,18 @@ const ClusteredMarkers = ({
     onMarkerClick: (point: MapPoint) => void;
 }) => {
     const map = useMap();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [clusterGroup] = useState(() => ((L as any).markerClusterGroup || L.featureGroup)({
-        maxClusterRadius: 80,
-        disableClusteringAtZoom: 15,
-    }));
+    const [clusterGroup] = useState<L.FeatureGroup>(() => {
+        const leaflet = L as LeafletWithCluster;
+        if (leaflet.markerClusterGroup) {
+            return leaflet.markerClusterGroup({
+                maxClusterRadius: 80,
+                disableClusteringAtZoom: 15,
+            });
+        }
+        return L.featureGroup();
+    });
+    const markersByIdRef = useRef<Map<string, { marker: L.Marker; type: string }>>(new Map());
+    const previousSelectedIdRef = useRef<string | null>(null);
 
     useEffect(() => {
         // Cluster group'u haritaya ekle
@@ -151,11 +175,10 @@ const ClusteredMarkers = ({
     useEffect(() => {
         // Cluster group'u temizle ve yeni marker'ları ekle
         clusterGroup.clearLayers();
+        const markersMap = new Map<string, { marker: L.Marker; type: string }>();
 
         points.forEach((point) => {
-            const isSelected = selectedPoint?.id === point.id;
-            const icon = getMapIcon(point.type, isSelected);
-
+            const icon = getMapIcon(point.type, false);
             const marker = L.marker([point.latitude, point.longitude], {icon});
 
             const safeTitle = escapeHtml(point.title);
@@ -166,7 +189,7 @@ const ClusteredMarkers = ({
             const safeActions = point.actions && point.actions.length > 0 ? `
                 <div class="flex flex-col gap-2 pb-2">
                     ${point.actions.map((action) => {
-                        const safeHref = sanitizeUrl(action.href);
+                        const safeHref = escapeHtml(sanitizeUrl(action.href));
                         const safeLabel = escapeHtml(action.label);
                         const targetAttr = action.external ? 'target="_blank"' : '';
                         const relAttr = action.external ? 'rel="noopener noreferrer"' : '';
@@ -199,9 +222,35 @@ const ClusteredMarkers = ({
                 onMarkerClick(point);
             });
 
+            markersMap.set(point.id, {marker, type: point.type});
             clusterGroup.addLayer(marker);
         });
-    }, [points, selectedPoint, clusterGroup, onMarkerClick]);
+
+        markersByIdRef.current = markersMap;
+        previousSelectedIdRef.current = null;
+    }, [points, clusterGroup, onMarkerClick]);
+
+    useEffect(() => {
+        const markersMap = markersByIdRef.current;
+        const prevId = previousSelectedIdRef.current;
+        const nextId = selectedPoint?.id ?? null;
+
+        if (prevId && prevId !== nextId) {
+            const prevEntry = markersMap.get(prevId);
+            if (prevEntry) {
+                prevEntry.marker.setIcon(getMapIcon(prevEntry.type, false));
+            }
+        }
+
+        if (nextId) {
+            const nextEntry = markersMap.get(nextId);
+            if (nextEntry) {
+                nextEntry.marker.setIcon(getMapIcon(nextEntry.type, true));
+            }
+        }
+
+        previousSelectedIdRef.current = nextId;
+    }, [selectedPoint, points]);
 
     return null;
 };

@@ -1,5 +1,5 @@
 import {X, Copy, Check, ExternalLink} from 'lucide-react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import clsx from 'clsx';
 
 interface DeveloperDocsModalProps {
@@ -10,11 +10,26 @@ interface DeveloperDocsModalProps {
 
 const CodeBlock = ({code, isDarkMode}: { code: string, isDarkMode: boolean }) => {
     const [copied, setCopied] = useState(false);
+    const resetTimerRef = useRef<number | undefined>(undefined);
+
+    useEffect(() => {
+        return () => {
+            window.clearTimeout(resetTimerRef.current);
+        };
+    }, []);
 
     const handleCopy = async () => {
-        await navigator.clipboard.writeText(code);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        if (!navigator.clipboard?.writeText) {
+            return;
+        }
+        try {
+            await navigator.clipboard.writeText(code);
+            setCopied(true);
+            window.clearTimeout(resetTimerRef.current);
+            resetTimerRef.current = window.setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            console.error('Clipboard copy failed:', error);
+        }
     };
 
     return (

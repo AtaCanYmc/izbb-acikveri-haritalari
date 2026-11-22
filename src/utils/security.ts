@@ -32,8 +32,20 @@ export const sanitizeUrl = (url: string | null | undefined, fallback = '#'): str
     // eslint-disable-next-line no-control-regex
     const cleanUrl = trimmed.replace(/[\x00-\x20\x7F-\x9F\s]/g, '');
 
-    // Reject dangerous URI schemes
-    if (/^(?:javascript|data|vbscript|file):/i.test(cleanUrl)) {
+    if (!cleanUrl) {
+        return fallback;
+    }
+
+    // Reject protocol-relative URLs (//example.com)
+    if (cleanUrl.startsWith('//')) {
+        return fallback;
+    }
+
+    // Allow explicit safe protocols or safe relative URLs
+    const isSafeProtocol = /^(?:https?|tel|mailto):/i.test(cleanUrl);
+    const isSafeRelative = /^(?:\/|\.\.?\/|#|\?)/.test(cleanUrl);
+
+    if (!isSafeProtocol && !isSafeRelative) {
         return fallback;
     }
 
@@ -45,7 +57,11 @@ export const sanitizeUrl = (url: string | null | undefined, fallback = '#'): str
  * Escapes characters that could terminate script tags or break HTML parsing.
  */
 export const safeJsonStringify = (data: unknown): string => {
-    return JSON.stringify(data)
+    const serialized = JSON.stringify(data);
+    if (serialized === undefined) {
+        return 'null';
+    }
+    return serialized
         .replace(/</g, '\\u003c')
         .replace(/>/g, '\\u003e')
         .replace(/\u2028/g, '\\u2028')

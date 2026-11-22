@@ -34,6 +34,21 @@ export const DownloadModal = ({
 
     if (!isOpen) return null;
 
+    const triggerBlobDownload = (content: BlobPart, mimeType: string, extension: string) => {
+        const blob = new Blob([content], {type: mimeType});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${mapTitle.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.${extension}`;
+        link.click();
+        URL.revokeObjectURL(url);
+    };
+
+    const escapeCsvCell = (value: unknown) => {
+        const str = value === null || value === undefined ? '' : String(value);
+        return `"${str.replace(/"/g, '""')}"`;
+    };
+
     const handleDownloadJSON = () => {
         try {
             const data = {
@@ -44,13 +59,7 @@ export const DownloadModal = ({
             };
 
             const json = JSON.stringify(data, null, 2);
-            const blob = new Blob([json], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${mapTitle.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            URL.revokeObjectURL(url);
+            triggerBlobDownload(json, 'application/json', 'json');
 
             toast.success('JSON dosyası indirildi');
             onClose();
@@ -69,22 +78,16 @@ export const DownloadModal = ({
 
             const headers = ['ID', 'Başlık', 'Açıklama', 'Enlem', 'Boylam', 'Badge'];
             const rows = mapPoints.map((point) => [
-                point.id || '',
-                `"${(point.title || '').replace(/"/g, '""')}"`,
-                `"${(point.subtitle || '').replace(/"/g, '""')}"`,
-                point.latitude || '',
-                point.longitude || '',
-                point.badge || '',
+                escapeCsvCell(point.id),
+                escapeCsvCell(point.title),
+                escapeCsvCell(point.subtitle),
+                point.latitude ?? '',
+                point.longitude ?? '',
+                escapeCsvCell(point.badge),
             ]);
 
             const csv = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
-            const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${mapTitle.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.csv`;
-            link.click();
-            URL.revokeObjectURL(url);
+            triggerBlobDownload(csv, 'text/csv;charset=utf-8;', 'csv');
 
             toast.success('CSV tablosu indirildi');
             onClose();
@@ -122,13 +125,7 @@ export const DownloadModal = ({
             };
 
             const json = JSON.stringify(geoJson, null, 2);
-            const blob = new Blob([json], {type: 'application/geo+json'});
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${mapTitle.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.geojson`;
-            link.click();
-            URL.revokeObjectURL(url);
+            triggerBlobDownload(json, 'application/geo+json', 'geojson');
 
             toast.success('GeoJSON verisi indirildi');
             onClose();
@@ -214,7 +211,15 @@ export const DownloadModal = ({
         const info = L.control({position: 'topright'});
         info.onAdd = () => {
             const div = L.DomUtil.create('div', 'info');
-            div.innerHTML = '<h4>' + escapeHtml(${JSON.stringify(mapTitle)}) + '</h4><p><strong>' + points.length + '</strong> konum kayıtlı</p>';
+            const heading = document.createElement('h4');
+            heading.textContent = ${safeJsonStringify(mapTitle)};
+            const summary = document.createElement('p');
+            const count = document.createElement('strong');
+            count.textContent = String(points.length);
+            summary.appendChild(count);
+            summary.appendChild(document.createTextNode(' konum kayıtlı'));
+            div.appendChild(heading);
+            div.appendChild(summary);
             return div;
         };
         info.addTo(map);
@@ -222,13 +227,7 @@ export const DownloadModal = ({
 </body>
 </html>`;
 
-            const blob = new Blob([html], {type: 'text/html;charset=utf-8;'});
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${mapTitle.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.html`;
-            link.click();
-            URL.revokeObjectURL(url);
+            triggerBlobDownload(html, 'text/html;charset=utf-8;', 'html');
 
             toast.success('Çevrimdışı HTML harita indirildi');
             onClose();

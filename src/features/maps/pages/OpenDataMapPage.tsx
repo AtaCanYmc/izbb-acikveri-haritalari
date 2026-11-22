@@ -159,7 +159,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
     };
 
     const handleDownloadPNG = async () => {
-        if (!mapContainerRef.current) {
+        if (!mapContainerRef.current || !mapDefinition) {
             toast.error('Harita yüklenemedi');
             return;
         }
@@ -197,7 +197,7 @@ export const OpenDataMapPage = ({ isDarkMode = false, onToggleTheme = () => {} }
 
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');
-            link.download = `${mapDef.title.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.png`;
+            link.download = `${mapDefinition.title.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.png`;
             link.click();
 
             toast.dismiss(loadingToast);

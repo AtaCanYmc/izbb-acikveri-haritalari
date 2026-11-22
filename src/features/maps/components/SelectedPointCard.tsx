@@ -30,7 +30,7 @@ export const SelectedPointCard = ({point, onClose, isDarkMode = false}: Selected
             aria-label="Seçili konum detayları"
             className={clsx(
                 // Mobile: Slide-up bottom sheet
-                'fixed inset-x-0 bottom-0 z-[1005] p-4 rounded-t-2xl shadow-2xl border-t transition-transform duration-200 md:hidden max-h-[85vh] overflow-y-auto overscroll-contain',
+                'fixed inset-x-0 bottom-0 z-[1005] p-4 rounded-t-2xl shadow-2xl border-t transition-transform duration-200 max-h-[85vh] overflow-y-auto overscroll-contain',
                 // Desktop: Floating card in bottom-right corner
                 'md:fixed md:inset-auto md:bottom-6 md:right-6 md:w-96 md:rounded-2xl md:border md:shadow-xl md:max-h-[80vh]',
                 isDarkMode

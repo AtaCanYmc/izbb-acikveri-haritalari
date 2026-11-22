@@ -8,12 +8,13 @@ import {createGoogleMapsUrl, createPhoneUrl} from "../utils/mapLinks.ts";
 import {buildMapPointId, createMapPoint, isValidCoordinate} from "../utils/mapPointBuilders.ts";
 import {izmirOpenDataClient} from "./izmirOpenDataClient.ts";
 
-const withErrorHandling = async <T>(loaderName: string, loaderFn: () => Promise<T>, fallback: T): Promise<T> => {
+const withErrorHandling = async <T>(loaderName: string, loaderFn: () => Promise<T>, _fallback?: T): Promise<T> => {
+    void _fallback;
     try {
         return await loaderFn();
     } catch (error) {
         console.error(`[${loaderName}] Veri yükleme hatası:`, error instanceof Error ? error.message : error);
-        return fallback;
+        throw error;
     }
 };
 
@@ -68,7 +69,9 @@ const mapOtopark = (otopark: OtoparkBilgisi): MapPoint | null => {
         return null;
     }
 
-    const totalCapacity = otopark.occupancy.total.free + otopark.occupancy.total.occupied;
+    const free = otopark.occupancy?.total?.free ?? 0;
+    const occupied = otopark.occupancy?.total?.occupied ?? 0;
+    const totalCapacity = free + occupied;
 
     return createMapPoint({
         id: buildMapPointId('otopark', otopark.ufid, otopark.lng, otopark.lat),
@@ -80,8 +83,8 @@ const mapOtopark = (otopark: OtoparkBilgisi): MapPoint | null => {
         longitude: otopark.lng,
         badge: otopark.status === 'Opened' ? 'Açık' : 'Kapalı',
         detailLines: [
-            `Boş: ${otopark.occupancy.total.free}`,
-            `Dolu: ${otopark.occupancy.total.occupied}`,
+            `Boş: ${free}`,
+            `Dolu: ${occupied}`,
             `Toplam kapasite: ${totalCapacity}`,
             `Ücretli: ${otopark.isPaid ? 'Evet' : 'Hayır'}`,
         ],
@@ -121,7 +124,8 @@ const loadWrappedPoints = async (
 ) => {
     return withErrorHandling(`loadWrappedPoints:${prefix}`, async () => {
         const response = await loader();
-        return mapOnemliYerCollection(prefix, response.onemliyer);
+        const items = Array.isArray(response?.onemliyer) ? response.onemliyer : [];
+        return mapOnemliYerCollection(prefix, items);
     }, []);
 };
 

@@ -15,6 +15,7 @@ export const PwaInstallPrompt = ({ isDarkMode }: { isDarkMode: boolean }) => {
     useEffect(() => {
         // Check if user has already dismissed or installed
         const hasDismissed = localStorage.getItem('pwa-prompt-dismissed') === 'true';
+        let showTimerId: number | undefined;
         
         // Listen for the install prompt event
         const handleBeforeInstallPrompt = (e: Event) => {
@@ -25,37 +26,45 @@ export const PwaInstallPrompt = ({ isDarkMode }: { isDarkMode: boolean }) => {
             // Update UI to notify the user they can add to home screen
             if (!hasDismissed) {
                 // Short delay so it doesn't immediately pop up over other initial loading
-                setTimeout(() => setIsVisible(true), 2000);
+                window.clearTimeout(showTimerId);
+                showTimerId = window.setTimeout(() => setIsVisible(true), 2000);
             }
         };
 
-        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-        // Check if app is already installed
-        window.addEventListener('appinstalled', () => {
+        const handleAppInstalled = () => {
+            window.clearTimeout(showTimerId);
             setIsVisible(false);
             setDeferredPrompt(null);
             console.log('PWA was installed');
-        });
+        };
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.addEventListener('appinstalled', handleAppInstalled);
 
         return () => {
+            window.clearTimeout(showTimerId);
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+            window.removeEventListener('appinstalled', handleAppInstalled);
         };
     }, []);
 
     const handleInstallClick = async () => {
         if (!deferredPrompt) return;
         
-        // Show the install prompt
-        deferredPrompt.prompt();
-        
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to the install prompt: ${outcome}`);
-        
-        // We've used the prompt, and can't use it again, throw it away
-        setDeferredPrompt(null);
-        setIsVisible(false);
+        try {
+            // Show the install prompt
+            await deferredPrompt.prompt();
+            
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+        } catch (error) {
+            console.error('PWA install prompt error:', error);
+        } finally {
+            // We've used the prompt, and can't use it again, throw it away
+            setDeferredPrompt(null);
+            setIsVisible(false);
+        }
     };
 
     const handleDismiss = () => {

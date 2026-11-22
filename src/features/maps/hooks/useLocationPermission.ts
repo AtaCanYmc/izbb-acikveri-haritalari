@@ -1,32 +1,22 @@
-import {useCallback, useEffect, useState} from "react";
-
-const POLLING_INTERVAL_MS = 5000;
-
-const readPermissionState = async () => {
-    if (navigator.permissions?.query) {
-        const result = await navigator.permissions.query({name: 'geolocation'});
-        return result.state;
-    }
-
-    return 'prompt' as PermissionState;
-};
+import {useCallback, useEffect, useRef, useState} from "react";
 
 export const useLocationPermission = () => {
     const [locationStatus, setLocationStatus] = useState<PermissionState>('prompt');
     const [showLocationWarning, setShowLocationWarning] = useState(true);
+    const isMountedRef = useRef(true);
 
     const handleStatusChange = useCallback((state: PermissionState) => {
+        if (!isMountedRef.current) {
+            return;
+        }
         setLocationStatus(state);
         setShowLocationWarning(state !== 'granted');
     }, []);
 
-    const checkLocationPermission = useCallback(async () => {
-        try {
-            const state = await readPermissionState();
-            handleStatusChange(state);
+    const requestGeolocation = useCallback(() => {
+        if (!('geolocation' in navigator) || !navigator.geolocation) {
+            handleStatusChange('denied');
             return;
-        } catch {
-            // Safari fallback below
         }
 
         navigator.geolocation.getCurrentPosition(
@@ -41,23 +31,46 @@ export const useLocationPermission = () => {
 
     const handleRetryLocationPermission = useCallback(() => {
         setShowLocationWarning(false);
-        void checkLocationPermission();
-    }, [checkLocationPermission]);
+        requestGeolocation();
+    }, [requestGeolocation]);
 
     useEffect(() => {
-        const timeoutId = window.setTimeout(() => {
-            void checkLocationPermission();
-        }, 0);
+        isMountedRef.current = true;
+        let permissionStatus: PermissionStatus | null = null;
+        let onPermissionChange: (() => void) | null = null;
 
-        const intervalId = window.setInterval(() => {
-            void checkLocationPermission();
-        }, POLLING_INTERVAL_MS);
+        const initPermission = async () => {
+            if (navigator.permissions?.query) {
+                try {
+                    permissionStatus = await navigator.permissions.query({name: 'geolocation'});
+                    if (!isMountedRef.current) {
+                        return;
+                    }
+                    handleStatusChange(permissionStatus.state);
+                    onPermissionChange = () => {
+                        if (permissionStatus) {
+                            handleStatusChange(permissionStatus.state);
+                        }
+                    };
+                    permissionStatus.addEventListener('change', onPermissionChange);
+                    return;
+                } catch {
+                    // Safari fallback below
+                }
+            }
+
+            requestGeolocation();
+        };
+
+        void initPermission();
 
         return () => {
-            window.clearTimeout(timeoutId);
-            window.clearInterval(intervalId);
+            isMountedRef.current = false;
+            if (permissionStatus && onPermissionChange) {
+                permissionStatus.removeEventListener('change', onPermissionChange);
+            }
         };
-    }, [checkLocationPermission]);
+    }, [handleStatusChange, requestGeolocation]);
 
     return {
         locationStatus,

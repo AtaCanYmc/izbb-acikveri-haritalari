@@ -1,4 +1,5 @@
 import {Helmet} from 'react-helmet-async';
+import {safeJsonStringify} from '../utils/security.ts';
 
 interface SEOMetadataProps {
     title: string;
@@ -120,7 +121,7 @@ export const SEOMetadata = ({
 
             {/* Schema.org Structured Data */}
             <script type="application/ld+json">
-                {JSON.stringify(structuredData)}
+                {safeJsonStringify(structuredData)}
             </script>
         </Helmet>
     );
