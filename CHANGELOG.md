@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.1](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/compare/izmir-nobetci-eczane-haritasi-v1.0.0...izmir-nobetci-eczane-haritasi-v1.0.1) (2026-11-22)
+
+
+### Bug Fixes
+
+* add utility function to validate Google Maps URLs in SelectedPointCard ([ee051da](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/commit/ee051dae9f5f8958ae40165ffca115b96b0727e1))
+* harden security, hooks, UI, and CI workflows from code review scan ([c6077bb](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/commit/c6077bbfab948e6a212a302e064bb1bdf197eb01))
+* update URLs and site references to new domain izmirharitalari.atacanymc.com.tr ([1d513f0](https://github.com/AtaCanYmc/izbb-acikveri-haritalari/commit/1d513f0a3d8bc735e3e10bceb511feb48618d6b6))
+
 ## 1.0.0 (2026-11-18)
 
 
