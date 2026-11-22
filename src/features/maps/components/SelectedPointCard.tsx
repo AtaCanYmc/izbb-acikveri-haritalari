@@ -10,6 +10,21 @@ interface SelectedPointCardProps {
     isDarkMode?: boolean;
 }
 
+const isGoogleMapsUrl = (href?: string): boolean => {
+    if (!href) {
+        return false;
+    }
+    try {
+        const parsed = new URL(href);
+        return (
+            parsed.hostname === 'maps.google.com' ||
+            (parsed.hostname === 'www.google.com' && parsed.pathname.startsWith('/maps'))
+        );
+    } catch {
+        return false;
+    }
+};
+
 export const SelectedPointCard = ({point, onClose, isDarkMode = false}: SelectedPointCardProps) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -111,7 +126,7 @@ export const SelectedPointCard = ({point, onClose, isDarkMode = false}: Selected
                 <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                     {point.actions.map((action) => {
                         const isPhone = action.href?.startsWith('tel:');
-                        const isNav = action.href?.includes('maps.google.com') || action.label.toLowerCase().includes('yol') || action.label.toLowerCase().includes('harita');
+                        const isNav = isGoogleMapsUrl(action.href) || action.label.toLowerCase().includes('yol') || action.label.toLowerCase().includes('harita');
 
                         return (
                             <a
